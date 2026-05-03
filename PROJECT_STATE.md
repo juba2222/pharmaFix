@@ -52,6 +52,10 @@
   - [x] Dynamic Dictionary integration (search from Local + Master DB).
   - [x] Auto-fill historical cost price, batch number, and expiry date.
   - [x] Dynamic categories auto-fill from suggestions.
+- [x] **Supplier Management (Data Layer)**
+  - [x] `SuppliersTable`, `SupplierPaymentsTable`, `PurchaseInvoicesTable` in Drift.
+  - [x] `SupplierRepositoryImpl` for debt tracking and account statements.
+  - [x] Multi-currency support (implied in schema).
 
 ---
 
@@ -64,15 +68,16 @@
 - [x] **Customers Feature (lightweight)** — Domain entities, repo contract, Drift impl, injected into PosCubit
 - [x] **POS UI Updated** — `pos_screen.dart` BlocConsumer with SnackBars; `pos_bottom_bar.dart` triggers CheckoutDialog
 - [ ] **FIFO Multi-Batch Deduction** — Currently deducts from single oldest batch (TODO in pos_repository_impl.dart)
+- [ ] **Suppliers Feature UI** — Presentation layer for supplier management.
 
 ---
 
 ## ❌ Not Started
 
-- [ ] Customers feature (الزبائن)
-- [ ] Suppliers feature (الموردين)
+- [ ] Customers feature (الزبائن) - UI
 - [ ] Reports feature (التقارير)
 - [ ] Settings feature
+
 
 ---
 

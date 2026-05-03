@@ -124,7 +124,19 @@ pharmaFix/
 │       │       └── repositories/
 │       │           └── i_product_repository.dart ← Abstract contract: getProducts(), refreshInventory().
 │       │
+│       ├── suppliers/              ← Supplier and purchase management.
+│       │   ├── data/
+│       │   │   └── repositories/
+│       │   │       └── supplier_repository_impl.dart ← Local Drift: debt calculation + statement generation.
+│       │   └── domain/
+│       │       ├── entities/
+│       │       │   ├── supplier_entity.dart      ← Pure entity for supplier data.
+│       │       │   └── supplier_statement_item.dart ← Entity for account statement entries.
+│       │       └── repositories/
+│       │           └── i_supplier_repository.dart ← Contract: addSupplier(), getSuppliersWithDebt(), getAccountStatement().
+│       │
 │       └── pos/
+
 │           ├── data/               ← Implementations of Domain contracts & local fetching
 │           │   ├── datasources/
 │           │   │   └── pos_local_data_source.dart  ← Drift SQLite queries for searching products.
@@ -169,9 +181,10 @@ pharmaFix/
 | Inventory (المخزن) | ✅ | ✅ | ✅ | 🔄 In Progress (Polishing) |
 | Auth (تسجيل الدخول) | ✅ | ✅ | ✅ | ✅ Complete |
 | Customers (الزبائن) | ⚠️ | ⚠️ | ❌ | 🔄 In Progress (POS Support) |
-| Suppliers (الموردين) | ❌ | ❌ | ❌ | ❌ Not Started |
+| Suppliers (الموردين) | ✅ | ✅ | ❌ | 🔄 In Progress (Data Ready) |
 | Reports (التقارير) | ❌ | ❌ | ❌ | ❌ Not Started |
 | Settings (الإعدادات) | ❌ | ❌ | ❌ | ❌ Not Started |
+
 
 ---
 
@@ -198,9 +211,7 @@ Presentation      → Screens, Widgets, Cubits/Blocs (state management)
 | `path_provider` | Locates the correct system folder for the DB file |
 | `shared_preferences` | Stores lightweight settings (e.g., pharmacy name, login state) |
 | `flutter_bloc` | State management — separates UI logic from widgets |
-| `get_it` | - [x] **Dependency Injection** — All new V6.1 services & repos registered in `injection_container.dart`
-- [x] **POS UI Polish** — Redesigned `PosCartItemTile` with modern quantity selector and internal price arrows.
-- [x] **Customer Quick-Add** — Enhanced dialog with mandatory phone number and validation. |
+| `get_it` | Dependency Injection (Service Locator) for singleton instances |
 | `equatable` | Makes Entities comparable — prevents unnecessary UI rebuilds |
 | `dartz` | Functional error handling using `Either<Failure, Success>` |
 | `supabase_flutter` | Official Supabase client for DB, Auth, and Storage |
@@ -214,4 +225,5 @@ Presentation      → Screens, Widgets, Cubits/Blocs (state management)
 When you add a new file, append a line to the tree above and update the Features Status table.  
 **Format:** `path/to/file.dart  ← One sentence describing what this file does.`
 
-_Last updated: 2026-04-28 (Inventory Smart Auto-fill & DB Schema Fixes)_
+_Last updated: 2026-05-03 (Supplier Feature Implementation & README Refresh)_
+
