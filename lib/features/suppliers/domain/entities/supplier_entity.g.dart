@@ -8,8 +8,8 @@ part of 'supplier_entity.dart';
 
 _SupplierEntity _$SupplierEntityFromJson(Map<String, dynamic> json) =>
     _SupplierEntity(
-      id: (json['id'] as num).toInt(),
-      pharmacyId: (json['pharmacyId'] as num).toInt(),
+      id: json['id'] as String,
+      pharmacyId: json['pharmacyId'] as String,
       name: json['name'] as String,
       companyName: json['companyName'] as String?,
       phone: json['phone'] as String?,

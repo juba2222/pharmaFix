@@ -25,6 +25,8 @@ import '../../features/pos/presentation/bloc/pos_cubit.dart';
 import '../../features/inventory/domain/repositories/i_inventory_repository.dart';
 import '../../features/inventory/data/repositories/inventory_repository_impl.dart';
 import '../../features/inventory/presentation/bloc/inventory_cubit.dart';
+import '../../features/suppliers/presentation/cubit/suppliers_cubit.dart';
+
 
 // 'sl' stands for Service Locator
 final sl = GetIt.instance;
@@ -75,4 +77,9 @@ Future<void> init() async {
   sl.registerFactory(() => AuthBloc(sl(), sl()));
   sl.registerFactory(() => PosCubit(sl<IPosRepository>(), sl<ICustomerRepository>()));
   sl.registerFactory(() => InventoryCubit(sl<IInventoryRepository>()));
+  sl.registerFactory(() => SuppliersCubit(
+        repository: sl<ISupplierRepository>(),
+        pharmacyId: sl<CurrentSession>().pharmacyId ?? '',
+      ));
+
 }

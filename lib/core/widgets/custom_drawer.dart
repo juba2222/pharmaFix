@@ -11,7 +11,9 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/inventory/presentation/inventory_screen.dart';
 import '../../features/inventory/presentation/bloc/inventory_cubit.dart';
 import '../di/injection_container.dart';
+import '../../features/suppliers/presentation/pages/suppliers_screen.dart';
 import 'drawer_item.dart';
+
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -82,7 +84,18 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 const DrawerItem(icon: Icons.point_of_sale, title: 'نقطة البيع', isSelected: true),
                 const DrawerItem(icon: Icons.people_outline, title: 'الزبائن'),
-                const DrawerItem(icon: Icons.local_shipping_outlined, title: 'الموردين'),
+                DrawerItem(
+                  icon: Icons.local_shipping_outlined,
+                  title: 'الموردين',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SuppliersScreen()),
+                    );
+                  },
+                ),
+
                 DrawerItem(
                   icon: Icons.inventory_2_outlined,
                   title: 'المخزن',

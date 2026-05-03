@@ -19,6 +19,9 @@ class TableConstants {
   static const String colStatus = 'status';
   static const String colUserId = 'user_id';
   static const String colAmount = 'amount';
+  static const String colRemainingAmount = 'remaining_amount';
+  static const String colCurrentBalance = 'current_balance';
+
 
   // --- Pharmacies ---
   static const String tableNamePharmacies = 'pharmacies';
@@ -57,6 +60,13 @@ class TableConstants {
   static const String tableNamePurchaseInvoices = 'purchase_invoices';
   static const String colInvoiceNumber = 'invoice_number';
   static const String colInvoiceDate = 'invoice_date';
+  static const String colPaidOnInvoice = 'paid_on_invoice'; // Explicitly for purchase invoices
+
+  // --- Purchase Invoice Items ---
+  static const String tableNamePurchaseInvoiceItems = 'purchase_invoice_items';
+  static const String colPurchaseInvoiceId = 'purchase_invoice_id';
+  static const String colTotalLineAmount = 'total_line_amount';
+
 
   // --- Products ---
   static const String tableNameProducts = 'products';

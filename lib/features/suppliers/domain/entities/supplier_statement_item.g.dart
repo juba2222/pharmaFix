@@ -9,7 +9,7 @@ part of 'supplier_statement_item.dart';
 _SupplierStatementItem _$SupplierStatementItemFromJson(
   Map<String, dynamic> json,
 ) => _SupplierStatementItem(
-  id: (json['id'] as num).toInt(),
+  id: json['id'] as String,
   type: $enumDecode(_$StatementItemTypeEnumMap, json['type']),
   amount: (json['amount'] as num).toDouble(),
   date: DateTime.parse(json['date'] as String),

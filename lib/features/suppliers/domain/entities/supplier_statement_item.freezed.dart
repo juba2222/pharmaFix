@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SupplierStatementItem {
 
- int get id; StatementItemType get type; double get amount;// Invoices are added, Payments are subtracted (or vice versa depending on perspective, but usually debt = invoices - payments). Let's keep amount positive and use type to distinguish.
+ String get id; StatementItemType get type; double get amount;// Invoices are added, Payments are subtracted (or vice versa depending on perspective, but usually debt = invoices - payments). Let's keep amount positive and use type to distinguish.
  DateTime get date; String? get referenceNumber;// Invoice number or payment reference
  String? get notes;
 /// Create a copy of SupplierStatementItem
@@ -50,7 +50,7 @@ abstract mixin class $SupplierStatementItemCopyWith<$Res>  {
   factory $SupplierStatementItemCopyWith(SupplierStatementItem value, $Res Function(SupplierStatementItem) _then) = _$SupplierStatementItemCopyWithImpl;
 @useResult
 $Res call({
- int id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes
+ String id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes
 });
 
 
@@ -70,7 +70,7 @@ class _$SupplierStatementItemCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? amount = null,Object? date = null,Object? referenceNumber = freezed,Object? notes = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as StatementItemType,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as double,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,referenceNumber: freezed == referenceNumber ? _self.referenceNumber : referenceNumber // ignore: cast_nullable_to_non_nullable
@@ -160,7 +160,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SupplierStatementItem() when $default != null:
 return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes);case _:
@@ -181,7 +181,7 @@ return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumbe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes)  $default,) {final _that = this;
 switch (_that) {
 case _SupplierStatementItem():
 return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes);case _:
@@ -201,7 +201,7 @@ return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumbe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes)?  $default,) {final _that = this;
 switch (_that) {
 case _SupplierStatementItem() when $default != null:
 return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes);case _:
@@ -219,7 +219,7 @@ class _SupplierStatementItem implements SupplierStatementItem {
   const _SupplierStatementItem({required this.id, required this.type, required this.amount, required this.date, this.referenceNumber, this.notes});
   factory _SupplierStatementItem.fromJson(Map<String, dynamic> json) => _$SupplierStatementItemFromJson(json);
 
-@override final  int id;
+@override final  String id;
 @override final  StatementItemType type;
 @override final  double amount;
 // Invoices are added, Payments are subtracted (or vice versa depending on perspective, but usually debt = invoices - payments). Let's keep amount positive and use type to distinguish.
@@ -261,7 +261,7 @@ abstract mixin class _$SupplierStatementItemCopyWith<$Res> implements $SupplierS
   factory _$SupplierStatementItemCopyWith(_SupplierStatementItem value, $Res Function(_SupplierStatementItem) _then) = __$SupplierStatementItemCopyWithImpl;
 @override @useResult
 $Res call({
- int id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes
+ String id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes
 });
 
 
@@ -281,7 +281,7 @@ class __$SupplierStatementItemCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? amount = null,Object? date = null,Object? referenceNumber = freezed,Object? notes = freezed,}) {
   return _then(_SupplierStatementItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as StatementItemType,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as double,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,referenceNumber: freezed == referenceNumber ? _self.referenceNumber : referenceNumber // ignore: cast_nullable_to_non_nullable

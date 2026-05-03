@@ -35,11 +35,13 @@ class DrugSuggestionModel extends Equatable {
 }
 
 class SuggestionUnit extends Equatable {
+  final String? id;
   final String name;
   final double conversionFactor;
   final double? price;
 
   const SuggestionUnit({
+    this.id,
     required this.name,
     required this.conversionFactor,
     this.price,

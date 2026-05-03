@@ -15,8 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SupplierEntity {
 
- int get id; int get pharmacyId; String get name; String? get companyName; String? get phone; double get openingBalance;// Calculated dynamically: openingBalance + totalInvoices - totalPayments
- double get currentBalance; DateTime get createdAt;
+ String get id; String get pharmacyId; String get name; String? get companyName; String? get phone; double get openingBalance; double get currentBalance; DateTime get createdAt;
 /// Create a copy of SupplierEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,17 +28,13 @@ $SupplierEntityCopyWith<SupplierEntity> get copyWith => _$SupplierEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierEntity&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
+int get hashCode => Object.hash(runtimeType,super.hashCode,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
 
-@override
-String toString() {
-  return 'SupplierEntity(id: $id, pharmacyId: $pharmacyId, name: $name, companyName: $companyName, phone: $phone, openingBalance: $openingBalance, currentBalance: $currentBalance, createdAt: $createdAt)';
-}
 
 
 }
@@ -49,7 +44,7 @@ abstract mixin class $SupplierEntityCopyWith<$Res>  {
   factory $SupplierEntityCopyWith(SupplierEntity value, $Res Function(SupplierEntity) _then) = _$SupplierEntityCopyWithImpl;
 @useResult
 $Res call({
- int id, int pharmacyId, String name, String? companyName, String? phone, double openingBalance, double currentBalance, DateTime createdAt
+ String id, String pharmacyId, String name, String? companyName, String? phone, double openingBalance, double currentBalance, DateTime createdAt
 });
 
 
@@ -69,8 +64,8 @@ class _$SupplierEntityCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? pharmacyId = null,Object? name = null,Object? companyName = freezed,Object? phone = freezed,Object? openingBalance = null,Object? currentBalance = null,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,pharmacyId: null == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,pharmacyId: null == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,companyName: freezed == companyName ? _self.companyName : companyName // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String?,openingBalance: null == openingBalance ? _self.openingBalance : openingBalance // ignore: cast_nullable_to_non_nullable
@@ -161,7 +156,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int pharmacyId,  String name,  String? companyName,  String? phone,  double openingBalance,  double currentBalance,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String pharmacyId,  String name,  String? companyName,  String? phone,  double openingBalance,  double currentBalance,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SupplierEntity() when $default != null:
 return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.phone,_that.openingBalance,_that.currentBalance,_that.createdAt);case _:
@@ -182,7 +177,7 @@ return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.pho
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int pharmacyId,  String name,  String? companyName,  String? phone,  double openingBalance,  double currentBalance,  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String pharmacyId,  String name,  String? companyName,  String? phone,  double openingBalance,  double currentBalance,  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _SupplierEntity():
 return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.phone,_that.openingBalance,_that.currentBalance,_that.createdAt);case _:
@@ -202,7 +197,7 @@ return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.pho
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int pharmacyId,  String name,  String? companyName,  String? phone,  double openingBalance,  double currentBalance,  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String pharmacyId,  String name,  String? companyName,  String? phone,  double openingBalance,  double currentBalance,  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _SupplierEntity() when $default != null:
 return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.phone,_that.openingBalance,_that.currentBalance,_that.createdAt);case _:
@@ -216,17 +211,16 @@ return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.pho
 /// @nodoc
 @JsonSerializable()
 
-class _SupplierEntity implements SupplierEntity {
-  const _SupplierEntity({required this.id, required this.pharmacyId, required this.name, this.companyName, this.phone, required this.openingBalance, this.currentBalance = 0.0, required this.createdAt});
+class _SupplierEntity extends SupplierEntity {
+  const _SupplierEntity({required this.id, required this.pharmacyId, required this.name, this.companyName, this.phone, required this.openingBalance, this.currentBalance = 0.0, required this.createdAt}): super._();
   factory _SupplierEntity.fromJson(Map<String, dynamic> json) => _$SupplierEntityFromJson(json);
 
-@override final  int id;
-@override final  int pharmacyId;
+@override final  String id;
+@override final  String pharmacyId;
 @override final  String name;
 @override final  String? companyName;
 @override final  String? phone;
 @override final  double openingBalance;
-// Calculated dynamically: openingBalance + totalInvoices - totalPayments
 @override@JsonKey() final  double currentBalance;
 @override final  DateTime createdAt;
 
@@ -243,17 +237,13 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierEntity&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
+int get hashCode => Object.hash(runtimeType,super.hashCode,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
 
-@override
-String toString() {
-  return 'SupplierEntity(id: $id, pharmacyId: $pharmacyId, name: $name, companyName: $companyName, phone: $phone, openingBalance: $openingBalance, currentBalance: $currentBalance, createdAt: $createdAt)';
-}
 
 
 }
@@ -263,7 +253,7 @@ abstract mixin class _$SupplierEntityCopyWith<$Res> implements $SupplierEntityCo
   factory _$SupplierEntityCopyWith(_SupplierEntity value, $Res Function(_SupplierEntity) _then) = __$SupplierEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int pharmacyId, String name, String? companyName, String? phone, double openingBalance, double currentBalance, DateTime createdAt
+ String id, String pharmacyId, String name, String? companyName, String? phone, double openingBalance, double currentBalance, DateTime createdAt
 });
 
 
@@ -283,8 +273,8 @@ class __$SupplierEntityCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? pharmacyId = null,Object? name = null,Object? companyName = freezed,Object? phone = freezed,Object? openingBalance = null,Object? currentBalance = null,Object? createdAt = null,}) {
   return _then(_SupplierEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,pharmacyId: null == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,pharmacyId: null == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,companyName: freezed == companyName ? _self.companyName : companyName // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String?,openingBalance: null == openingBalance ? _self.openingBalance : openingBalance // ignore: cast_nullable_to_non_nullable

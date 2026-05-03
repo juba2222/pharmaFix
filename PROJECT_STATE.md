@@ -52,23 +52,25 @@
   - [x] Dynamic Dictionary integration (search from Local + Master DB).
   - [x] Auto-fill historical cost price, batch number, and expiry date.
   - [x] Dynamic categories auto-fill from suggestions.
-- [x] **Supplier Management (Data Layer)**
-  - [x] `SuppliersTable`, `SupplierPaymentsTable`, `PurchaseInvoicesTable` in Drift.
-  - [x] `SupplierRepositoryImpl` for debt tracking and account statements.
-  - [x] Multi-currency support (implied in schema).
+- [x] **Supplier Management (Full Module)**
+  - [x] Data Layer: `SuppliersTable`, `SupplierPaymentsTable`, `PurchaseInvoicesTable`, `PurchaseInvoiceItemsTable`.
+  - [x] Domain: `SupplierEntity`, `SupplierStatementItem`, `ISupplierRepository`.
+  - [x] Presentation: `SuppliersScreen`, `SupplierProfileScreen`, `NewPurchaseInvoiceScreen`.
+  - [x] Smart Search: Product search with auto-fill from local/master DB during purchase.
+  - [x] Atomic Transactions: Full FIFO-ready inventory replenishment transaction.
+- [x] **Architectural Compliance (V6.1 Clean Architect)**
+  - [x] Refactored all Suppliers & POS screens into Atomic Widgets.
+  - [x] Strict adherence to 60-line file limit across the module.
+  - [x] Modularized Repository logic into Services/Transactions.
 
 ---
 
 ## 🔄 In Progress
 
-- [x] **CheckoutDialog** — Full implementation: customer search/quick-add (enhanced with phone), payment method selection, confirm button.
-- [x] **Inventory Feature UI** — Domain entities & presentation layer implemented (V6.1)
-- [x] **SyncUp Implementation** — pushes `isSynced=false` invoices & items to Supabase, marks synced in Drift
-- [x] **`last_synced_at` tracking** — `SyncPreferences` persists timestamp via SharedPreferences for incremental pulls
-- [x] **Customers Feature (lightweight)** — Domain entities, repo contract, Drift impl, injected into PosCubit
-- [x] **POS UI Updated** — `pos_screen.dart` BlocConsumer with SnackBars; `pos_bottom_bar.dart` triggers CheckoutDialog
 - [ ] **FIFO Multi-Batch Deduction** — Currently deducts from single oldest batch (TODO in pos_repository_impl.dart)
-- [ ] **Suppliers Feature UI** — Presentation layer for supplier management.
+- [ ] **SyncUp Implementation** — pushes `isSynced=false` invoices & items to Supabase, marks synced in Drift
+- [ ] **`last_synced_at` tracking** — `SyncPreferences` persists timestamp via SharedPreferences for incremental pulls
+- [ ] **Customers Feature (lightweight)** — Domain entities, repo contract, Drift impl, injected into PosCubit
 
 ---
 
@@ -78,25 +80,19 @@
 - [ ] Reports feature (التقارير)
 - [ ] Settings feature
 
-
 ---
 
 ## 🚨 Known Issues / TODOs
 
 | File | Issue | Priority |
 |---|---|---|
-| `checkout_dialog.dart` | Exceeds 60-line rule (311 lines) — needs immediate refactoring | High |
 | `pos_repository_impl.dart` | FIFO deduction only handles single batch | Medium |
-| `sync_service.dart` | `last_synced_at` hardcoded to epoch — needs SharedPreferences | High |
 | `sync_service.dart` | `syncUp()` is a stub — pending invoice upload not implemented | High |
-| All repo files | File length exceeds 60-line rule from Architecture_Guide | Low |
 
 ---
 
 ## 🎯 Next Immediate Actions
 
-1. [x] **Implement full `CheckoutDialog`** — customer search field, quick-add form (name + phone), payment method selector, and confirm button.
-2. [x] **Redesign POS Cart Items** — Modern UI with quantity controls and unit price adjustment.
-3. [x] Fix compilation errors found by `flutter analyze` and resolve Schema mismatch errors.
-4. [x] **Start Inventory Feature UI** — product listing screen and smart AddProductScreen.
-5. [ ] Implement FIFO multi-batch deduction in `pos_repository_impl.dart`.
+1. [ ] Implement FIFO multi-batch deduction in `pos_repository_impl.dart`.
+2. [ ] Refactor `pos_repository_impl.dart` to comply with 60-line rule.
+3. [ ] Implement `SyncUp` for invoices and purchase orders.

@@ -18,6 +18,8 @@ class ProductBatchesTable extends Table {
   DateTimeColumn get expiryDate => dateTime().named('expiry_date')();
   RealColumn get quantityBaseUnit => real().named('quantity_base_unit')();
   RealColumn get purchasePrice => real().named('purchase_price').withDefault(const Constant(0.0))();
+  TextColumn get purchaseInvoiceItemId => text().named('purchase_invoice_item_id').nullable()();
+
 
   // Timestamps & Sync
   DateTimeColumn get createdAt => dateTime().named(TableConstants.colCreatedAt).nullable()();

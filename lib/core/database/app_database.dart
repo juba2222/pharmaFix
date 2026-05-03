@@ -23,6 +23,8 @@ import 'tables/manufacturers_table.dart';
 import 'tables/suppliers_table.dart';
 import 'tables/supplier_payments_table.dart';
 import 'tables/purchase_invoices_table.dart';
+import 'tables/purchase_invoice_items_table.dart';
+
 import 'tables/cash_sessions_table.dart';
 import 'tables/invoices_table.dart';
 import 'tables/invoice_items_table.dart';
@@ -57,7 +59,9 @@ part 'app_database.g.dart';
     PaymentsTable,
     MasterDrugsTable,
     MasterUnitsTable,
+    PurchaseInvoiceItemsTable,
   ],
+
   daos: [SyncDao],
 )
 class AppDatabase extends _$AppDatabase {
@@ -65,7 +69,8 @@ class AppDatabase extends _$AppDatabase {
 
   // Following the ERD carefully.
   @override
-  int get schemaVersion => 6; // Incremented schema version for Suppliers refactor
+  int get schemaVersion => 7; // Incremented for PurchaseInvoiceItems implementation
+
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -73,7 +78,8 @@ class AppDatabase extends _$AppDatabase {
           await m.createAll();
         },
         onUpgrade: (Migrator m, int from, int to) async {
-          if (from < 6) {
+          if (from < 7) {
+
             // Drop existing tables and recreate for this major refactor
             // In a production app, we would use proper migrations, but for this refactor phase, 
             // we ensure the schema is in sync with the ERD.

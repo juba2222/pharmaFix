@@ -50,6 +50,7 @@ class InventoryRepositoryImpl implements IInventoryRepository {
       
       if (u != null) {
         productMap[p.id]!.units!.add(SuggestionUnit(
+          id: u.id,
           name: u.unitName,
           conversionFactor: u.conversionFactor,
           price: u.sellingPrice,
