@@ -9,10 +9,10 @@ class SuppliersTable extends Table {
   IntColumn get id => integer().named(TableConstants.colId).autoIncrement()();
   IntColumn get pharmacyId => integer().named(TableConstants.colPharmacyId)();
   TextColumn get name => text().named(TableConstants.colName)();
+  TextColumn get companyName => text().named(TableConstants.colCompanyName).nullable()();
   TextColumn get phone => text().named(TableConstants.colPhone).nullable()();
   
-  // Point 3: Track debt
-  RealColumn get totalDebt => real().named(TableConstants.colTotalDebt).withDefault(const Constant(0.0))();
+  RealColumn get openingBalance => real().named(TableConstants.colOpeningBalance).withDefault(const Constant(0.0))();
   
   DateTimeColumn get createdAt => dateTime().named(TableConstants.colCreatedAt).withDefault(currentDateAndTime)();
 }

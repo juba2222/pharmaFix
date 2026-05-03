@@ -45,8 +45,18 @@ class TableConstants {
   // --- Suppliers ---
   static const String tableNameSuppliers = 'suppliers';
   static const String colSupplierId = 'supplier_id';
-  // Note: V2.2 uses total_debt for suppliers as well.
-  // We'll keep colTotalDebt shared if possible or define specifically.
+  static const String colCompanyName = 'company_name';
+  static const String colOpeningBalance = 'opening_balance';
+
+  // --- Supplier Payments ---
+  static const String tableNameSupplierPayments = 'supplier_payments';
+  static const String colPaymentDate = 'payment_date';
+  static const String colNotes = 'notes';
+
+  // --- Purchase Invoices ---
+  static const String tableNamePurchaseInvoices = 'purchase_invoices';
+  static const String colInvoiceNumber = 'invoice_number';
+  static const String colInvoiceDate = 'invoice_date';
 
   // --- Products ---
   static const String tableNameProducts = 'products';

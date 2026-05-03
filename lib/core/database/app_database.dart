@@ -21,6 +21,8 @@ import 'tables/customers_table.dart';
 import 'tables/categories_table.dart';
 import 'tables/manufacturers_table.dart';
 import 'tables/suppliers_table.dart';
+import 'tables/supplier_payments_table.dart';
+import 'tables/purchase_invoices_table.dart';
 import 'tables/cash_sessions_table.dart';
 import 'tables/invoices_table.dart';
 import 'tables/invoice_items_table.dart';
@@ -41,6 +43,8 @@ part 'app_database.g.dart';
     CategoriesTable,
     ManufacturersTable,
     SuppliersTable,
+    SupplierPaymentsTable,
+    PurchaseInvoicesTable,
     ProductsTable,
     ProductUnitsTable,
     ProductBatchesTable,
@@ -61,7 +65,7 @@ class AppDatabase extends _$AppDatabase {
 
   // Following the ERD carefully.
   @override
-  int get schemaVersion => 5; // Incremented schema version for Master Drugs
+  int get schemaVersion => 6; // Incremented schema version for Suppliers refactor
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -69,7 +73,7 @@ class AppDatabase extends _$AppDatabase {
           await m.createAll();
         },
         onUpgrade: (Migrator m, int from, int to) async {
-          if (from < 5) {
+          if (from < 6) {
             // Drop existing tables and recreate for this major refactor
             // In a production app, we would use proper migrations, but for this refactor phase, 
             // we ensure the schema is in sync with the ERD.

@@ -16,8 +16,8 @@ import '../../features/auth/data/repositories/auth_repository.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/customers/data/repositories/customer_repository_impl.dart';
 import '../../features/customers/domain/repositories/i_customer_repository.dart';
-// import '../../features/inventory/data/repositories/product_repository.dart';
-// import '../../features/inventory/data/repositories/product_repository_impl.dart';
+import '../../features/suppliers/data/repositories/supplier_repository_impl.dart';
+import '../../features/suppliers/domain/repositories/i_supplier_repository.dart';
 // import '../../features/inventory/domain/repositories/i_product_repository.dart';
 import '../../features/pos/domain/repositories/i_pos_repository.dart';
 import '../../features/pos/data/repositories/pos_repository_impl.dart';
@@ -58,6 +58,11 @@ Future<void> init() async {
   // Customers — offline-first, local Drift only
   sl.registerLazySingleton<ICustomerRepository>(
     () => CustomerRepositoryImpl(sl()),
+  );
+
+  // Suppliers
+  sl.registerLazySingleton<ISupplierRepository>(
+    () => SupplierRepositoryImpl(sl()),
   );
 
   // Legacy ProductRepository (hybrid search — kept for backward compat)
