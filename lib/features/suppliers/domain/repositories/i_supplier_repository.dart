@@ -40,4 +40,6 @@ abstract class ISupplierRepository {
     required double paidAmount,
     required List<Map<String, dynamic>> items,
   });
+
+  Future<Either<Failure, Unit>> cancelPurchaseInvoice(String invoiceId);
 }

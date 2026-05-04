@@ -21,6 +21,7 @@ class ItemEntryDialog extends StatefulWidget {
 
 class _ItemEntryDialogState extends State<ItemEntryDialog> {
   final _qtyController = TextEditingController(text: '1');
+  final _bonusController = TextEditingController(text: '0');
   final _purchasePriceController = TextEditingController();
   final _sellingPriceController = TextEditingController();
   final _batchController = TextEditingController();
@@ -79,11 +80,17 @@ class _ItemEntryDialogState extends State<ItemEntryDialog> {
   }
 
   Widget _buildQtyAndPrice() {
-    return Row(
+    return Column(
       children: [
-        Expanded(child: TextFormField(controller: _qtyController, decoration: const InputDecoration(labelText: 'الكمية'), keyboardType: TextInputType.number)),
-        const SizedBox(width: 8),
-        Expanded(child: TextFormField(controller: _purchasePriceController, decoration: const InputDecoration(labelText: 'سعر التكلفة'), keyboardType: TextInputType.number)),
+        Row(
+          children: [
+            Expanded(child: TextFormField(controller: _qtyController, decoration: const InputDecoration(labelText: 'الكمية المشتراة', border: OutlineInputBorder()), keyboardType: TextInputType.number)),
+            const SizedBox(width: 8),
+            Expanded(child: TextFormField(controller: _bonusController, decoration: const InputDecoration(labelText: 'البونص (مجاني)', border: OutlineInputBorder(), fillColor: Color(0xFFE8F5E9), filled: true), keyboardType: TextInputType.number)),
+          ],
+        ),
+        const SizedBox(height: 12),
+        TextFormField(controller: _purchasePriceController, decoration: const InputDecoration(labelText: 'سعر التكلفة (للقطعة المشتراة)', border: OutlineInputBorder(), prefixIcon: Icon(Icons.attach_money)), keyboardType: TextInputType.number),
       ],
     );
   }
@@ -120,6 +127,7 @@ class _ItemEntryDialogState extends State<ItemEntryDialog> {
       'isNew': widget.suggestion.source == DrugSource.master,
       'barcode': widget.suggestion.barcode,
       'quantity': qty,
+      'bonusQuantity': double.tryParse(_bonusController.text) ?? 0,
       'purchasePrice': pPrice,
       'sellingPrice': sPrice,
       'unitId': unitId,

@@ -103,7 +103,7 @@ class TableConstants {
   static const String tableNameCashSessions = 'cash_sessions';
   static const String colStartTime = 'start_time';
   static const String colEndTime = 'end_time';
-  static const String colOpeningBalance = 'opening_balance';
+  static const String colCashOpeningBalance = 'opening_balance'; // renamed to avoid duplicate
   static const String colTotalSales = 'total_sales';
   static const String colTotalReturns = 'total_returns';
   static const String colTotalExpenses = 'total_expenses';
@@ -159,6 +159,9 @@ class TableConstants {
   static const String colPriceModifiedBy = 'price_modified_by';
   
   // --- Purchase Returns Extensions ---
-  static const String colPurchaseInvoiceId = 'purchase_invoice_id';
   static const String colTotalReturnValue = 'total_return_value';
+
+  // --- Write Offs ---
+  static const String tableNameWriteOffs = 'write_offs';
+  static const String colReason = 'reason';
 }

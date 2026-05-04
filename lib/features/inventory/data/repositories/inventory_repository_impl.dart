@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/inventory_item.dart';
+import '../../domain/entities/write_off_entity.dart';
 import '../../domain/repositories/i_inventory_repository.dart';
 import '../../domain/models/drug_suggestion_model.dart';
 
@@ -135,7 +136,7 @@ class InventoryRepositoryImpl implements IInventoryRepository {
 
   @override
   Stream<List<InventoryItem>> watchInventory({String? query, String? sortBy}) {
-    final qtySum = _db.productBatchesTable.quantityBaseUnit.sum();
+    final qtySum = _db.productBatchesTable.quantityInBaseUnit.sum();
     final minExpiry = _db.productBatchesTable.expiryDate.min();
 
     final q = _db.select(_db.productsTable)
@@ -266,7 +267,7 @@ class InventoryRepositoryImpl implements IInventoryRepository {
                   pharmacyId: 'default',
                   batchNumber: 'INITIAL-STOCK',
                   expiryDate: expiryDate,
-                  quantityBaseUnit: initialQty,
+                  quantityInBaseUnit: initialQty,
                   purchasePrice: Value(costPrice),
                 ),
               );
@@ -292,13 +293,44 @@ class InventoryRepositoryImpl implements IInventoryRepository {
         pharmacyId: 'default',
         batchNumber: 'OPENING-${DateTime.now().millisecondsSinceEpoch}',
         expiryDate: expiryDate,
-        quantityBaseUnit: quantity,
+        quantityInBaseUnit: quantity,
         purchasePrice: Value(costPrice),
       ));
       return const Right(unit);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
     }
+  }
+
+  @override
+  Future<void> writeOffStock(WriteOffEntity writeOff) async {
+    await _db.transaction(() async {
+      // 1. Deduct from batch
+      final batch = await (_db.select(_db.productBatchesTable)
+            ..where((t) => t.id.equals(writeOff.batchId)))
+          .getSingle();
+
+      await _db.update(_db.productBatchesTable).replace(
+            batch.copyWith(
+              quantityInBaseUnit: batch.quantityInBaseUnit - writeOff.quantity,
+              updatedAt: DateTime.now(),
+            ),
+          );
+
+      // 2. Record write-off
+      await _db.into(_db.writeOffsTable).insert(
+            WriteOffsTableCompanion.insert(
+              id: writeOff.id,
+              pharmacyId: writeOff.pharmacyId,
+              productId: writeOff.productId,
+              batchId: writeOff.batchId,
+              unitId: writeOff.unitId,
+              quantity: writeOff.quantity,
+              reason: writeOff.reason,
+              createdAt: Value(writeOff.createdAt),
+            ),
+          );
+    });
   }
 
   @override

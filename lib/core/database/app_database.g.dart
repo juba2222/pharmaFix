@@ -4756,17 +4756,17 @@ class $ProductBatchesTableTable extends ProductBatchesTable
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _quantityBaseUnitMeta = const VerificationMeta(
-    'quantityBaseUnit',
-  );
+  static const VerificationMeta _quantityInBaseUnitMeta =
+      const VerificationMeta('quantityInBaseUnit');
   @override
-  late final GeneratedColumn<double> quantityBaseUnit = GeneratedColumn<double>(
-    'quantity_base_unit',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: true,
-  );
+  late final GeneratedColumn<double> quantityInBaseUnit =
+      GeneratedColumn<double>(
+        'quantity_in_base_unit',
+        aliasedName,
+        false,
+        type: DriftSqlType.double,
+        requiredDuringInsert: true,
+      );
   static const VerificationMeta _purchasePriceMeta = const VerificationMeta(
     'purchasePrice',
   );
@@ -4834,7 +4834,7 @@ class $ProductBatchesTableTable extends ProductBatchesTable
     pharmacyId,
     batchNumber,
     expiryDate,
-    quantityBaseUnit,
+    quantityInBaseUnit,
     purchasePrice,
     purchaseInvoiceItemId,
     createdAt,
@@ -4893,16 +4893,16 @@ class $ProductBatchesTableTable extends ProductBatchesTable
     } else if (isInserting) {
       context.missing(_expiryDateMeta);
     }
-    if (data.containsKey('quantity_base_unit')) {
+    if (data.containsKey('quantity_in_base_unit')) {
       context.handle(
-        _quantityBaseUnitMeta,
-        quantityBaseUnit.isAcceptableOrUnknown(
-          data['quantity_base_unit']!,
-          _quantityBaseUnitMeta,
+        _quantityInBaseUnitMeta,
+        quantityInBaseUnit.isAcceptableOrUnknown(
+          data['quantity_in_base_unit']!,
+          _quantityInBaseUnitMeta,
         ),
       );
     } else if (isInserting) {
-      context.missing(_quantityBaseUnitMeta);
+      context.missing(_quantityInBaseUnitMeta);
     }
     if (data.containsKey('purchase_price')) {
       context.handle(
@@ -4969,9 +4969,9 @@ class $ProductBatchesTableTable extends ProductBatchesTable
         DriftSqlType.dateTime,
         data['${effectivePrefix}expiry_date'],
       )!,
-      quantityBaseUnit: attachedDatabase.typeMapping.read(
+      quantityInBaseUnit: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
-        data['${effectivePrefix}quantity_base_unit'],
+        data['${effectivePrefix}quantity_in_base_unit'],
       )!,
       purchasePrice: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
@@ -5009,7 +5009,7 @@ class ProductBatchDbModel extends DataClass
   final String pharmacyId;
   final String batchNumber;
   final DateTime expiryDate;
-  final double quantityBaseUnit;
+  final double quantityInBaseUnit;
   final double purchasePrice;
   final String? purchaseInvoiceItemId;
   final DateTime? createdAt;
@@ -5021,7 +5021,7 @@ class ProductBatchDbModel extends DataClass
     required this.pharmacyId,
     required this.batchNumber,
     required this.expiryDate,
-    required this.quantityBaseUnit,
+    required this.quantityInBaseUnit,
     required this.purchasePrice,
     this.purchaseInvoiceItemId,
     this.createdAt,
@@ -5036,7 +5036,7 @@ class ProductBatchDbModel extends DataClass
     map['pharmacy_id'] = Variable<String>(pharmacyId);
     map['batch_number'] = Variable<String>(batchNumber);
     map['expiry_date'] = Variable<DateTime>(expiryDate);
-    map['quantity_base_unit'] = Variable<double>(quantityBaseUnit);
+    map['quantity_in_base_unit'] = Variable<double>(quantityInBaseUnit);
     map['purchase_price'] = Variable<double>(purchasePrice);
     if (!nullToAbsent || purchaseInvoiceItemId != null) {
       map['purchase_invoice_item_id'] = Variable<String>(purchaseInvoiceItemId);
@@ -5058,7 +5058,7 @@ class ProductBatchDbModel extends DataClass
       pharmacyId: Value(pharmacyId),
       batchNumber: Value(batchNumber),
       expiryDate: Value(expiryDate),
-      quantityBaseUnit: Value(quantityBaseUnit),
+      quantityInBaseUnit: Value(quantityInBaseUnit),
       purchasePrice: Value(purchasePrice),
       purchaseInvoiceItemId: purchaseInvoiceItemId == null && nullToAbsent
           ? const Value.absent()
@@ -5084,7 +5084,9 @@ class ProductBatchDbModel extends DataClass
       pharmacyId: serializer.fromJson<String>(json['pharmacyId']),
       batchNumber: serializer.fromJson<String>(json['batchNumber']),
       expiryDate: serializer.fromJson<DateTime>(json['expiryDate']),
-      quantityBaseUnit: serializer.fromJson<double>(json['quantityBaseUnit']),
+      quantityInBaseUnit: serializer.fromJson<double>(
+        json['quantityInBaseUnit'],
+      ),
       purchasePrice: serializer.fromJson<double>(json['purchasePrice']),
       purchaseInvoiceItemId: serializer.fromJson<String?>(
         json['purchaseInvoiceItemId'],
@@ -5103,7 +5105,7 @@ class ProductBatchDbModel extends DataClass
       'pharmacyId': serializer.toJson<String>(pharmacyId),
       'batchNumber': serializer.toJson<String>(batchNumber),
       'expiryDate': serializer.toJson<DateTime>(expiryDate),
-      'quantityBaseUnit': serializer.toJson<double>(quantityBaseUnit),
+      'quantityInBaseUnit': serializer.toJson<double>(quantityInBaseUnit),
       'purchasePrice': serializer.toJson<double>(purchasePrice),
       'purchaseInvoiceItemId': serializer.toJson<String?>(
         purchaseInvoiceItemId,
@@ -5120,7 +5122,7 @@ class ProductBatchDbModel extends DataClass
     String? pharmacyId,
     String? batchNumber,
     DateTime? expiryDate,
-    double? quantityBaseUnit,
+    double? quantityInBaseUnit,
     double? purchasePrice,
     Value<String?> purchaseInvoiceItemId = const Value.absent(),
     Value<DateTime?> createdAt = const Value.absent(),
@@ -5132,7 +5134,7 @@ class ProductBatchDbModel extends DataClass
     pharmacyId: pharmacyId ?? this.pharmacyId,
     batchNumber: batchNumber ?? this.batchNumber,
     expiryDate: expiryDate ?? this.expiryDate,
-    quantityBaseUnit: quantityBaseUnit ?? this.quantityBaseUnit,
+    quantityInBaseUnit: quantityInBaseUnit ?? this.quantityInBaseUnit,
     purchasePrice: purchasePrice ?? this.purchasePrice,
     purchaseInvoiceItemId: purchaseInvoiceItemId.present
         ? purchaseInvoiceItemId.value
@@ -5154,9 +5156,9 @@ class ProductBatchDbModel extends DataClass
       expiryDate: data.expiryDate.present
           ? data.expiryDate.value
           : this.expiryDate,
-      quantityBaseUnit: data.quantityBaseUnit.present
-          ? data.quantityBaseUnit.value
-          : this.quantityBaseUnit,
+      quantityInBaseUnit: data.quantityInBaseUnit.present
+          ? data.quantityInBaseUnit.value
+          : this.quantityInBaseUnit,
       purchasePrice: data.purchasePrice.present
           ? data.purchasePrice.value
           : this.purchasePrice,
@@ -5177,7 +5179,7 @@ class ProductBatchDbModel extends DataClass
           ..write('pharmacyId: $pharmacyId, ')
           ..write('batchNumber: $batchNumber, ')
           ..write('expiryDate: $expiryDate, ')
-          ..write('quantityBaseUnit: $quantityBaseUnit, ')
+          ..write('quantityInBaseUnit: $quantityInBaseUnit, ')
           ..write('purchasePrice: $purchasePrice, ')
           ..write('purchaseInvoiceItemId: $purchaseInvoiceItemId, ')
           ..write('createdAt: $createdAt, ')
@@ -5194,7 +5196,7 @@ class ProductBatchDbModel extends DataClass
     pharmacyId,
     batchNumber,
     expiryDate,
-    quantityBaseUnit,
+    quantityInBaseUnit,
     purchasePrice,
     purchaseInvoiceItemId,
     createdAt,
@@ -5210,7 +5212,7 @@ class ProductBatchDbModel extends DataClass
           other.pharmacyId == this.pharmacyId &&
           other.batchNumber == this.batchNumber &&
           other.expiryDate == this.expiryDate &&
-          other.quantityBaseUnit == this.quantityBaseUnit &&
+          other.quantityInBaseUnit == this.quantityInBaseUnit &&
           other.purchasePrice == this.purchasePrice &&
           other.purchaseInvoiceItemId == this.purchaseInvoiceItemId &&
           other.createdAt == this.createdAt &&
@@ -5225,7 +5227,7 @@ class ProductBatchesTableCompanion
   final Value<String> pharmacyId;
   final Value<String> batchNumber;
   final Value<DateTime> expiryDate;
-  final Value<double> quantityBaseUnit;
+  final Value<double> quantityInBaseUnit;
   final Value<double> purchasePrice;
   final Value<String?> purchaseInvoiceItemId;
   final Value<DateTime?> createdAt;
@@ -5238,7 +5240,7 @@ class ProductBatchesTableCompanion
     this.pharmacyId = const Value.absent(),
     this.batchNumber = const Value.absent(),
     this.expiryDate = const Value.absent(),
-    this.quantityBaseUnit = const Value.absent(),
+    this.quantityInBaseUnit = const Value.absent(),
     this.purchasePrice = const Value.absent(),
     this.purchaseInvoiceItemId = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -5252,7 +5254,7 @@ class ProductBatchesTableCompanion
     required String pharmacyId,
     required String batchNumber,
     required DateTime expiryDate,
-    required double quantityBaseUnit,
+    required double quantityInBaseUnit,
     this.purchasePrice = const Value.absent(),
     this.purchaseInvoiceItemId = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -5264,14 +5266,14 @@ class ProductBatchesTableCompanion
        pharmacyId = Value(pharmacyId),
        batchNumber = Value(batchNumber),
        expiryDate = Value(expiryDate),
-       quantityBaseUnit = Value(quantityBaseUnit);
+       quantityInBaseUnit = Value(quantityInBaseUnit);
   static Insertable<ProductBatchDbModel> custom({
     Expression<String>? id,
     Expression<String>? productId,
     Expression<String>? pharmacyId,
     Expression<String>? batchNumber,
     Expression<DateTime>? expiryDate,
-    Expression<double>? quantityBaseUnit,
+    Expression<double>? quantityInBaseUnit,
     Expression<double>? purchasePrice,
     Expression<String>? purchaseInvoiceItemId,
     Expression<DateTime>? createdAt,
@@ -5285,7 +5287,8 @@ class ProductBatchesTableCompanion
       if (pharmacyId != null) 'pharmacy_id': pharmacyId,
       if (batchNumber != null) 'batch_number': batchNumber,
       if (expiryDate != null) 'expiry_date': expiryDate,
-      if (quantityBaseUnit != null) 'quantity_base_unit': quantityBaseUnit,
+      if (quantityInBaseUnit != null)
+        'quantity_in_base_unit': quantityInBaseUnit,
       if (purchasePrice != null) 'purchase_price': purchasePrice,
       if (purchaseInvoiceItemId != null)
         'purchase_invoice_item_id': purchaseInvoiceItemId,
@@ -5302,7 +5305,7 @@ class ProductBatchesTableCompanion
     Value<String>? pharmacyId,
     Value<String>? batchNumber,
     Value<DateTime>? expiryDate,
-    Value<double>? quantityBaseUnit,
+    Value<double>? quantityInBaseUnit,
     Value<double>? purchasePrice,
     Value<String?>? purchaseInvoiceItemId,
     Value<DateTime?>? createdAt,
@@ -5316,7 +5319,7 @@ class ProductBatchesTableCompanion
       pharmacyId: pharmacyId ?? this.pharmacyId,
       batchNumber: batchNumber ?? this.batchNumber,
       expiryDate: expiryDate ?? this.expiryDate,
-      quantityBaseUnit: quantityBaseUnit ?? this.quantityBaseUnit,
+      quantityInBaseUnit: quantityInBaseUnit ?? this.quantityInBaseUnit,
       purchasePrice: purchasePrice ?? this.purchasePrice,
       purchaseInvoiceItemId:
           purchaseInvoiceItemId ?? this.purchaseInvoiceItemId,
@@ -5345,8 +5348,8 @@ class ProductBatchesTableCompanion
     if (expiryDate.present) {
       map['expiry_date'] = Variable<DateTime>(expiryDate.value);
     }
-    if (quantityBaseUnit.present) {
-      map['quantity_base_unit'] = Variable<double>(quantityBaseUnit.value);
+    if (quantityInBaseUnit.present) {
+      map['quantity_in_base_unit'] = Variable<double>(quantityInBaseUnit.value);
     }
     if (purchasePrice.present) {
       map['purchase_price'] = Variable<double>(purchasePrice.value);
@@ -5379,7 +5382,7 @@ class ProductBatchesTableCompanion
           ..write('pharmacyId: $pharmacyId, ')
           ..write('batchNumber: $batchNumber, ')
           ..write('expiryDate: $expiryDate, ')
-          ..write('quantityBaseUnit: $quantityBaseUnit, ')
+          ..write('quantityInBaseUnit: $quantityInBaseUnit, ')
           ..write('purchasePrice: $purchasePrice, ')
           ..write('purchaseInvoiceItemId: $purchaseInvoiceItemId, ')
           ..write('createdAt: $createdAt, ')
@@ -10025,9 +10028,9 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
   late final GeneratedColumn<String> unitId = GeneratedColumn<String>(
     'unit_id',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _batchIdMeta = const VerificationMeta(
     'batchId',
@@ -10036,9 +10039,9 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
   late final GeneratedColumn<String> batchId = GeneratedColumn<String>(
     'batch_id',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _quantityMeta = const VerificationMeta(
     'quantity',
@@ -10069,9 +10072,9 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
   late final GeneratedColumn<DateTime> expiryDate = GeneratedColumn<DateTime>(
     'expiry_date',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _batchNumberMeta = const VerificationMeta(
     'batchNumber',
@@ -10150,16 +10153,12 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
         _unitIdMeta,
         unitId.isAcceptableOrUnknown(data['unit_id']!, _unitIdMeta),
       );
-    } else if (isInserting) {
-      context.missing(_unitIdMeta);
     }
     if (data.containsKey('batch_id')) {
       context.handle(
         _batchIdMeta,
         batchId.isAcceptableOrUnknown(data['batch_id']!, _batchIdMeta),
       );
-    } else if (isInserting) {
-      context.missing(_batchIdMeta);
     }
     if (data.containsKey('quantity')) {
       context.handle(
@@ -10185,8 +10184,6 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
         _expiryDateMeta,
         expiryDate.isAcceptableOrUnknown(data['expiry_date']!, _expiryDateMeta),
       );
-    } else if (isInserting) {
-      context.missing(_expiryDateMeta);
     }
     if (data.containsKey('batch_number')) {
       context.handle(
@@ -10230,11 +10227,11 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
       unitId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}unit_id'],
-      )!,
+      ),
       batchId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}batch_id'],
-      )!,
+      ),
       quantity: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}quantity'],
@@ -10246,7 +10243,7 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
       expiryDate: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}expiry_date'],
-      )!,
+      ),
       batchNumber: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}batch_number'],
@@ -10269,22 +10266,22 @@ class PurchaseInvoiceItemDbModel extends DataClass
   final String id;
   final String purchaseInvoiceId;
   final String productId;
-  final String unitId;
-  final String batchId;
+  final String? unitId;
+  final String? batchId;
   final double quantity;
   final double purchasePrice;
-  final DateTime expiryDate;
+  final DateTime? expiryDate;
   final String? batchNumber;
   final DateTime createdAt;
   const PurchaseInvoiceItemDbModel({
     required this.id,
     required this.purchaseInvoiceId,
     required this.productId,
-    required this.unitId,
-    required this.batchId,
+    this.unitId,
+    this.batchId,
     required this.quantity,
     required this.purchasePrice,
-    required this.expiryDate,
+    this.expiryDate,
     this.batchNumber,
     required this.createdAt,
   });
@@ -10294,11 +10291,17 @@ class PurchaseInvoiceItemDbModel extends DataClass
     map['id'] = Variable<String>(id);
     map['purchase_invoice_id'] = Variable<String>(purchaseInvoiceId);
     map['product_id'] = Variable<String>(productId);
-    map['unit_id'] = Variable<String>(unitId);
-    map['batch_id'] = Variable<String>(batchId);
+    if (!nullToAbsent || unitId != null) {
+      map['unit_id'] = Variable<String>(unitId);
+    }
+    if (!nullToAbsent || batchId != null) {
+      map['batch_id'] = Variable<String>(batchId);
+    }
     map['quantity'] = Variable<double>(quantity);
     map['purchase_price'] = Variable<double>(purchasePrice);
-    map['expiry_date'] = Variable<DateTime>(expiryDate);
+    if (!nullToAbsent || expiryDate != null) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate);
+    }
     if (!nullToAbsent || batchNumber != null) {
       map['batch_number'] = Variable<String>(batchNumber);
     }
@@ -10311,11 +10314,17 @@ class PurchaseInvoiceItemDbModel extends DataClass
       id: Value(id),
       purchaseInvoiceId: Value(purchaseInvoiceId),
       productId: Value(productId),
-      unitId: Value(unitId),
-      batchId: Value(batchId),
+      unitId: unitId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unitId),
+      batchId: batchId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(batchId),
       quantity: Value(quantity),
       purchasePrice: Value(purchasePrice),
-      expiryDate: Value(expiryDate),
+      expiryDate: expiryDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiryDate),
       batchNumber: batchNumber == null && nullToAbsent
           ? const Value.absent()
           : Value(batchNumber),
@@ -10332,11 +10341,11 @@ class PurchaseInvoiceItemDbModel extends DataClass
       id: serializer.fromJson<String>(json['id']),
       purchaseInvoiceId: serializer.fromJson<String>(json['purchaseInvoiceId']),
       productId: serializer.fromJson<String>(json['productId']),
-      unitId: serializer.fromJson<String>(json['unitId']),
-      batchId: serializer.fromJson<String>(json['batchId']),
+      unitId: serializer.fromJson<String?>(json['unitId']),
+      batchId: serializer.fromJson<String?>(json['batchId']),
       quantity: serializer.fromJson<double>(json['quantity']),
       purchasePrice: serializer.fromJson<double>(json['purchasePrice']),
-      expiryDate: serializer.fromJson<DateTime>(json['expiryDate']),
+      expiryDate: serializer.fromJson<DateTime?>(json['expiryDate']),
       batchNumber: serializer.fromJson<String?>(json['batchNumber']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -10348,11 +10357,11 @@ class PurchaseInvoiceItemDbModel extends DataClass
       'id': serializer.toJson<String>(id),
       'purchaseInvoiceId': serializer.toJson<String>(purchaseInvoiceId),
       'productId': serializer.toJson<String>(productId),
-      'unitId': serializer.toJson<String>(unitId),
-      'batchId': serializer.toJson<String>(batchId),
+      'unitId': serializer.toJson<String?>(unitId),
+      'batchId': serializer.toJson<String?>(batchId),
       'quantity': serializer.toJson<double>(quantity),
       'purchasePrice': serializer.toJson<double>(purchasePrice),
-      'expiryDate': serializer.toJson<DateTime>(expiryDate),
+      'expiryDate': serializer.toJson<DateTime?>(expiryDate),
       'batchNumber': serializer.toJson<String?>(batchNumber),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -10362,22 +10371,22 @@ class PurchaseInvoiceItemDbModel extends DataClass
     String? id,
     String? purchaseInvoiceId,
     String? productId,
-    String? unitId,
-    String? batchId,
+    Value<String?> unitId = const Value.absent(),
+    Value<String?> batchId = const Value.absent(),
     double? quantity,
     double? purchasePrice,
-    DateTime? expiryDate,
+    Value<DateTime?> expiryDate = const Value.absent(),
     Value<String?> batchNumber = const Value.absent(),
     DateTime? createdAt,
   }) => PurchaseInvoiceItemDbModel(
     id: id ?? this.id,
     purchaseInvoiceId: purchaseInvoiceId ?? this.purchaseInvoiceId,
     productId: productId ?? this.productId,
-    unitId: unitId ?? this.unitId,
-    batchId: batchId ?? this.batchId,
+    unitId: unitId.present ? unitId.value : this.unitId,
+    batchId: batchId.present ? batchId.value : this.batchId,
     quantity: quantity ?? this.quantity,
     purchasePrice: purchasePrice ?? this.purchasePrice,
-    expiryDate: expiryDate ?? this.expiryDate,
+    expiryDate: expiryDate.present ? expiryDate.value : this.expiryDate,
     batchNumber: batchNumber.present ? batchNumber.value : this.batchNumber,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -10457,11 +10466,11 @@ class PurchaseInvoiceItemsTableCompanion
   final Value<String> id;
   final Value<String> purchaseInvoiceId;
   final Value<String> productId;
-  final Value<String> unitId;
-  final Value<String> batchId;
+  final Value<String?> unitId;
+  final Value<String?> batchId;
   final Value<double> quantity;
   final Value<double> purchasePrice;
-  final Value<DateTime> expiryDate;
+  final Value<DateTime?> expiryDate;
   final Value<String?> batchNumber;
   final Value<DateTime> createdAt;
   final Value<int> rowid;
@@ -10482,22 +10491,19 @@ class PurchaseInvoiceItemsTableCompanion
     required String id,
     required String purchaseInvoiceId,
     required String productId,
-    required String unitId,
-    required String batchId,
+    this.unitId = const Value.absent(),
+    this.batchId = const Value.absent(),
     required double quantity,
     required double purchasePrice,
-    required DateTime expiryDate,
+    this.expiryDate = const Value.absent(),
     this.batchNumber = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        purchaseInvoiceId = Value(purchaseInvoiceId),
        productId = Value(productId),
-       unitId = Value(unitId),
-       batchId = Value(batchId),
        quantity = Value(quantity),
-       purchasePrice = Value(purchasePrice),
-       expiryDate = Value(expiryDate);
+       purchasePrice = Value(purchasePrice);
   static Insertable<PurchaseInvoiceItemDbModel> custom({
     Expression<String>? id,
     Expression<String>? purchaseInvoiceId,
@@ -10530,11 +10536,11 @@ class PurchaseInvoiceItemsTableCompanion
     Value<String>? id,
     Value<String>? purchaseInvoiceId,
     Value<String>? productId,
-    Value<String>? unitId,
-    Value<String>? batchId,
+    Value<String?>? unitId,
+    Value<String?>? batchId,
     Value<double>? quantity,
     Value<double>? purchasePrice,
-    Value<DateTime>? expiryDate,
+    Value<DateTime?>? expiryDate,
     Value<String?>? batchNumber,
     Value<DateTime>? createdAt,
     Value<int>? rowid,
@@ -10612,6 +10618,535 @@ class PurchaseInvoiceItemsTableCompanion
   }
 }
 
+class $WriteOffsTableTable extends WriteOffsTable
+    with TableInfo<$WriteOffsTableTable, WriteOffsTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WriteOffsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pharmacyIdMeta = const VerificationMeta(
+    'pharmacyId',
+  );
+  @override
+  late final GeneratedColumn<String> pharmacyId = GeneratedColumn<String>(
+    'pharmacy_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 50,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productIdMeta = const VerificationMeta(
+    'productId',
+  );
+  @override
+  late final GeneratedColumn<String> productId = GeneratedColumn<String>(
+    'product_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 50,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _batchIdMeta = const VerificationMeta(
+    'batchId',
+  );
+  @override
+  late final GeneratedColumn<String> batchId = GeneratedColumn<String>(
+    'batch_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 50,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _unitIdMeta = const VerificationMeta('unitId');
+  @override
+  late final GeneratedColumn<String> unitId = GeneratedColumn<String>(
+    'unit_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 50,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
+  @override
+  late final GeneratedColumn<double> quantity = GeneratedColumn<double>(
+    'quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  @override
+  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 200,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    pharmacyId,
+    productId,
+    batchId,
+    unitId,
+    quantity,
+    reason,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'write_offs_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WriteOffsTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('pharmacy_id')) {
+      context.handle(
+        _pharmacyIdMeta,
+        pharmacyId.isAcceptableOrUnknown(data['pharmacy_id']!, _pharmacyIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pharmacyIdMeta);
+    }
+    if (data.containsKey('product_id')) {
+      context.handle(
+        _productIdMeta,
+        productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_productIdMeta);
+    }
+    if (data.containsKey('batch_id')) {
+      context.handle(
+        _batchIdMeta,
+        batchId.isAcceptableOrUnknown(data['batch_id']!, _batchIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_batchIdMeta);
+    }
+    if (data.containsKey('unit_id')) {
+      context.handle(
+        _unitIdMeta,
+        unitId.isAcceptableOrUnknown(data['unit_id']!, _unitIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_unitIdMeta);
+    }
+    if (data.containsKey('quantity')) {
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quantityMeta);
+    }
+    if (data.containsKey('reason')) {
+      context.handle(
+        _reasonMeta,
+        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reasonMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  WriteOffsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WriteOffsTableData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      pharmacyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pharmacy_id'],
+      )!,
+      productId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_id'],
+      )!,
+      batchId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}batch_id'],
+      )!,
+      unitId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_id'],
+      )!,
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity'],
+      )!,
+      reason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reason'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $WriteOffsTableTable createAlias(String alias) {
+    return $WriteOffsTableTable(attachedDatabase, alias);
+  }
+}
+
+class WriteOffsTableData extends DataClass
+    implements Insertable<WriteOffsTableData> {
+  final String id;
+  final String pharmacyId;
+  final String productId;
+  final String batchId;
+  final String unitId;
+  final double quantity;
+  final String reason;
+  final DateTime createdAt;
+  const WriteOffsTableData({
+    required this.id,
+    required this.pharmacyId,
+    required this.productId,
+    required this.batchId,
+    required this.unitId,
+    required this.quantity,
+    required this.reason,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['pharmacy_id'] = Variable<String>(pharmacyId);
+    map['product_id'] = Variable<String>(productId);
+    map['batch_id'] = Variable<String>(batchId);
+    map['unit_id'] = Variable<String>(unitId);
+    map['quantity'] = Variable<double>(quantity);
+    map['reason'] = Variable<String>(reason);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  WriteOffsTableCompanion toCompanion(bool nullToAbsent) {
+    return WriteOffsTableCompanion(
+      id: Value(id),
+      pharmacyId: Value(pharmacyId),
+      productId: Value(productId),
+      batchId: Value(batchId),
+      unitId: Value(unitId),
+      quantity: Value(quantity),
+      reason: Value(reason),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory WriteOffsTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WriteOffsTableData(
+      id: serializer.fromJson<String>(json['id']),
+      pharmacyId: serializer.fromJson<String>(json['pharmacyId']),
+      productId: serializer.fromJson<String>(json['productId']),
+      batchId: serializer.fromJson<String>(json['batchId']),
+      unitId: serializer.fromJson<String>(json['unitId']),
+      quantity: serializer.fromJson<double>(json['quantity']),
+      reason: serializer.fromJson<String>(json['reason']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'pharmacyId': serializer.toJson<String>(pharmacyId),
+      'productId': serializer.toJson<String>(productId),
+      'batchId': serializer.toJson<String>(batchId),
+      'unitId': serializer.toJson<String>(unitId),
+      'quantity': serializer.toJson<double>(quantity),
+      'reason': serializer.toJson<String>(reason),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  WriteOffsTableData copyWith({
+    String? id,
+    String? pharmacyId,
+    String? productId,
+    String? batchId,
+    String? unitId,
+    double? quantity,
+    String? reason,
+    DateTime? createdAt,
+  }) => WriteOffsTableData(
+    id: id ?? this.id,
+    pharmacyId: pharmacyId ?? this.pharmacyId,
+    productId: productId ?? this.productId,
+    batchId: batchId ?? this.batchId,
+    unitId: unitId ?? this.unitId,
+    quantity: quantity ?? this.quantity,
+    reason: reason ?? this.reason,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  WriteOffsTableData copyWithCompanion(WriteOffsTableCompanion data) {
+    return WriteOffsTableData(
+      id: data.id.present ? data.id.value : this.id,
+      pharmacyId: data.pharmacyId.present
+          ? data.pharmacyId.value
+          : this.pharmacyId,
+      productId: data.productId.present ? data.productId.value : this.productId,
+      batchId: data.batchId.present ? data.batchId.value : this.batchId,
+      unitId: data.unitId.present ? data.unitId.value : this.unitId,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WriteOffsTableData(')
+          ..write('id: $id, ')
+          ..write('pharmacyId: $pharmacyId, ')
+          ..write('productId: $productId, ')
+          ..write('batchId: $batchId, ')
+          ..write('unitId: $unitId, ')
+          ..write('quantity: $quantity, ')
+          ..write('reason: $reason, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    pharmacyId,
+    productId,
+    batchId,
+    unitId,
+    quantity,
+    reason,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WriteOffsTableData &&
+          other.id == this.id &&
+          other.pharmacyId == this.pharmacyId &&
+          other.productId == this.productId &&
+          other.batchId == this.batchId &&
+          other.unitId == this.unitId &&
+          other.quantity == this.quantity &&
+          other.reason == this.reason &&
+          other.createdAt == this.createdAt);
+}
+
+class WriteOffsTableCompanion extends UpdateCompanion<WriteOffsTableData> {
+  final Value<String> id;
+  final Value<String> pharmacyId;
+  final Value<String> productId;
+  final Value<String> batchId;
+  final Value<String> unitId;
+  final Value<double> quantity;
+  final Value<String> reason;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const WriteOffsTableCompanion({
+    this.id = const Value.absent(),
+    this.pharmacyId = const Value.absent(),
+    this.productId = const Value.absent(),
+    this.batchId = const Value.absent(),
+    this.unitId = const Value.absent(),
+    this.quantity = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  WriteOffsTableCompanion.insert({
+    required String id,
+    required String pharmacyId,
+    required String productId,
+    required String batchId,
+    required String unitId,
+    required double quantity,
+    required String reason,
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       pharmacyId = Value(pharmacyId),
+       productId = Value(productId),
+       batchId = Value(batchId),
+       unitId = Value(unitId),
+       quantity = Value(quantity),
+       reason = Value(reason);
+  static Insertable<WriteOffsTableData> custom({
+    Expression<String>? id,
+    Expression<String>? pharmacyId,
+    Expression<String>? productId,
+    Expression<String>? batchId,
+    Expression<String>? unitId,
+    Expression<double>? quantity,
+    Expression<String>? reason,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (pharmacyId != null) 'pharmacy_id': pharmacyId,
+      if (productId != null) 'product_id': productId,
+      if (batchId != null) 'batch_id': batchId,
+      if (unitId != null) 'unit_id': unitId,
+      if (quantity != null) 'quantity': quantity,
+      if (reason != null) 'reason': reason,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  WriteOffsTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? pharmacyId,
+    Value<String>? productId,
+    Value<String>? batchId,
+    Value<String>? unitId,
+    Value<double>? quantity,
+    Value<String>? reason,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return WriteOffsTableCompanion(
+      id: id ?? this.id,
+      pharmacyId: pharmacyId ?? this.pharmacyId,
+      productId: productId ?? this.productId,
+      batchId: batchId ?? this.batchId,
+      unitId: unitId ?? this.unitId,
+      quantity: quantity ?? this.quantity,
+      reason: reason ?? this.reason,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (pharmacyId.present) {
+      map['pharmacy_id'] = Variable<String>(pharmacyId.value);
+    }
+    if (productId.present) {
+      map['product_id'] = Variable<String>(productId.value);
+    }
+    if (batchId.present) {
+      map['batch_id'] = Variable<String>(batchId.value);
+    }
+    if (unitId.present) {
+      map['unit_id'] = Variable<String>(unitId.value);
+    }
+    if (quantity.present) {
+      map['quantity'] = Variable<double>(quantity.value);
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WriteOffsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('pharmacyId: $pharmacyId, ')
+          ..write('productId: $productId, ')
+          ..write('batchId: $batchId, ')
+          ..write('unitId: $unitId, ')
+          ..write('quantity: $quantity, ')
+          ..write('reason: $reason, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -10654,6 +11189,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $PurchaseInvoiceItemsTableTable purchaseInvoiceItemsTable =
       $PurchaseInvoiceItemsTableTable(this);
+  late final $WriteOffsTableTable writeOffsTable = $WriteOffsTableTable(this);
   late final SyncDao syncDao = SyncDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -10681,6 +11217,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     masterDrugsTable,
     masterUnitsTable,
     purchaseInvoiceItemsTable,
+    writeOffsTable,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -14266,7 +14803,7 @@ typedef $$ProductBatchesTableTableCreateCompanionBuilder =
       required String pharmacyId,
       required String batchNumber,
       required DateTime expiryDate,
-      required double quantityBaseUnit,
+      required double quantityInBaseUnit,
       Value<double> purchasePrice,
       Value<String?> purchaseInvoiceItemId,
       Value<DateTime?> createdAt,
@@ -14281,7 +14818,7 @@ typedef $$ProductBatchesTableTableUpdateCompanionBuilder =
       Value<String> pharmacyId,
       Value<String> batchNumber,
       Value<DateTime> expiryDate,
-      Value<double> quantityBaseUnit,
+      Value<double> quantityInBaseUnit,
       Value<double> purchasePrice,
       Value<String?> purchaseInvoiceItemId,
       Value<DateTime?> createdAt,
@@ -14324,8 +14861,8 @@ class $$ProductBatchesTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<double> get quantityBaseUnit => $composableBuilder(
-    column: $table.quantityBaseUnit,
+  ColumnFilters<double> get quantityInBaseUnit => $composableBuilder(
+    column: $table.quantityInBaseUnit,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -14389,8 +14926,8 @@ class $$ProductBatchesTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<double> get quantityBaseUnit => $composableBuilder(
-    column: $table.quantityBaseUnit,
+  ColumnOrderings<double> get quantityInBaseUnit => $composableBuilder(
+    column: $table.quantityInBaseUnit,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -14450,8 +14987,8 @@ class $$ProductBatchesTableTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<double> get quantityBaseUnit => $composableBuilder(
-    column: $table.quantityBaseUnit,
+  GeneratedColumn<double> get quantityInBaseUnit => $composableBuilder(
+    column: $table.quantityInBaseUnit,
     builder: (column) => column,
   );
 
@@ -14523,7 +15060,7 @@ class $$ProductBatchesTableTableTableManager
                 Value<String> pharmacyId = const Value.absent(),
                 Value<String> batchNumber = const Value.absent(),
                 Value<DateTime> expiryDate = const Value.absent(),
-                Value<double> quantityBaseUnit = const Value.absent(),
+                Value<double> quantityInBaseUnit = const Value.absent(),
                 Value<double> purchasePrice = const Value.absent(),
                 Value<String?> purchaseInvoiceItemId = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
@@ -14536,7 +15073,7 @@ class $$ProductBatchesTableTableTableManager
                 pharmacyId: pharmacyId,
                 batchNumber: batchNumber,
                 expiryDate: expiryDate,
-                quantityBaseUnit: quantityBaseUnit,
+                quantityInBaseUnit: quantityInBaseUnit,
                 purchasePrice: purchasePrice,
                 purchaseInvoiceItemId: purchaseInvoiceItemId,
                 createdAt: createdAt,
@@ -14551,7 +15088,7 @@ class $$ProductBatchesTableTableTableManager
                 required String pharmacyId,
                 required String batchNumber,
                 required DateTime expiryDate,
-                required double quantityBaseUnit,
+                required double quantityInBaseUnit,
                 Value<double> purchasePrice = const Value.absent(),
                 Value<String?> purchaseInvoiceItemId = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
@@ -14564,7 +15101,7 @@ class $$ProductBatchesTableTableTableManager
                 pharmacyId: pharmacyId,
                 batchNumber: batchNumber,
                 expiryDate: expiryDate,
-                quantityBaseUnit: quantityBaseUnit,
+                quantityInBaseUnit: quantityInBaseUnit,
                 purchasePrice: purchasePrice,
                 purchaseInvoiceItemId: purchaseInvoiceItemId,
                 createdAt: createdAt,
@@ -17344,11 +17881,11 @@ typedef $$PurchaseInvoiceItemsTableTableCreateCompanionBuilder =
       required String id,
       required String purchaseInvoiceId,
       required String productId,
-      required String unitId,
-      required String batchId,
+      Value<String?> unitId,
+      Value<String?> batchId,
       required double quantity,
       required double purchasePrice,
-      required DateTime expiryDate,
+      Value<DateTime?> expiryDate,
       Value<String?> batchNumber,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -17358,11 +17895,11 @@ typedef $$PurchaseInvoiceItemsTableTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> purchaseInvoiceId,
       Value<String> productId,
-      Value<String> unitId,
-      Value<String> batchId,
+      Value<String?> unitId,
+      Value<String?> batchId,
       Value<double> quantity,
       Value<double> purchasePrice,
-      Value<DateTime> expiryDate,
+      Value<DateTime?> expiryDate,
       Value<String?> batchNumber,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -17753,11 +18290,11 @@ class $$PurchaseInvoiceItemsTableTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> purchaseInvoiceId = const Value.absent(),
                 Value<String> productId = const Value.absent(),
-                Value<String> unitId = const Value.absent(),
-                Value<String> batchId = const Value.absent(),
+                Value<String?> unitId = const Value.absent(),
+                Value<String?> batchId = const Value.absent(),
                 Value<double> quantity = const Value.absent(),
                 Value<double> purchasePrice = const Value.absent(),
-                Value<DateTime> expiryDate = const Value.absent(),
+                Value<DateTime?> expiryDate = const Value.absent(),
                 Value<String?> batchNumber = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -17779,11 +18316,11 @@ class $$PurchaseInvoiceItemsTableTableTableManager
                 required String id,
                 required String purchaseInvoiceId,
                 required String productId,
-                required String unitId,
-                required String batchId,
+                Value<String?> unitId = const Value.absent(),
+                Value<String?> batchId = const Value.absent(),
                 required double quantity,
                 required double purchasePrice,
-                required DateTime expiryDate,
+                Value<DateTime?> expiryDate = const Value.absent(),
                 Value<String?> batchNumber = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -17884,6 +18421,271 @@ typedef $$PurchaseInvoiceItemsTableTableProcessedTableManager =
       PurchaseInvoiceItemDbModel,
       PrefetchHooks Function({bool purchaseInvoiceId, bool productId})
     >;
+typedef $$WriteOffsTableTableCreateCompanionBuilder =
+    WriteOffsTableCompanion Function({
+      required String id,
+      required String pharmacyId,
+      required String productId,
+      required String batchId,
+      required String unitId,
+      required double quantity,
+      required String reason,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+typedef $$WriteOffsTableTableUpdateCompanionBuilder =
+    WriteOffsTableCompanion Function({
+      Value<String> id,
+      Value<String> pharmacyId,
+      Value<String> productId,
+      Value<String> batchId,
+      Value<String> unitId,
+      Value<double> quantity,
+      Value<String> reason,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+class $$WriteOffsTableTableFilterComposer
+    extends Composer<_$AppDatabase, $WriteOffsTableTable> {
+  $$WriteOffsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pharmacyId => $composableBuilder(
+    column: $table.pharmacyId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productId => $composableBuilder(
+    column: $table.productId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get batchId => $composableBuilder(
+    column: $table.batchId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get unitId => $composableBuilder(
+    column: $table.unitId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$WriteOffsTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $WriteOffsTableTable> {
+  $$WriteOffsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pharmacyId => $composableBuilder(
+    column: $table.pharmacyId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productId => $composableBuilder(
+    column: $table.productId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get batchId => $composableBuilder(
+    column: $table.batchId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get unitId => $composableBuilder(
+    column: $table.unitId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reason => $composableBuilder(
+    column: $table.reason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$WriteOffsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WriteOffsTableTable> {
+  $$WriteOffsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get pharmacyId => $composableBuilder(
+    column: $table.pharmacyId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get productId =>
+      $composableBuilder(column: $table.productId, builder: (column) => column);
+
+  GeneratedColumn<String> get batchId =>
+      $composableBuilder(column: $table.batchId, builder: (column) => column);
+
+  GeneratedColumn<String> get unitId =>
+      $composableBuilder(column: $table.unitId, builder: (column) => column);
+
+  GeneratedColumn<double> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<String> get reason =>
+      $composableBuilder(column: $table.reason, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$WriteOffsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WriteOffsTableTable,
+          WriteOffsTableData,
+          $$WriteOffsTableTableFilterComposer,
+          $$WriteOffsTableTableOrderingComposer,
+          $$WriteOffsTableTableAnnotationComposer,
+          $$WriteOffsTableTableCreateCompanionBuilder,
+          $$WriteOffsTableTableUpdateCompanionBuilder,
+          (
+            WriteOffsTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $WriteOffsTableTable,
+              WriteOffsTableData
+            >,
+          ),
+          WriteOffsTableData,
+          PrefetchHooks Function()
+        > {
+  $$WriteOffsTableTableTableManager(
+    _$AppDatabase db,
+    $WriteOffsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WriteOffsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WriteOffsTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WriteOffsTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> pharmacyId = const Value.absent(),
+                Value<String> productId = const Value.absent(),
+                Value<String> batchId = const Value.absent(),
+                Value<String> unitId = const Value.absent(),
+                Value<double> quantity = const Value.absent(),
+                Value<String> reason = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WriteOffsTableCompanion(
+                id: id,
+                pharmacyId: pharmacyId,
+                productId: productId,
+                batchId: batchId,
+                unitId: unitId,
+                quantity: quantity,
+                reason: reason,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String pharmacyId,
+                required String productId,
+                required String batchId,
+                required String unitId,
+                required double quantity,
+                required String reason,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WriteOffsTableCompanion.insert(
+                id: id,
+                pharmacyId: pharmacyId,
+                productId: productId,
+                batchId: batchId,
+                unitId: unitId,
+                quantity: quantity,
+                reason: reason,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WriteOffsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WriteOffsTableTable,
+      WriteOffsTableData,
+      $$WriteOffsTableTableFilterComposer,
+      $$WriteOffsTableTableOrderingComposer,
+      $$WriteOffsTableTableAnnotationComposer,
+      $$WriteOffsTableTableCreateCompanionBuilder,
+      $$WriteOffsTableTableUpdateCompanionBuilder,
+      (
+        WriteOffsTableData,
+        BaseReferences<_$AppDatabase, $WriteOffsTableTable, WriteOffsTableData>,
+      ),
+      WriteOffsTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -17933,4 +18735,6 @@ class $AppDatabaseManager {
         _db,
         _db.purchaseInvoiceItemsTable,
       );
+  $$WriteOffsTableTableTableManager get writeOffsTable =>
+      $$WriteOffsTableTableTableManager(_db, _db.writeOffsTable);
 }

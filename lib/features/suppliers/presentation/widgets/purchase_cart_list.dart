@@ -24,7 +24,14 @@ class PurchaseCartList extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: ListTile(
             title: Text(item['productName']),
-            subtitle: Text('${item['quantity']} ${item['unitName']} × ${item['purchasePrice']} ر.س'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${item['quantity']} ${item['unitName']} × ${item['purchasePrice']} ر.س'),
+                if ((item['bonusQuantity'] ?? 0) > 0)
+                  Text('+ ${item['bonusQuantity']} بونص (مجاني)', style: const TextStyle(color: Colors.green, fontSize: 12, fontWeight: FontWeight.bold)),
+              ],
+            ),
             trailing: IconButton(
               icon: const Icon(Icons.delete_outline, color: Colors.red),
               onPressed: () => context.read<PurchaseInvoiceCubit>().removeItem(index),

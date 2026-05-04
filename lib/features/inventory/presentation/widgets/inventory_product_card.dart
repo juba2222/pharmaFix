@@ -7,6 +7,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../domain/entities/inventory_item.dart';
+import 'write_off_dialog.dart';
+import '../bloc/inventory_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InventoryProductCard extends StatefulWidget {
   final InventoryItem item;
@@ -91,6 +94,8 @@ class _InventoryProductCardState extends State<InventoryProductCard>
                           const Divider(height: 1),
                           const SizedBox(height: 8),
                           _buildBottomRow(),
+                          const SizedBox(height: 12),
+                          _buildActionsRow(context),
                         ],
                       ),
                     ),
@@ -198,6 +203,155 @@ class _InventoryProductCardState extends State<InventoryProductCard>
     );
   }
 
+  Widget _buildActionsRow(BuildContext context) {
+    return Row(
+      children: [
+        // Write-off Button
+        Expanded(
+          child: _ActionButton(
+            label: 'تسوية / إتلاف',
+            icon: Icons.remove_circle_outline_rounded,
+            color: const Color(0xFFFF3D00),
+            onTap: () => _showWriteOffDialog(context),
+          ),
+        ),
+        const SizedBox(width: 10),
+        // Add Stock Button
+        Expanded(
+          child: _ActionButton(
+            label: 'إضافة رصيد',
+            icon: Icons.add_circle_outline_rounded,
+            color: const Color(0xFF00C853),
+            onTap: () => _showStockDialog(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showWriteOffDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => BlocProvider.value(
+        value: context.read<InventoryCubit>(),
+        child: WriteOffDialog(item: widget.item),
+      ),
+    );
+  }
+
+  void _showStockDialog(BuildContext context) {
+    // We can reuse the logic from InventoryScreen or implement here.
+    // For now, I'll implement a simple version or trigger the parent's logic if possible.
+    // Since this is a standalone card, it's better to have it here or in a shared widget.
+    // I'll implement the opening stock dialog here for consistency.
+    _showOpeningStockDialog(context);
+  }
+
+  void _showOpeningStockDialog(BuildContext context) {
+    final qtyCtrl = TextEditingController();
+    final costCtrl = TextEditingController();
+    DateTime selectedDate = DateTime.now().add(const Duration(days: 365));
+    final cubit = context.read<InventoryCubit>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(ctx).viewInsets.bottom + 16,
+          left: 20,
+          right: 20,
+          top: 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(2)),
+            ),
+            const SizedBox(height: 16),
+            const Text('إضافة رصيد افتتاحي',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, fontFamily: 'Cairo')),
+            const SizedBox(height: 16),
+            TextField(
+              controller: qtyCtrl,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.right,
+              decoration: _dialogInputDecoration('الكمية (حبة / وحدة)', Icons.numbers_rounded),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: costCtrl,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.right,
+              decoration: _dialogInputDecoration('سعر التكلفة (₪)', Icons.attach_money_rounded),
+            ),
+            const SizedBox(height: 12),
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Text('تاريخ انتهاء الصلاحية',
+                  style: TextStyle(fontFamily: 'Cairo', fontWeight: FontWeight.bold, fontSize: 13)),
+            ),
+            CalendarDatePicker(
+              initialDate: selectedDate,
+              firstDate: DateTime.now().subtract(const Duration(days: 1)),
+              lastDate: DateTime.now().add(const Duration(days: 3650)),
+              onDateChanged: (d) => selectedDate = d,
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF00C853),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                ),
+                onPressed: () {
+                  final qty = double.tryParse(qtyCtrl.text) ?? 0;
+                  final cost = double.tryParse(costCtrl.text) ?? 0;
+                  if (qty > 0) {
+                    cubit.addOpeningStock(widget.item.productId, qty, cost, selectedDate);
+                    Navigator.pop(ctx);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('✅ تم إضافة الرصيد بنجاح', style: TextStyle(fontFamily: 'Cairo')),
+                        backgroundColor: Color(0xFF00C853),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  }
+                },
+                child: const Text('حفظ الرصيد',
+                    style: TextStyle(color: Colors.white, fontFamily: 'Cairo', fontWeight: FontWeight.bold, fontSize: 16)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _dialogInputDecoration(String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(fontFamily: 'Cairo', fontSize: 13),
+      prefixIcon: Icon(icon, color: const Color(0xFF00C853)),
+      filled: true,
+      fillColor: const Color(0xFFF8F9FA),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+    );
+  }
+
   Widget _buildStatusChip() {
     final labels = {
       InventoryStatus.expired: 'منتهي',
@@ -246,6 +400,57 @@ class _InventoryProductCardState extends State<InventoryProductCard>
       default:
         return const Color(0xFF00C853);
     }
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _ActionButton({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: color.withOpacity(0.08),
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        splashColor: color.withOpacity(0.12),
+        highlightColor: color.withOpacity(0.05),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: color.withOpacity(0.2), width: 1),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 16, color: color),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Cairo',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

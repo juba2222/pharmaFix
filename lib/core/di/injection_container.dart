@@ -79,7 +79,7 @@ Future<void> init() async {
   sl.registerFactory(() => InventoryCubit(sl<IInventoryRepository>()));
   sl.registerFactory(() => SuppliersCubit(
         repository: sl<ISupplierRepository>(),
-        pharmacyId: sl<CurrentSession>().pharmacyId ?? '',
+        session: sl<CurrentSession>(),
       ));
 
 }

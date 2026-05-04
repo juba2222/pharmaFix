@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/repositories/i_inventory_repository.dart';
 import '../../domain/entities/inventory_item.dart';
 import '../../domain/models/drug_suggestion_model.dart';
+import '../../domain/entities/write_off_entity.dart';
 import 'inventory_state.dart';
 
 enum InventorySort { name, lowStock, closestExpiry }
@@ -74,6 +75,16 @@ class InventoryCubit extends Cubit<InventoryState> {
       (failure) => emit(InventoryError(failure.toString())),
       (_) => null,
     );
+  }
+
+  Future<void> writeOffStock(WriteOffEntity writeOff) async {
+    try {
+      await _repository.writeOffStock(writeOff);
+      // Repository uses a stream, so it should auto-update if watching correctly.
+      // But we can explicitly load if needed.
+    } catch (e) {
+      emit(InventoryError(e.toString()));
+    }
   }
 
   void search(String query) => loadInventory(query: query);

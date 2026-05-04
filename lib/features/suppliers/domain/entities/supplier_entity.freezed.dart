@@ -28,13 +28,17 @@ $SupplierEntityCopyWith<SupplierEntity> get copyWith => _$SupplierEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierEntity&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,super.hashCode,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
+int get hashCode => Object.hash(runtimeType,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
 
+@override
+String toString() {
+  return 'SupplierEntity(id: $id, pharmacyId: $pharmacyId, name: $name, companyName: $companyName, phone: $phone, openingBalance: $openingBalance, currentBalance: $currentBalance, createdAt: $createdAt)';
+}
 
 
 }
@@ -211,8 +215,8 @@ return $default(_that.id,_that.pharmacyId,_that.name,_that.companyName,_that.pho
 /// @nodoc
 @JsonSerializable()
 
-class _SupplierEntity extends SupplierEntity {
-  const _SupplierEntity({required this.id, required this.pharmacyId, required this.name, this.companyName, this.phone, required this.openingBalance, this.currentBalance = 0.0, required this.createdAt}): super._();
+class _SupplierEntity implements SupplierEntity {
+  const _SupplierEntity({required this.id, required this.pharmacyId, required this.name, this.companyName, this.phone, required this.openingBalance, this.currentBalance = 0.0, required this.createdAt});
   factory _SupplierEntity.fromJson(Map<String, dynamic> json) => _$SupplierEntityFromJson(json);
 
 @override final  String id;
@@ -237,13 +241,17 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierEntity&&super == other&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.openingBalance, openingBalance) || other.openingBalance == openingBalance)&&(identical(other.currentBalance, currentBalance) || other.currentBalance == currentBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,super.hashCode,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
+int get hashCode => Object.hash(runtimeType,id,pharmacyId,name,companyName,phone,openingBalance,currentBalance,createdAt);
 
+@override
+String toString() {
+  return 'SupplierEntity(id: $id, pharmacyId: $pharmacyId, name: $name, companyName: $companyName, phone: $phone, openingBalance: $openingBalance, currentBalance: $currentBalance, createdAt: $createdAt)';
+}
 
 
 }

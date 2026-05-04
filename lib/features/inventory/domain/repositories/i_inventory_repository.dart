@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/inventory_item.dart';
+import '../entities/write_off_entity.dart';
 import '../models/drug_suggestion_model.dart';
 
 abstract class IInventoryRepository {
@@ -29,6 +30,8 @@ abstract class IInventoryRepository {
     double? stripPrice,
     double? pillPrice,
   });
+
+  Future<void> writeOffStock(WriteOffEntity writeOff);
 
   Future<void> seedData();
 }

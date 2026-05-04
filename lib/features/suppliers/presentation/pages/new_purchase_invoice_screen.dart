@@ -27,7 +27,6 @@ class _NewPurchaseInvoiceScreenState extends State<NewPurchaseInvoiceScreen> {
     return BlocProvider(
       create: (_) => PurchaseInvoiceCubit(
         supplierRepository: sl(),
-        inventoryRepository: sl(),
         pharmacyId: sl<CurrentSession>().pharmacyId ?? '',
       ),
       child: BlocListener<PurchaseInvoiceCubit, PurchaseInvoiceState>(
