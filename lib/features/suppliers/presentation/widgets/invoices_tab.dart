@@ -37,16 +37,57 @@ class InvoicesTab extends StatelessWidget {
                     _StatusBadge(inv.notes ?? ''),
                   ],
                 ),
-                if (inv.notes != 'cancelled')
+                if (inv.notes != 'cancelled') ...[
+                  if (inv.amount - inv.paidAmount > 0)
+                    IconButton(
+                      icon: const Icon(Icons.payment, color: Colors.green, size: 20),
+                      onPressed: () => _showPayInvoiceDialog(context, inv),
+                    ),
                   IconButton(
                     icon: const Icon(Icons.cancel_outlined, color: Colors.red, size: 20),
                     onPressed: () => _confirmCancel(context, inv.id),
                   ),
+                ],
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  void _showPayInvoiceDialog(BuildContext context, SupplierStatementItem inv) {
+    final controller = TextEditingController(text: (inv.amount - inv.paidAmount).toString());
+    showDialog(
+      context: context,
+      builder: (dContext) => AlertDialog(
+        title: Text('تسديد فاتورة #${inv.referenceNumber ?? ''}'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('المبلغ المتبقي: ${inv.amount - inv.paidAmount} ر.س'),
+            const SizedBox(height: 16),
+            TextField(controller: controller, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'المبلغ المدفوع', border: OutlineInputBorder())),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dContext), child: const Text('إلغاء')),
+          ElevatedButton(
+            onPressed: () {
+              final amount = double.tryParse(controller.text) ?? 0;
+              if (amount > 0) {
+                context.read<SupplierProfileCubit>().addPayment(
+                  amount,
+                  invoiceId: inv.id,
+                  pharmacyId: inv.pharmacyId,
+                );
+              }
+              Navigator.pop(dContext);
+            },
+            child: const Text('تسديد'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -61,6 +102,9 @@ class InvoicesTab extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () {
+              // Note: We need a way to pass the supplier back or handle navigation.
+              // For simplicity in this step, we just cancel.
+              // A better way is to pass a callback from the Screen.
               context.read<SupplierProfileCubit>().cancelInvoice(invoiceId);
               Navigator.pop(dContext);
             },

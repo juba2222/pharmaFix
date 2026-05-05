@@ -14,6 +14,7 @@ abstract class PurchaseInvoiceState with _$PurchaseInvoiceState {
     @Default([]) List<Map<String, dynamic>> cartItems,
     @Default(0.0) double totalAmount,
     @Default(0.0) double paidAmount,
+    @Default(0.0) double discountAmount,
     @Default(false) bool isSaving,
     String? error,
     @Default(false) bool success,

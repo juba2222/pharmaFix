@@ -41,6 +41,7 @@ class SupplierWriteService {
     String supplierId,
     double amount,
     DateTime date,
+    String? invoiceId,
     String? notes,
   ) async {
     await db.transaction(() async {
@@ -52,38 +53,57 @@ class SupplierWriteService {
               supplierId: supplierId,
               amount: amount,
               paymentDate: date,
-              notes: Value(notes),
+              notes: Value(invoiceId != null ? 'تسديد فاتورة $invoiceId' : notes),
             ),
           );
 
-      // 2. FIFO Waterfall: Apply payment to outstanding invoices
-      double remainingPayment = amount;
-      
-      // Fetch invoices with debt, oldest first
-      final outstandingInvoices = await (db.select(db.purchaseInvoicesTable)
-            ..where((t) => t.supplierId.equals(supplierId) & t.remainingAmount.isBiggerThanValue(0.0))
-            ..orderBy([(t) => OrderingTerm.asc(t.invoiceDate)]))
-          .get();
+      // 2. Apply payment logic
+      if (invoiceId != null) {
+        // Specific Invoice Payment
+        final inv = await (db.select(db.purchaseInvoicesTable)
+              ..where((t) => t.id.equals(invoiceId)))
+            .getSingle();
 
-      for (final inv in outstandingInvoices) {
-        if (remainingPayment <= 0) break;
-
-        double amountToApply = remainingPayment >= inv.remainingAmount 
-            ? inv.remainingAmount 
-            : remainingPayment;
-            
+        double amountToApply = amount > inv.remainingAmount ? inv.remainingAmount : amount;
         double newRemaining = inv.remainingAmount - amountToApply;
         double newPaid = inv.paidAmount + amountToApply;
         String newStatus = newRemaining <= 0 ? 'paid' : 'partial';
 
-        await (db.update(db.purchaseInvoicesTable)..where((t) => t.id.equals(inv.id)))
+        await (db.update(db.purchaseInvoicesTable)..where((t) => t.id.equals(invoiceId)))
             .write(PurchaseInvoicesTableCompanion(
           remainingAmount: Value(newRemaining),
           paidAmount: Value(newPaid),
           status: Value(newStatus),
         ));
+      } else {
+        // FIFO Waterfall: Apply payment to outstanding invoices
+        double remainingPayment = amount;
 
-        remainingPayment -= amountToApply;
+        final outstandingInvoices = await (db.select(db.purchaseInvoicesTable)
+              ..where((t) => t.supplierId.equals(supplierId) & t.remainingAmount.isBiggerThanValue(0.0))
+              ..orderBy([(t) => OrderingTerm.asc(t.invoiceDate)]))
+            .get();
+
+        for (final inv in outstandingInvoices) {
+          if (remainingPayment <= 0) break;
+
+          double amountToApply = remainingPayment >= inv.remainingAmount
+              ? inv.remainingAmount
+              : remainingPayment;
+
+          double newRemaining = inv.remainingAmount - amountToApply;
+          double newPaid = inv.paidAmount + amountToApply;
+          String newStatus = newRemaining <= 0 ? 'paid' : 'partial';
+
+          await (db.update(db.purchaseInvoicesTable)..where((t) => t.id.equals(inv.id)))
+              .write(PurchaseInvoicesTableCompanion(
+            remainingAmount: Value(newRemaining),
+            paidAmount: Value(newPaid),
+            status: Value(newStatus),
+          ));
+
+          remainingPayment -= amountToApply;
+        }
       }
 
       // 3. Update Supplier Total Balance

@@ -27,6 +27,7 @@ abstract class ISupplierRepository {
     required String pharmacyId,
     required double amount,
     required DateTime date,
+    String? invoiceId,
     String? notes,
   });
 
@@ -38,8 +39,9 @@ abstract class ISupplierRepository {
     required DateTime date,
     required double totalAmount,
     required double paidAmount,
+    double discountAmount = 0.0,
     required List<Map<String, dynamic>> items,
   });
 
-  Future<Either<Failure, Unit>> cancelPurchaseInvoice(String invoiceId);
+  Future<Either<Failure, List<Map<String, dynamic>>>> cancelPurchaseInvoice(String invoiceId);
 }

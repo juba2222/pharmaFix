@@ -47,14 +47,29 @@ class SupplierProfileCubit extends Cubit<SupplierProfileState> {
     );
   }
 
-  Future<void> cancelInvoice(String invoiceId) async {
+  Future<void> cancelInvoice(String invoiceId, {Function(List<Map<String, dynamic>>)? onDraft}) async {
     final result = await _repository.cancelPurchaseInvoice(invoiceId);
     result.fold(
       (f) {
-        // We could emit a specific error state or handle via listener
-        // For now, let's reload to ensure state is consistent even on failure
         loadProfile();
       },
+      (items) {
+        if (onDraft != null) onDraft(items);
+        loadProfile();
+      },
+    );
+  }
+
+  Future<void> addPayment(double amount, {String? invoiceId, String? pharmacyId}) async {
+    final res = await _repository.addSupplierPayment(
+      supplierId: _supplierId,
+      pharmacyId: pharmacyId ?? '', // Handle via session or pass from UI
+      amount: amount,
+      date: DateTime.now(),
+      invoiceId: invoiceId,
+    );
+    res.fold(
+      (f) => null, // Handle error
       (_) => loadProfile(),
     );
   }
