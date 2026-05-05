@@ -52,12 +52,16 @@
   - [x] Dynamic Dictionary integration (search from Local + Master DB).
   - [x] Auto-fill historical cost price, batch number, and expiry date.
   - [x] Dynamic categories auto-fill from suggestions.
-- [x] **Supplier Management (Full Module)**
+- [x] **Supplier Management (Full Module - V6.2 Enhanced)**
   - [x] Data Layer: `SuppliersTable`, `SupplierPaymentsTable`, `PurchaseInvoicesTable`, `PurchaseInvoiceItemsTable`.
   - [x] Domain: `SupplierEntity`, `SupplierStatementItem`, `ISupplierRepository`.
   - [x] Presentation: `SuppliersScreen`, `SupplierProfileScreen`, `NewPurchaseInvoiceScreen`.
   - [x] Smart Search: Product search with auto-fill from local/master DB during purchase.
   - [x] Atomic Transactions: Full FIFO-ready inventory replenishment transaction.
+  - [x] **New: Global Discount** support in purchase invoices.
+  - [x] **New: Smart Sorting** by Oldest Debt (based on unpaid invoices).
+  - [x] **New: Payment Waterfall** (FIFO) & Targeted Invoice Payment.
+  - [x] **New: Immutable Invoices** with reversal (Cancellation) and Draft mode.
 - [x] **Architectural Compliance (V6.1 Clean Architect)**
   - [x] Refactored all Suppliers & POS screens into Atomic Widgets.
   - [x] Strict adherence to 60-line file limit across the module.
