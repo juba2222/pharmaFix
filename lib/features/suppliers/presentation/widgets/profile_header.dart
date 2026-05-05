@@ -25,6 +25,62 @@ class ProfileHeader extends StatelessWidget {
           _StatCard('الدين الحالي', debt.toStringAsFixed(2), isRed: debt > 0),
           const SizedBox(width: 12),
           _StatCard('عدد الفواتير', count.toString()),
+          const SizedBox(width: 12),
+          _PayDebtButton(debt: debt),
+        ],
+      ),
+    );
+  }
+}
+
+class _PayDebtButton extends StatelessWidget {
+  final double debt;
+  const _PayDebtButton({required this.debt});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showGeneralPaymentDialog(context),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(12)),
+        child: const Column(
+          children: [
+            Icon(Icons.payment, color: Colors.white, size: 16),
+            SizedBox(height: 4),
+            Text('تسديد', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showGeneralPaymentDialog(BuildContext context) {
+    final controller = TextEditingController(text: debt > 0 ? debt.toString() : '');
+    showDialog(
+      context: context,
+      builder: (dContext) => AlertDialog(
+        title: const Text('تسديد دفعة عامة (شلال)'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('سيتم تسديد الفواتير الأقدم تلقائياً بنظام FIFO.'),
+            const SizedBox(height: 16),
+            TextField(controller: controller, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'المبلغ المدفوع', border: OutlineInputBorder())),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dContext), child: const Text('إلغاء')),
+          ElevatedButton(
+            onPressed: () {
+              final amount = double.tryParse(controller.text) ?? 0;
+              if (amount > 0) {
+                context.read<SupplierProfileCubit>().addPayment(amount);
+              }
+              Navigator.pop(dContext);
+            },
+            child: const Text('تسديد'),
+          ),
         ],
       ),
     );

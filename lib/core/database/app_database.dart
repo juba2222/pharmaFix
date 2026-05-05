@@ -33,6 +33,7 @@ import 'tables/returns_table.dart';
 import 'tables/return_items_table.dart';
 import 'tables/audit_logs_table.dart';
 import 'tables/payments_table.dart';
+import 'tables/customer_payments_table.dart';
 import 'tables/master_drugs_table.dart';
 import 'daos/sync_dao.dart';
 
@@ -62,6 +63,7 @@ part 'app_database.g.dart';
     MasterUnitsTable,
     PurchaseInvoiceItemsTable,
     WriteOffsTable,
+    CustomerPaymentsTable,
   ],
 
   daos: [SyncDao],
@@ -71,7 +73,7 @@ class AppDatabase extends _$AppDatabase {
 
   // Following the ERD carefully.
   @override
-  int get schemaVersion => 8; // Added WriteOffsTable
+  int get schemaVersion => 10; // Added costPriceAtTime to WriteOffs
 
 
   @override

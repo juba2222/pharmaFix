@@ -42,6 +42,8 @@ class PurchaseSummary extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             PaymentFields(controller: paidController, state: state),
+            const SizedBox(height: 8),
+            _DiscountField(state: state),
             const SizedBox(height: 16),
             PurchaseSaveButton(state: state, supplierId: supplierId, invoiceNumber: invoiceNumber),
           ],
@@ -51,5 +53,24 @@ class PurchaseSummary extends StatelessWidget {
   }
   double _calcTotalQty(List<Map<String, dynamic>> items) {
     return items.fold(0.0, (sum, i) => sum + (i['quantity'] as num) + (i['bonusQuantity'] as num? ?? 0.0));
+  }
+}
+
+class _DiscountField extends StatelessWidget {
+  final PurchaseInvoiceState state;
+  const _DiscountField({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'الخصم الكلي (Global Discount)',
+        border: OutlineInputBorder(),
+        prefixIcon: Icon(Icons.percent, size: 18),
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      ),
+      keyboardType: TextInputType.number,
+      onChanged: (val) => context.read<PurchaseInvoiceCubit>().updateDiscountAmount(double.tryParse(val) ?? 0),
+    );
   }
 }

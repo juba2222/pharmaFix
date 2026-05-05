@@ -12,7 +12,8 @@ class CustomersTable extends Table {
   TextColumn get phone => text().named(TableConstants.colPhone).nullable()();
   
   // Point 3: Track debt
-  RealColumn get totalDebt => real().named(TableConstants.colTotalDebt).withDefault(const Constant(0.0))();
+  RealColumn get currentBalance => real().named(TableConstants.colCurrentBalance).withDefault(const Constant(0.0))();
+  RealColumn get creditLimit => real().named('credit_limit').withDefault(const Constant(0.0))();
   
   DateTimeColumn get createdAt => dateTime().named(TableConstants.colCreatedAt).withDefault(currentDateAndTime)();
 }

@@ -8,7 +8,12 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/customer_entity.dart';
 
+enum CustomerSortOption { highestDebt, oldestDebt }
+
 abstract class ICustomerRepository {
+  /// Watches all customers with sorting.
+  Stream<List<CustomerEntity>> watchAllCustomers(int pharmacyId, {CustomerSortOption sortBy = CustomerSortOption.highestDebt});
+
   /// Search customers locally by name or phone fragment.
   Future<Either<Failure, List<CustomerEntity>>> searchCustomers(String query);
 
@@ -16,6 +21,33 @@ abstract class ICustomerRepository {
   Future<Either<Failure, CustomerEntity>> addCustomer({
     required String name,
     String? phone,
+    double creditLimit = 0.0,
     int pharmacyId = 0,
   });
+
+  /// Get detailed stats for a customer.
+  Future<Either<Failure, Map<String, dynamic>>> getCustomerStats(int customerId);
+
+  /// Get sales history for a customer.
+  Future<Either<Failure, List<Map<String, dynamic>>>> getCustomerSalesHistory(int customerId);
+
+  /// Process a debt payment from a customer (Waterfall/FIFO).
+  Future<Either<Failure, Unit>> collectDebtPayment({
+    required int customerId,
+    required int pharmacyId,
+    required double amount,
+    required DateTime date,
+    String? notes,
+  });
+
+  /// Process a sale return for a customer.
+  Future<Either<Failure, Unit>> processSaleReturn({
+    required String invoiceId,
+    required String itemId,
+    required double quantity,
+    required double refundAmount,
+  });
+
+  /// Delete a customer (restricted if they have debt).
+  Future<Either<Failure, Unit>> deleteCustomer(int customerId);
 }

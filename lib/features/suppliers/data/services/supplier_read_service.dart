@@ -22,7 +22,33 @@ class SupplierReadService {
     if (sort == SupplierSortOption.highestDebt) {
       query.orderBy([(t) => OrderingTerm(expression: t.currentBalance, mode: OrderingMode.desc)]);
     } else {
-      query.orderBy([(t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.asc)]);
+      // Smart Sorting: Oldest Debt
+      // Join with invoices to find the oldest unpaid invoice date
+      return (db.select(db.suppliersTable).join([
+        leftOuterJoin(
+          db.purchaseInvoicesTable,
+          db.purchaseInvoicesTable.supplierId.equalsExp(db.suppliersTable.id) &
+              db.purchaseInvoicesTable.remainingAmount.isBiggerThanValue(0.0),
+        ),
+      ])
+            ..where(db.suppliersTable.pharmacyId.equals(pharmacyId))
+            ..orderBy([
+              OrderingTerm(
+                  expression: db.purchaseInvoicesTable.invoiceDate,
+                  mode: OrderingMode.asc)
+            ]))
+          .watch()
+          .map((rows) {
+        // Group by supplier to avoid duplicates from join
+        final Map<String, SupplierEntity> suppliers = {};
+        for (final row in rows) {
+          final sTable = row.readTable(db.suppliersTable);
+          if (!suppliers.containsKey(sTable.id)) {
+            suppliers[sTable.id] = SupplierMappers.fromTable(sTable);
+          }
+        }
+        return suppliers.values.toList();
+      });
     }
     return query.watch().map((rows) =>
         rows.map((r) => SupplierMappers.fromTable(r)).toList());

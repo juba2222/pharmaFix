@@ -10,13 +10,15 @@ class CustomerModel {
   final int id;
   final String name;
   final String? phone;
-  final double totalDebt;
+  final double currentBalance;
+  final double creditLimit;
 
   const CustomerModel({
     required this.id,
     required this.name,
     this.phone,
-    this.totalDebt = 0.0,
+    this.currentBalance = 0.0,
+    this.creditLimit = 0.0,
   });
 
   /// Maps from a Drift-generated CustomerDbModel row to this model.
@@ -25,7 +27,8 @@ class CustomerModel {
       id: dbModel.id as int,
       name: dbModel.name as String,
       phone: dbModel.phone as String?,
-      totalDebt: (dbModel.totalDebt as num?)?.toDouble() ?? 0.0,
+      currentBalance: (dbModel.currentBalance as num?)?.toDouble() ?? 0.0,
+      creditLimit: (dbModel.creditLimit as num?)?.toDouble() ?? 0.0,
     );
   }
 
@@ -35,7 +38,8 @@ class CustomerModel {
       id: id,
       name: name,
       phone: phone,
-      totalDebt: totalDebt,
+      currentBalance: currentBalance,
+      creditLimit: creditLimit,
     );
   }
 }
