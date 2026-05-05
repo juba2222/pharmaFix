@@ -180,7 +180,7 @@ pharmaFix/
 | POS (نقطة البيع) | ✅ | ✅ | ✅ | ✅ V6.1 Complete |
 | Inventory (المخزن) | ✅ | ✅ | ✅ | 🔄 In Progress (Polishing) |
 | Auth (تسجيل الدخول) | ✅ | ✅ | ✅ | ✅ Complete |
-| Customers (الزبائن) | ⚠️ | ⚠️ | ❌ | 🔄 In Progress (POS Support) |
+| Customers (الزبائن) | ✅ | ✅ | ✅ | ✅ Complete (V1.0 Dashboard) |
 | Suppliers (الموردين) | ✅ | ✅ | ❌ | 🔄 In Progress (Data Ready) |
 | Reports (التقارير) | ❌ | ❌ | ❌ | ❌ Not Started |
 | Settings (الإعدادات) | ❌ | ❌ | ❌ | ❌ Not Started |

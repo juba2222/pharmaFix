@@ -80,7 +80,10 @@
 
 ## ❌ Not Started
 
-- [ ] Customers feature (الزبائن) - UI
+- [x] **Customers Feature (Full Dashboard V1.0)**
+  - [x] Data: `CustomersTable`, `CustomerPaymentsTable`, `InvoicesTable` linking.
+  - [x] Logic: `CustomersCubit`, `CustomerProfileCubit`, FIFO Payment Waterfall.
+  - [x] UI: `CustomersScreen`, `CustomerProfileScreen`, Finance Cards, Sales History.
 - [ ] Reports feature (التقارير)
 - [ ] Settings feature
 

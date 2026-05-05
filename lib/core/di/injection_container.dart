@@ -26,6 +26,7 @@ import '../../features/inventory/domain/repositories/i_inventory_repository.dart
 import '../../features/inventory/data/repositories/inventory_repository_impl.dart';
 import '../../features/inventory/presentation/bloc/inventory_cubit.dart';
 import '../../features/suppliers/presentation/cubit/suppliers_cubit.dart';
+import '../../features/customers/presentation/bloc/customers_cubit.dart';
 
 
 // 'sl' stands for Service Locator
@@ -80,6 +81,10 @@ Future<void> init() async {
   sl.registerFactory(() => SuppliersCubit(
         repository: sl<ISupplierRepository>(),
         session: sl<CurrentSession>(),
+      ));
+  sl.registerFactory(() => CustomersCubit(
+        repository: sl<ICustomerRepository>(),
+        pharmacyId: int.tryParse(sl<CurrentSession>().pharmacyId ?? '0') ?? 0,
       ));
 
 }

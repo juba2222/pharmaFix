@@ -18,6 +18,7 @@ class InvoicesTable extends Table {
   // Amounts
   RealColumn get totalAmount => real().named(TableConstants.colTotalAmount)();
   RealColumn get paidAmount => real().named(TableConstants.colPaidAmount)();
+  RealColumn get remainingAmount => real().named(TableConstants.colRemainingAmount).withDefault(const Constant(0.0))();
   RealColumn get discountTotal => real().named('discount_total').withDefault(const Constant(0.0))();
 
   // Metadata
