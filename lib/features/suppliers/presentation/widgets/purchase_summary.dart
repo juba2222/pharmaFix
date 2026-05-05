@@ -32,13 +32,45 @@ class PurchaseSummary extends StatelessWidget {
                 Text('${state.totalAmount.toStringAsFixed(2)} ر.س', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF01C653))),
               ],
             ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('إجمالي الكميات:', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                Text('${_calcTotalQty(state.cartItems)} قطعة', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              ],
+            ),
             const SizedBox(height: 8),
             PaymentFields(controller: paidController, state: state),
+            const SizedBox(height: 8),
+            _DiscountField(state: state),
             const SizedBox(height: 16),
             PurchaseSaveButton(state: state, supplierId: supplierId, invoiceNumber: invoiceNumber),
           ],
         ),
       ),
+    );
+  }
+  double _calcTotalQty(List<Map<String, dynamic>> items) {
+    return items.fold(0.0, (sum, i) => sum + (i['quantity'] as num) + (i['bonusQuantity'] as num? ?? 0.0));
+  }
+}
+
+class _DiscountField extends StatelessWidget {
+  final PurchaseInvoiceState state;
+  const _DiscountField({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'الخصم الكلي (Global Discount)',
+        border: OutlineInputBorder(),
+        prefixIcon: Icon(Icons.percent, size: 18),
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      ),
+      keyboardType: TextInputType.number,
+      onChanged: (val) => context.read<PurchaseInvoiceCubit>().updateDiscountAmount(double.tryParse(val) ?? 0),
     );
   }
 }

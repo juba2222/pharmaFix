@@ -1,39 +1,43 @@
 import 'package:drift/drift.dart';
-import 'package:pharma_fix/core/database/app_database.dart';
+import 'package:uuid/uuid.dart';
+import '../../../../core/database/app_database.dart';
+import '../../../../core/database/tables/products_table.dart';
+import '../../../../core/database/tables/product_batches_table.dart';
+import '../../../../core/database/tables/product_units_table.dart';
 
 part 'inventory_dao.g.dart';
 
 @DriftAccessor(tables: [ProductsTable, ProductBatchesTable, ProductUnitsTable])
 class InventoryDao extends DatabaseAccessor<AppDatabase> with _$InventoryDaoMixin {
-  InventoryDao(AppDatabase db) : super(db);
+  InventoryDao(super.db);
 
   Stream<List<TypedResult>> watchInventoryItems({
     String? search,
     bool onlyLowStock = false,
   }) {
-    final qtySum = productBatchesTable.quantityBaseUnit.sum();
-    final minExpiry = productBatchesTable.expiryDate.min();
+    final qtySum = db.productBatchesTable.quantityInBaseUnit.sum();
+    final minExpiry = db.productBatchesTable.expiryDate.min();
 
-    final query = select(productsTable).join([
+    final query = select(db.productsTable).join([
       leftOuterJoin(
-        productBatchesTable,
-        productBatchesTable.productId.equalsExp(productsTable.id),
+        db.productBatchesTable,
+        db.productBatchesTable.productId.equalsExp(db.productsTable.id),
       ),
       leftOuterJoin(
-        productUnitsTable,
-        productUnitsTable.productId.equalsExp(productsTable.id) &
-            productUnitsTable.isBaseUnit.equals(true),
+        db.productUnitsTable,
+        db.productUnitsTable.productId.equalsExp(db.productsTable.id) &
+            db.productUnitsTable.isBaseUnit.equals(true),
       ),
     ]);
 
     query.addColumns([qtySum, minExpiry]);
 
     if (search != null && search.isNotEmpty) {
-      query.where(productsTable.localName.contains(search) |
-          productsTable.barcode.contains(search));
+      query.where(db.productsTable.localName.contains(search) |
+          db.productsTable.barcode.contains(search));
     }
 
-    query.groupBy([productsTable.id]);
+    query.groupBy([db.productsTable.id]);
 
     return query.watch();
   }
@@ -45,13 +49,13 @@ class InventoryDao extends DatabaseAccessor<AppDatabase> with _$InventoryDaoMixi
     required double cost,
     required DateTime expiry,
   }) async {
-    await into(productBatchesTable).insert(ProductBatchesTableCompanion.insert(
+    await into(db.productBatchesTable).insert(ProductBatchesTableCompanion.insert(
       id: Value(const Uuid().v4()),
       productId: productId,
       pharmacyId: 'default', // Should come from auth
       batchNumber: batchNumber,
       expiryDate: expiry,
-      quantityBaseUnit: qty,
+      quantityInBaseUnit: qty,
       purchasePrice: Value(cost),
       isSynced: const Value(false),
     ));

@@ -24,6 +24,7 @@ import 'tables/suppliers_table.dart';
 import 'tables/supplier_payments_table.dart';
 import 'tables/purchase_invoices_table.dart';
 import 'tables/purchase_invoice_items_table.dart';
+import 'tables/write_offs_table.dart';
 
 import 'tables/cash_sessions_table.dart';
 import 'tables/invoices_table.dart';
@@ -32,6 +33,7 @@ import 'tables/returns_table.dart';
 import 'tables/return_items_table.dart';
 import 'tables/audit_logs_table.dart';
 import 'tables/payments_table.dart';
+import 'tables/customer_payments_table.dart';
 import 'tables/master_drugs_table.dart';
 import 'daos/sync_dao.dart';
 
@@ -60,6 +62,8 @@ part 'app_database.g.dart';
     MasterDrugsTable,
     MasterUnitsTable,
     PurchaseInvoiceItemsTable,
+    WriteOffsTable,
+    CustomerPaymentsTable,
   ],
 
   daos: [SyncDao],
@@ -69,7 +73,7 @@ class AppDatabase extends _$AppDatabase {
 
   // Following the ERD carefully.
   @override
-  int get schemaVersion => 7; // Incremented for PurchaseInvoiceItems implementation
+  int get schemaVersion => 10; // Added costPriceAtTime to WriteOffs
 
 
   @override
@@ -78,7 +82,7 @@ class AppDatabase extends _$AppDatabase {
           await m.createAll();
         },
         onUpgrade: (Migrator m, int from, int to) async {
-          if (from < 7) {
+          if (from < 8) {
 
             // Drop existing tables and recreate for this major refactor
             // In a production app, we would use proper migrations, but for this refactor phase, 

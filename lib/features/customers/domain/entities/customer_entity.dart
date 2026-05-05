@@ -10,29 +10,33 @@ class CustomerEntity extends Equatable {
   final int id;
   final String name;
   final String? phone;
-  final double totalDebt;
+  final double currentBalance;
+  final double creditLimit;
 
   const CustomerEntity({
     required this.id,
     required this.name,
     this.phone,
-    this.totalDebt = 0.0,
+    this.currentBalance = 0.0,
+    this.creditLimit = 0.0,
   });
 
   CustomerEntity copyWith({
     int? id,
     String? name,
     String? phone,
-    double? totalDebt,
+    double? currentBalance,
+    double? creditLimit,
   }) {
     return CustomerEntity(
       id: id ?? this.id,
       name: name ?? this.name,
       phone: phone ?? this.phone,
-      totalDebt: totalDebt ?? this.totalDebt,
+      currentBalance: currentBalance ?? this.currentBalance,
+      creditLimit: creditLimit ?? this.creditLimit,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, phone, totalDebt];
+  List<Object?> get props => [id, name, phone, currentBalance, creditLimit];
 }

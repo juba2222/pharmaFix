@@ -19,7 +19,7 @@ class SuppliersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<SuppliersCubit>().loadSuppliers(),
+      create: (_) => sl<SuppliersCubit>()..loadSuppliers(),
       child: Scaffold(
         backgroundColor: const Color(0xFFF9F9F9),
         appBar: AppBar(

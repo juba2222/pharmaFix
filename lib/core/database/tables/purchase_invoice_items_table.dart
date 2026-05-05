@@ -18,18 +18,19 @@ class PurchaseInvoiceItemsTable extends Table {
       .named(TableConstants.colProductId)
       .references(ProductsTable, #id)();
       
+  // unitId and batchId are nullable — batch may not exist yet at insert time
   TextColumn get unitId => text()
       .named(TableConstants.colUnitId)
-      .references(ProductUnitsTable, #id)();
+      .nullable()();
       
   TextColumn get batchId => text()
       .named(TableConstants.colBatchId)
-      .references(ProductBatchesTable, #id)();
+      .nullable()();
       
   RealColumn get quantity => real().named(TableConstants.colQuantity)();
   RealColumn get purchasePrice => real().named(TableConstants.colPurchasePrice)();
   
-  DateTimeColumn get expiryDate => dateTime().named(TableConstants.colExpiryDate)();
+  DateTimeColumn get expiryDate => dateTime().named(TableConstants.colExpiryDate).nullable()();
   TextColumn get batchNumber => text().named(TableConstants.colBatchNumber).nullable()();
   
   DateTimeColumn get createdAt => dateTime().named(TableConstants.colCreatedAt).withDefault(currentDateAndTime)();

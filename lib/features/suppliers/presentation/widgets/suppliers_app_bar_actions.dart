@@ -16,7 +16,7 @@ class SuppliersSortAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<SupplierSortOption>(
       icon: const Icon(Icons.sort, color: Colors.white),
-      onSelected: (opt) => context.read<SuppliersCubit>().loadSuppliers(sortOption: opt),
+      onSelected: (opt) => context.read<SuppliersCubit>().loadSuppliers(sortBy: opt),
       itemBuilder: (context) => [
         const PopupMenuItem(value: SupplierSortOption.highestDebt, child: Text('الأكثر ديناً')),
         const PopupMenuItem(value: SupplierSortOption.oldestDebt, child: Text('الأقدم ديناً')),

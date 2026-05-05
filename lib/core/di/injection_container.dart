@@ -26,6 +26,10 @@ import '../../features/inventory/domain/repositories/i_inventory_repository.dart
 import '../../features/inventory/data/repositories/inventory_repository_impl.dart';
 import '../../features/inventory/presentation/bloc/inventory_cubit.dart';
 import '../../features/suppliers/presentation/cubit/suppliers_cubit.dart';
+import '../../features/customers/presentation/bloc/customers_cubit.dart';
+import '../../features/reports/data/repositories/reports_repository_impl.dart';
+import '../../features/reports/domain/repositories/i_reports_repository.dart';
+import '../../features/reports/presentation/bloc/reports_cubit.dart';
 
 
 // 'sl' stands for Service Locator
@@ -67,6 +71,10 @@ Future<void> init() async {
     () => SupplierRepositoryImpl(sl()),
   );
 
+  sl.registerLazySingleton<IReportsRepository>(
+    () => ReportsRepositoryImpl(sl()),
+  );
+
   // Legacy ProductRepository (hybrid search — kept for backward compat)
   // sl.registerLazySingleton<ProductRepository>(() => ProductRepository(sl(), sl()));
 
@@ -79,7 +87,14 @@ Future<void> init() async {
   sl.registerFactory(() => InventoryCubit(sl<IInventoryRepository>()));
   sl.registerFactory(() => SuppliersCubit(
         repository: sl<ISupplierRepository>(),
-        pharmacyId: sl<CurrentSession>().pharmacyId ?? '',
+        session: sl<CurrentSession>(),
+      ));
+  sl.registerFactory(() => CustomersCubit(
+        repository: sl<ICustomerRepository>(),
+        pharmacyId: int.tryParse(sl<CurrentSession>().pharmacyId ?? '0') ?? 0,
+      ));
+  sl.registerFactory(() => ReportsCubit(
+        repository: sl<IReportsRepository>(),
       ));
 
 }

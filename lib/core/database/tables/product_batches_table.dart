@@ -16,7 +16,7 @@ class ProductBatchesTable extends Table {
   // Fields
   TextColumn get batchNumber => text().named('batch_number')();
   DateTimeColumn get expiryDate => dateTime().named('expiry_date')();
-  RealColumn get quantityBaseUnit => real().named('quantity_base_unit')();
+  RealColumn get quantityInBaseUnit => real().named('quantity_in_base_unit')();
   RealColumn get purchasePrice => real().named('purchase_price').withDefault(const Constant(0.0))();
   TextColumn get purchaseInvoiceItemId => text().named('purchase_invoice_item_id').nullable()();
 
@@ -28,4 +28,9 @@ class ProductBatchesTable extends Table {
 
   @override
   Set<Column> get primaryKey => {id};
+
+  @override
+  List<Index> get indexes => [
+        Index(productId, 'idx_product_batch_product'),
+      ];
 }

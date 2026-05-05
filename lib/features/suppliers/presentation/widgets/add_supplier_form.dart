@@ -63,7 +63,12 @@ class _SubmitButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF01C653), foregroundColor: Colors.white),
         onPressed: () {
           if (formKey.currentState!.validate()) {
-            cubit.addSupplier(name.text, company.text, phone.text, double.tryParse(balance.text) ?? 0);
+            cubit.addSupplier(
+                          name: name.text,
+                          company: company.text.isEmpty ? null : company.text,
+                          phone: phone.text.isEmpty ? null : phone.text,
+                          openingBalance: double.tryParse(balance.text) ?? 0,
+                        );
             Navigator.pop(context);
           }
         },
