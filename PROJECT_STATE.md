@@ -84,7 +84,10 @@
   - [x] Data: `CustomersTable`, `CustomerPaymentsTable`, `InvoicesTable` linking.
   - [x] Logic: `CustomersCubit`, `CustomerProfileCubit`, FIFO Payment Waterfall.
   - [x] UI: `CustomersScreen`, `CustomerProfileScreen`, Finance Cards, Sales History.
-- [ ] Reports feature (التقارير)
+- [x] **Reports Feature (Analytics Center V1.0)**
+  - [x] Data Layer: Aggregate queries for Revenue, Expenses, Debt, and Inventory.
+  - [x] Logic: `ReportsCubit` managing centralized dashboard data.
+  - [x] UI: `ReportsScreen` with overview cards for all key business metrics.
 - [ ] Settings feature
 
 ---

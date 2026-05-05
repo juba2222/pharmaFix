@@ -73,7 +73,7 @@ class AppDatabase extends _$AppDatabase {
 
   // Following the ERD carefully.
   @override
-  int get schemaVersion => 9; // Added CustomerPaymentsTable
+  int get schemaVersion => 10; // Added costPriceAtTime to WriteOffs
 
 
   @override

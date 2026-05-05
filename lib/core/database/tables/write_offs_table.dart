@@ -17,6 +17,7 @@ class WriteOffsTable extends Table {
   TextColumn get batchId => text().withLength(min: 1, max: 50)();
   TextColumn get unitId => text().withLength(min: 1, max: 50)();
   RealColumn get quantity => real()();
+  RealColumn get costPriceAtTime => real().withDefault(const Constant(0.0))();
   TextColumn get reason => text().withLength(min: 1, max: 200)();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 

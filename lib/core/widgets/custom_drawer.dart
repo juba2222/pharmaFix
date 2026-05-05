@@ -13,6 +13,7 @@ import '../../features/inventory/presentation/bloc/inventory_cubit.dart';
 import '../di/injection_container.dart';
 import '../../features/suppliers/presentation/pages/suppliers_screen.dart';
 import '../../features/customers/presentation/pages/customers_screen.dart';
+import '../../features/reports/presentation/pages/reports_screen.dart';
 import 'drawer_item.dart';
 
 
@@ -136,11 +137,14 @@ class CustomDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                const DrawerItem(icon: Icons.attach_money, title: 'تقارير الإيرادات', isSubItem: true),
-                const DrawerItem(icon: Icons.receipt_long, title: 'تقارير المصروفات', isSubItem: true),
-                const DrawerItem(icon: Icons.person_search, title: 'تقارير الزبائن', isSubItem: true),
-                const DrawerItem(icon: Icons.local_shipping, title: 'تقارير الموردين', isSubItem: true),
-                const DrawerItem(icon: Icons.inventory, title: 'تقارير المخزن', isSubItem: true),
+                DrawerItem(
+                  icon: Icons.bar_chart,
+                  title: 'مركز التقارير',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const ReportsScreen()));
+                  },
+                ),
               ],
             ),
           ),
