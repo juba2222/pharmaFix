@@ -17,6 +17,7 @@ class WriteOffsTable extends Table {
   TextColumn get batchId => text().withLength(min: 1, max: 50)();
   TextColumn get unitId => text().withLength(min: 1, max: 50)();
   RealColumn get quantity => real()();
+  RealColumn get costPriceAtTime => real().withDefault(const Constant(0.0))();
   TextColumn get reason => text().withLength(min: 1, max: 200)();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
@@ -24,8 +25,5 @@ class WriteOffsTable extends Table {
   Set<Column> get primaryKey => {id};
 
   @override
-  List<Index> get indexes => [
-        Index(productId, 'idx_write_off_product'),
-        Index(batchId, 'idx_write_off_batch'),
-      ];
+  List<Index> get indexes => [];
 }

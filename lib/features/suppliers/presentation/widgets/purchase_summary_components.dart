@@ -32,7 +32,10 @@ class PaymentFields extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               const Text('المتبقي:', style: TextStyle(fontSize: 10)),
-              Text('${(state.totalAmount - state.paidAmount).toStringAsFixed(2)} ر.س', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+              Text(
+                '${(state.totalAmount - state.discountAmount - state.paidAmount).toStringAsFixed(2)} ر.س',
+                style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
         ),

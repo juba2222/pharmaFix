@@ -56,14 +56,14 @@ class PurchaseItemProcessor {
             ),
           );
     } else {
-      // If unit exists, update its selling price immediately (Auto-Pricing)
+      // If unitId is null, update the base unit's selling price (auto‑pricing)
       // This fulfills: "يتحدث السعر على الرف وفي شاشة الـ POS فوراً"
-      final unit = await (db.select(db.productUnitsTable)
-            ..where((t) => t.productId.equals(productId) & t.id.equals(unitId)))
+      final baseUnit = await (db.select(db.productUnitsTable)
+            ..where((t) => t.productId.equals(productId) & t.isBaseUnit.equals(true)))
           .getSingleOrNull();
-      if (unit != null) {
+      if (baseUnit != null) {
         await (db.update(db.productUnitsTable)
-              ..where((t) => t.id.equals(unitId)))
+              ..where((t) => t.id.equals(baseUnit.id)))
             .write(ProductUnitsTableCompanion(
           sellingPrice: Value(sell),
           costPrice: Value(effectiveCost),
@@ -82,7 +82,7 @@ class PurchaseItemProcessor {
             productId: productId,
             quantity: qty,
             purchasePrice: cost,
-            unitId: Value(unitId),
+            unitId: unitId == null ? const Value.absent() : Value(unitId),
             expiryDate: Value(expiryDate),
             batchNumber: Value(batchNo),
           ),

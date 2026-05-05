@@ -20,19 +20,22 @@ class PurchaseInvoiceTransaction {
     required String supplierId, required String pharmacyId,
     required String? invoiceNumber, required DateTime date,
     required double totalAmount, required double paidAmount,
+    double discountAmount = 0.0,
     required List<Map<String, dynamic>> items,
   }) async {
     return db.transaction(() async {
       final invoiceId = _uuid.v4();
-      final remaining = totalAmount - paidAmount;
+      final netAmount = totalAmount - discountAmount;
+      final remaining = netAmount - paidAmount;
       final status = remaining <= 0 ? 'paid' : (paidAmount > 0 ? 'partial' : 'unpaid');
 
       await db.into(db.purchaseInvoicesTable).insert(
             PurchaseInvoicesTableCompanion.insert(
               id: invoiceId, pharmacyId: pharmacyId, supplierId: supplierId,
               invoiceNumber: Value(invoiceNumber), invoiceDate: date,
-              totalAmount: totalAmount, paidAmount: Value(paidAmount),
+              totalAmount: netAmount, paidAmount: Value(paidAmount),
               remainingAmount: remaining, status: status,
+              notes: Value('الخصم: $discountAmount'),
             ),
           );
 

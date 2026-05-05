@@ -31,8 +31,5 @@ class PurchaseInvoicesTable extends Table {
   Set<Column> get primaryKey => {id};
 
   @override
-  List<Index> get indexes => [
-        Index(supplierId, 'idx_purchase_invoice_supplier'),
-        Index(invoiceDate, 'idx_purchase_invoice_date'),
-      ];
+  List<Index> get indexes => [];
 }

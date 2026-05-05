@@ -25,6 +25,7 @@ class SupplierProfileScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: const Color(0xFFF9F9F9),
           appBar: AppBar(
+          leading: const BackButton(),
             backgroundColor: const Color(0xFF01C653),
             title: Text(supplier.name),
             actions: [

@@ -12,14 +12,14 @@ class CancelPurchaseInvoiceTransaction {
 
   CancelPurchaseInvoiceTransaction(this.db);
 
-  Future<void> execute(String invoiceId) async {
+  Future<List<Map<String, dynamic>>> execute(String invoiceId) async {
     return db.transaction(() async {
       // 1. Fetch invoice and items
       final invoice = await (db.select(db.purchaseInvoicesTable)
             ..where((t) => t.id.equals(invoiceId)))
           .getSingle();
       
-      if (invoice.status == 'cancelled') return;
+      if (invoice.status == 'cancelled') return [];
 
       final items = await (db.select(db.purchaseInvoiceItemsTable)
             ..where((t) => t.purchaseInvoiceId.equals(invoiceId)))
@@ -74,6 +74,16 @@ class CancelPurchaseInvoiceTransaction {
         status: Value('cancelled'),
         remainingAmount: Value(0.0),
       ));
+
+      // 6. Return items for Draft mode
+      return items.map((i) => {
+        'productId': i.productId,
+        'quantity': i.quantity,
+        'purchasePrice': i.purchasePrice,
+        'unitId': i.unitId,
+        'batchNumber': i.batchNumber,
+        'expiryDate': i.expiryDate,
+      }).toList();
     });
   }
 }

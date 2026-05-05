@@ -9,12 +9,13 @@ enum StatementItemType { invoice, payment, openingBalance }
 abstract class SupplierStatementItem with _$SupplierStatementItem {
   const factory SupplierStatementItem({
     required String id,
-
     required StatementItemType type,
-    required double amount, // Invoices are added, Payments are subtracted (or vice versa depending on perspective, but usually debt = invoices - payments). Let's keep amount positive and use type to distinguish.
+    required double amount,
     required DateTime date,
-    String? referenceNumber, // Invoice number or payment reference
+    String? referenceNumber,
     String? notes,
+    double? paidAmount,
+    String? pharmacyId,
   }) = _SupplierStatementItem;
 
   factory SupplierStatementItem.fromJson(Map<String, dynamic> json) =>

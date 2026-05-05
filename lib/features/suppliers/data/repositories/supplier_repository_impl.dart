@@ -83,6 +83,7 @@ class SupplierRepositoryImpl implements ISupplierRepository {
     required DateTime date,
     required double totalAmount,
     required double paidAmount,
+    double discountAmount = 0.0,
     required List<Map<String, dynamic>> items,
   }) async {
     try {
@@ -93,6 +94,7 @@ class SupplierRepositoryImpl implements ISupplierRepository {
         date: date,
         totalAmount: totalAmount,
         paidAmount: paidAmount,
+        discountAmount: discountAmount,
         items: items,
       );
       return const Right(unit);
@@ -107,10 +109,11 @@ class SupplierRepositoryImpl implements ISupplierRepository {
     required String pharmacyId,
     required double amount,
     required DateTime date,
+    String? invoiceId,
     String? notes,
   }) async {
     try {
-      await _write.addPayment(pharmacyId, supplierId, amount, date, notes);
+      await _write.addPayment(pharmacyId, supplierId, amount, date, invoiceId, notes);
       return const Right(unit);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
@@ -118,10 +121,10 @@ class SupplierRepositoryImpl implements ISupplierRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> cancelPurchaseInvoice(String invoiceId) async {
+  Future<Either<Failure, List<Map<String, dynamic>>>> cancelPurchaseInvoice(String invoiceId) async {
     try {
-      await CancelPurchaseInvoiceTransaction(_db).execute(invoiceId);
-      return const Right(unit);
+      final items = await CancelPurchaseInvoiceTransaction(_db).execute(invoiceId);
+      return Right(items);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
     }

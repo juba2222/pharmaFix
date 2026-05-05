@@ -313,7 +313,7 @@ class InventoryRepositoryImpl implements IInventoryRepository {
       await _db.update(_db.productBatchesTable).replace(
             batch.copyWith(
               quantityInBaseUnit: batch.quantityInBaseUnit - writeOff.quantity,
-              updatedAt: DateTime.now(),
+              updatedAt: Value(DateTime.now()),
             ),
           );
 

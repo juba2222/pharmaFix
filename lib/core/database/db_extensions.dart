@@ -44,7 +44,7 @@ extension ProductBatchExtensions on ProductBatch {
       pharmacyId: Value(pharmacyId),
       batchNumber: Value(batchNumber),
       expiryDate: Value(expiryDate),
-      quantityBaseUnit: Value(quantityBaseUnit),
+      quantityInBaseUnit: Value(quantityBaseUnit),
       purchasePrice: Value(purchasePrice ?? 0.0),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),

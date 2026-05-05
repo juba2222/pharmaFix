@@ -15,7 +15,8 @@ import '../widgets/purchase_invoice_body.dart';
 
 class NewPurchaseInvoiceScreen extends StatefulWidget {
   final SupplierEntity supplier;
-  const NewPurchaseInvoiceScreen({super.key, required this.supplier});
+  final List<Map<String, dynamic>>? initialItems;
+  const NewPurchaseInvoiceScreen({super.key, required this.supplier, this.initialItems});
 
   @override
   State<NewPurchaseInvoiceScreen> createState() => _NewPurchaseInvoiceScreenState();
@@ -25,14 +26,23 @@ class _NewPurchaseInvoiceScreenState extends State<NewPurchaseInvoiceScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PurchaseInvoiceCubit(
-        supplierRepository: sl(),
-        pharmacyId: sl<CurrentSession>().pharmacyId ?? '',
-      ),
+      create: (_) {
+        final cubit = PurchaseInvoiceCubit(
+          supplierRepository: sl(),
+          pharmacyId: sl<CurrentSession>().pharmacyId ?? '',
+        );
+        if (widget.initialItems != null) {
+          for (final item in widget.initialItems!) {
+            cubit.addItem(item);
+          }
+        }
+        return cubit;
+      },
       child: BlocListener<PurchaseInvoiceCubit, PurchaseInvoiceState>(
         listener: _onStateChange,
         child: Scaffold(
           appBar: AppBar(
+            leading: const BackButton(),
             backgroundColor: const Color(0xFF01C653),
             title: const Text('فاتورة مشتريات جديدة'),
             actions: [Center(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: Text(widget.supplier.name, style: const TextStyle(fontSize: 12, color: Colors.white70))))],

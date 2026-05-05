@@ -14,6 +14,9 @@ class InventoryItem extends Equatable {
   final DateTime? closestExpiry;
   final int conversionFactor;
   final double? sellingPrice;
+  final String? batchId;
+  final String? unitId;
+  final String? baseUnitName;
 
   const InventoryItem({
     required this.productId,
@@ -23,6 +26,9 @@ class InventoryItem extends Equatable {
     this.closestExpiry,
     required this.conversionFactor,
     this.sellingPrice,
+    this.batchId,
+    this.unitId,
+    this.baseUnitName,
   });
 
   /// Arabic formatted quantity: "5 علبة و 10 حبة"
@@ -57,7 +63,7 @@ class InventoryItem extends Equatable {
 
   @override
   List<Object?> get props =>
-      [productId, productName, barcode, totalPills, closestExpiry, conversionFactor, sellingPrice];
+      [productId, productName, barcode, totalPills, closestExpiry, conversionFactor, sellingPrice, batchId, unitId, baseUnitName];
 }
 
 enum InventoryStatus { inStock, lowStock, outOfStock, nearExpiry, expired }
