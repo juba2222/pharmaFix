@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WriteOffEntity {
 
- String get id; String get pharmacyId; String get productId; String get batchId; String get unitId; double get quantity; String get reason; DateTime get createdAt;
+ String get id; String get pharmacyId; String get productId; String get batchId; String get unitId; double get quantity; double get costPriceAtTime; String get reason; DateTime get createdAt;
 /// Create a copy of WriteOffEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $WriteOffEntityCopyWith<WriteOffEntity> get copyWith => _$WriteOffEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WriteOffEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.batchId, batchId) || other.batchId == batchId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WriteOffEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.batchId, batchId) || other.batchId == batchId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.costPriceAtTime, costPriceAtTime) || other.costPriceAtTime == costPriceAtTime)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,pharmacyId,productId,batchId,unitId,quantity,reason,createdAt);
+int get hashCode => Object.hash(runtimeType,id,pharmacyId,productId,batchId,unitId,quantity,costPriceAtTime,reason,createdAt);
 
 @override
 String toString() {
-  return 'WriteOffEntity(id: $id, pharmacyId: $pharmacyId, productId: $productId, batchId: $batchId, unitId: $unitId, quantity: $quantity, reason: $reason, createdAt: $createdAt)';
+  return 'WriteOffEntity(id: $id, pharmacyId: $pharmacyId, productId: $productId, batchId: $batchId, unitId: $unitId, quantity: $quantity, costPriceAtTime: $costPriceAtTime, reason: $reason, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $WriteOffEntityCopyWith<$Res>  {
   factory $WriteOffEntityCopyWith(WriteOffEntity value, $Res Function(WriteOffEntity) _then) = _$WriteOffEntityCopyWithImpl;
 @useResult
 $Res call({
- String id, String pharmacyId, String productId, String batchId, String unitId, double quantity, String reason, DateTime createdAt
+ String id, String pharmacyId, String productId, String batchId, String unitId, double quantity, double costPriceAtTime, String reason, DateTime createdAt
 });
 
 
@@ -65,7 +65,7 @@ class _$WriteOffEntityCopyWithImpl<$Res>
 
 /// Create a copy of WriteOffEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? pharmacyId = null,Object? productId = null,Object? batchId = null,Object? unitId = null,Object? quantity = null,Object? reason = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? pharmacyId = null,Object? productId = null,Object? batchId = null,Object? unitId = null,Object? quantity = null,Object? costPriceAtTime = null,Object? reason = null,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,pharmacyId: null == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
@@ -73,6 +73,7 @@ as String,productId: null == productId ? _self.productId : productId // ignore: 
 as String,batchId: null == batchId ? _self.batchId : batchId // ignore: cast_nullable_to_non_nullable
 as String,unitId: null == unitId ? _self.unitId : unitId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as double,costPriceAtTime: null == costPriceAtTime ? _self.costPriceAtTime : costPriceAtTime // ignore: cast_nullable_to_non_nullable
 as double,reason: null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String pharmacyId,  String productId,  String batchId,  String unitId,  double quantity,  String reason,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String pharmacyId,  String productId,  String batchId,  String unitId,  double quantity,  double costPriceAtTime,  String reason,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WriteOffEntity() when $default != null:
-return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.unitId,_that.quantity,_that.reason,_that.createdAt);case _:
+return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.unitId,_that.quantity,_that.costPriceAtTime,_that.reason,_that.createdAt);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.un
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String pharmacyId,  String productId,  String batchId,  String unitId,  double quantity,  String reason,  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String pharmacyId,  String productId,  String batchId,  String unitId,  double quantity,  double costPriceAtTime,  String reason,  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _WriteOffEntity():
-return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.unitId,_that.quantity,_that.reason,_that.createdAt);case _:
+return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.unitId,_that.quantity,_that.costPriceAtTime,_that.reason,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.un
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String pharmacyId,  String productId,  String batchId,  String unitId,  double quantity,  String reason,  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String pharmacyId,  String productId,  String batchId,  String unitId,  double quantity,  double costPriceAtTime,  String reason,  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _WriteOffEntity() when $default != null:
-return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.unitId,_that.quantity,_that.reason,_that.createdAt);case _:
+return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.unitId,_that.quantity,_that.costPriceAtTime,_that.reason,_that.createdAt);case _:
   return null;
 
 }
@@ -216,7 +217,7 @@ return $default(_that.id,_that.pharmacyId,_that.productId,_that.batchId,_that.un
 @JsonSerializable()
 
 class _WriteOffEntity implements WriteOffEntity {
-  const _WriteOffEntity({required this.id, required this.pharmacyId, required this.productId, required this.batchId, required this.unitId, required this.quantity, required this.reason, required this.createdAt});
+  const _WriteOffEntity({required this.id, required this.pharmacyId, required this.productId, required this.batchId, required this.unitId, required this.quantity, this.costPriceAtTime = 0.0, required this.reason, required this.createdAt});
   factory _WriteOffEntity.fromJson(Map<String, dynamic> json) => _$WriteOffEntityFromJson(json);
 
 @override final  String id;
@@ -225,6 +226,7 @@ class _WriteOffEntity implements WriteOffEntity {
 @override final  String batchId;
 @override final  String unitId;
 @override final  double quantity;
+@override@JsonKey() final  double costPriceAtTime;
 @override final  String reason;
 @override final  DateTime createdAt;
 
@@ -241,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WriteOffEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.batchId, batchId) || other.batchId == batchId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WriteOffEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.batchId, batchId) || other.batchId == batchId)&&(identical(other.unitId, unitId) || other.unitId == unitId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.costPriceAtTime, costPriceAtTime) || other.costPriceAtTime == costPriceAtTime)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,pharmacyId,productId,batchId,unitId,quantity,reason,createdAt);
+int get hashCode => Object.hash(runtimeType,id,pharmacyId,productId,batchId,unitId,quantity,costPriceAtTime,reason,createdAt);
 
 @override
 String toString() {
-  return 'WriteOffEntity(id: $id, pharmacyId: $pharmacyId, productId: $productId, batchId: $batchId, unitId: $unitId, quantity: $quantity, reason: $reason, createdAt: $createdAt)';
+  return 'WriteOffEntity(id: $id, pharmacyId: $pharmacyId, productId: $productId, batchId: $batchId, unitId: $unitId, quantity: $quantity, costPriceAtTime: $costPriceAtTime, reason: $reason, createdAt: $createdAt)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$WriteOffEntityCopyWith<$Res> implements $WriteOffEntityCo
   factory _$WriteOffEntityCopyWith(_WriteOffEntity value, $Res Function(_WriteOffEntity) _then) = __$WriteOffEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String pharmacyId, String productId, String batchId, String unitId, double quantity, String reason, DateTime createdAt
+ String id, String pharmacyId, String productId, String batchId, String unitId, double quantity, double costPriceAtTime, String reason, DateTime createdAt
 });
 
 
@@ -278,7 +280,7 @@ class __$WriteOffEntityCopyWithImpl<$Res>
 
 /// Create a copy of WriteOffEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? pharmacyId = null,Object? productId = null,Object? batchId = null,Object? unitId = null,Object? quantity = null,Object? reason = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? pharmacyId = null,Object? productId = null,Object? batchId = null,Object? unitId = null,Object? quantity = null,Object? costPriceAtTime = null,Object? reason = null,Object? createdAt = null,}) {
   return _then(_WriteOffEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,pharmacyId: null == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
@@ -286,6 +288,7 @@ as String,productId: null == productId ? _self.productId : productId // ignore: 
 as String,batchId: null == batchId ? _self.batchId : batchId // ignore: cast_nullable_to_non_nullable
 as String,unitId: null == unitId ? _self.unitId : unitId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as double,costPriceAtTime: null == costPriceAtTime ? _self.costPriceAtTime : costPriceAtTime // ignore: cast_nullable_to_non_nullable
 as double,reason: null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,

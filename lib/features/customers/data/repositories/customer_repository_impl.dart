@@ -122,7 +122,7 @@ class CustomerRepositoryImpl implements ICustomerRepository {
   }
 
   @override
-  Future<Either<Failure, drift.Unit>> collectDebtPayment({
+  Future<Either<Failure, Unit>> collectDebtPayment({
     required int customerId,
     required int pharmacyId,
     required double amount,
@@ -133,7 +133,7 @@ class CustomerRepositoryImpl implements ICustomerRepository {
       await _db.transaction(() async {
         // 1. Record payment
         await _db.into(_db.customerPaymentsTable).insert(CustomerPaymentsTableCompanion.insert(
-          id: drift.Value(drift.currentDateAndTime.toString()), // Should use UUID but for now...
+          id: drift.currentDateAndTime.toString(), // Raw String
           pharmacyId: pharmacyId.toString(),
           customerId: customerId,
           amount: amount,
@@ -166,14 +166,14 @@ class CustomerRepositoryImpl implements ICustomerRepository {
           currentBalance: drift.Value(customer.currentBalance - amount),
         ));
       });
-      return const Right(drift.unit);
+      return const Right(unit);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, drift.Unit>> processSaleReturn({
+  Future<Either<Failure, Unit>> processSaleReturn({
     required String invoiceId,
     required String itemId,
     required double quantity,
@@ -181,11 +181,11 @@ class CustomerRepositoryImpl implements ICustomerRepository {
   }) async {
     // This requires complex logic involving Inventory and Invoices.
     // Placeholder for now as per "Step-by-Step" instructions.
-    return const Right(drift.unit);
+    return const Right(unit);
   }
 
   @override
-  Future<Either<Failure, drift.Unit>> deleteCustomer(int customerId) async {
+  Future<Either<Failure, Unit>> deleteCustomer(int customerId) async {
     try {
       final customer = await (_db.select(_db.customersTable)..where((t) => t.id.equals(customerId))).getSingle();
       if (customer.currentBalance > 0) {
@@ -193,7 +193,7 @@ class CustomerRepositoryImpl implements ICustomerRepository {
       }
 
       await (_db.delete(_db.customersTable)..where((t) => t.id.equals(customerId))).go();
-      return const Right(drift.unit);
+      return const Right(unit);
     } catch (e) {
       return Left(DatabaseFailure(e.toString()));
     }

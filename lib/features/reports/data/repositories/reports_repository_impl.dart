@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/error/failures.dart';
-import '../domain/repositories/i_reports_repository.dart';
+import '../../domain/repositories/i_reports_repository.dart';
 
 class ReportsRepositoryImpl implements IReportsRepository {
   final AppDatabase _db;
@@ -34,14 +34,10 @@ class ReportsRepositoryImpl implements IReportsRepository {
   @override
   Future<Either<Failure, Map<String, dynamic>>> getExpenseReport({DateTime? start, DateTime? end}) async {
     try {
-      // 1. Write-offs (Losses)
-      final woQuery = _db.select(_db.writeOffsTable);
-      final writeOffs = await woQuery.get();
+      final writeOffs = await _db.select(_db.writeOffsTable).get();
       final totalLosses = writeOffs.fold(0.0, (sum, w) => sum + (w.quantity * w.costPriceAtTime));
 
-      // 2. Supplier Payments
-      final spQuery = _db.select(_db.supplierPaymentsTable);
-      final payments = await spQuery.get();
+      final payments = await _db.select(_db.supplierPaymentsTable).get();
       final totalPaidToSuppliers = payments.fold(0.0, (sum, p) => sum + p.amount);
 
       return Right({

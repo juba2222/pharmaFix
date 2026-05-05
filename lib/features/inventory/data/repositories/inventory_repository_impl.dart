@@ -138,9 +138,10 @@ class InventoryRepositoryImpl implements IInventoryRepository {
   Stream<List<InventoryItem>> watchInventory({String? query, String? sortBy}) {
     final qtySum = _db.productBatchesTable.quantityInBaseUnit.sum();
     final minExpiry = _db.productBatchesTable.expiryDate.min();
+    final oldestBatchId = _db.productBatchesTable.id.min();
 
     final q = _db.select(_db.productsTable)
-        .addColumns([qtySum, minExpiry])
+        .addColumns([qtySum, minExpiry, oldestBatchId])
         .join([
           leftOuterJoin(
             _db.productBatchesTable,
@@ -188,6 +189,9 @@ class InventoryRepositoryImpl implements IInventoryRepository {
             closestExpiry: expiry,
             conversionFactor: u?.conversionFactor.toInt() ?? 1,
             sellingPrice: u?.sellingPrice ?? 0.0,
+            batchId: row.read(oldestBatchId),
+            unitId: u?.id,
+            baseUnitName: u?.unitName ?? 'وحدة',
           );
         }).toList());
   }
@@ -310,12 +314,12 @@ class InventoryRepositoryImpl implements IInventoryRepository {
             ..where((t) => t.id.equals(writeOff.batchId)))
           .getSingle();
 
-      await _db.update(_db.productBatchesTable).replace(
-            batch.copyWith(
-              quantityInBaseUnit: batch.quantityInBaseUnit - writeOff.quantity,
-              updatedAt: DateTime.now(),
-            ),
-          );
+      await (_db.update(_db.productBatchesTable)..where((t) => t.id.equals(batch.id))).write(
+        ProductBatchesTableCompanion(
+          quantityInBaseUnit: Value(batch.quantityInBaseUnit - writeOff.quantity),
+          updatedAt: Value(DateTime.now()),
+        ),
+      );
 
       // 2. Record write-off
       await _db.into(_db.writeOffsTable).insert(

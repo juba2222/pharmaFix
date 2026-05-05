@@ -64,7 +64,7 @@ class PosRepositoryImpl implements IPosRepository {
             final target = batches.first;
             await (_db.update(_db.productBatchesTable)..where((t) => t.id.equals(target.id)))
                 .write(ProductBatchesTableCompanion(
-              quantityBaseUnit: drift.Value(target.quantityBaseUnit - qtyToDeduct),
+              quantityInBaseUnit: drift.Value(target.quantityInBaseUnit - qtyToDeduct),
               updatedAt: drift.Value(DateTime.now()),
             ));
           }

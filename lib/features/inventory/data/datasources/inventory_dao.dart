@@ -50,7 +50,7 @@ class InventoryDao extends DatabaseAccessor<AppDatabase> with _$InventoryDaoMixi
     required DateTime expiry,
   }) async {
     await into(db.productBatchesTable).insert(ProductBatchesTableCompanion.insert(
-      id: Value(const Uuid().v4()),
+      id: const Uuid().v4(),
       productId: productId,
       pharmacyId: 'default', // Should come from auth
       batchNumber: batchNumber,

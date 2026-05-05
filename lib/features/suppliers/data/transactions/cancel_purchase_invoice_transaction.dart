@@ -19,7 +19,7 @@ class CancelPurchaseInvoiceTransaction {
             ..where((t) => t.id.equals(invoiceId)))
           .getSingle();
       
-      if (invoice.status == 'cancelled') return;
+      if (invoice.status == 'cancelled') return [];
 
       final items = await (db.select(db.purchaseInvoiceItemsTable)
             ..where((t) => t.purchaseInvoiceId.equals(invoiceId)))
