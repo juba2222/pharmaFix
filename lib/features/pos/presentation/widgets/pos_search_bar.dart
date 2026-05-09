@@ -104,7 +104,7 @@ class _PosSearchBarState extends State<PosSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 8.0),
       child: CompositedTransformTarget(
         link: _layerLink,
         child: Row(
@@ -113,8 +113,14 @@ class _PosSearchBarState extends State<PosSearchBar> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 15,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: TextField(
                   controller: _controller,
@@ -126,30 +132,50 @@ class _PosSearchBarState extends State<PosSearchBar> {
                     _controller.clear();
                     _hideOverlay();
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'ابحث عن منتج أو اقرأ الباركود...',
                     hintTextDirection: TextDirection.rtl,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    prefixIcon: Icon(Icons.qr_code_scanner, color: Color(0xFF01C653)),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 14),
+                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                    prefixIcon: const Icon(Icons.qr_code_scanner, color: Color(0xFF01C653)),
+                    suffixIcon: _controller.text.isNotEmpty
+                      ? IconButton(icon: const Icon(Icons.clear, size: 18), onPressed: () => _onQueryChanged(''))
+                      : const Icon(Icons.search, color: Colors.grey, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 12),
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF01C653),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.shopping_cart, color: Colors.white),
-                onPressed: () {},
-              ),
+            _buildQuickActionButton(
+              icon: Icons.person_add_alt_1_outlined,
+              onTap: () {}, // Add Customer quick link
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildQuickActionButton({required IconData icon, required VoidCallback onTap}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF01C653),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF01C653).withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: Colors.white),
+        onPressed: onTap,
       ),
     );
   }
