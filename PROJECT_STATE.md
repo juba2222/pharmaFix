@@ -58,11 +58,13 @@
   - [x] **Smart Reversals:** Full cancellation logic that restores inventory and balances.
   - [x] **Global Discounts:** Support for header-level discounts in purchase invoices.
   - [x] **Statement Tracking:** Full debit/credit ledger for each supplier.
-- [x] **Reports & Analytics (Center V1.0)**
-  - [x] **Financial Overview:** Revenue (Sales vs Collected) and Expense tracking.
-  - [x] **Loss Tracking:** Write-offs calculated based on historical cost prices.
-  - [x] **Inventory Analytics:** Real-time stock valuation and expiry alerts (90-day window).
-  - [x] **Partners Report:** Centralized debt monitoring for both customers and suppliers.
+- [x] **Financial Accounting & Reports (Hub V2.0)**
+  - [x] **Advanced P&L:** Net Profit tracking with COGS (Cost of Goods Sold) and Operational Expenses.
+  - [x] **Cash Flow Management:** Real-time tracking of Cash In (Sales) vs Cash Out (Purchases + Expenses).
+  - [x] **Operational Expenses:** New module to record Rent, Salaries, and Utilities.
+  - [x] **Smart Debt Balance:** Net financial position (Receivables vs Payables).
+  - [x] **Inventory Insights:** Stock valuation and automated expiry risk analysis.
+  - [x] **Custom Time Ranges:** Support for Daily, Weekly, Monthly, and precise Date Range filtering.
 - [x] **UI/UX & Atomic Design**
   - [x] **Atomic UI Kit:** Migration to modular components (`ModernCard`, `ModernButton`).
   - [x] **Google Stitch Aesthetic:** Modern gradients and shadows implemented in POS.

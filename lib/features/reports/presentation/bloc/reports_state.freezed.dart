@@ -128,12 +128,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Map<String, dynamic> revenue,  Map<String, dynamic> expenses,  List<Map<String, dynamic>> customers,  List<Map<String, dynamic>> suppliers,  Map<String, dynamic> inventory)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Map<String, dynamic> profitLoss,  Map<String, dynamic> cashFlow,  Map<String, dynamic> inventory,  Map<String, dynamic> debts,  DateTime start,  DateTime end,  bool includeOverheads)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.revenue,_that.expenses,_that.customers,_that.suppliers,_that.inventory);case _Error() when error != null:
+return loaded(_that.profitLoss,_that.cashFlow,_that.inventory,_that.debts,_that.start,_that.end,_that.includeOverheads);case _Error() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -152,12 +152,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Map<String, dynamic> revenue,  Map<String, dynamic> expenses,  List<Map<String, dynamic>> customers,  List<Map<String, dynamic>> suppliers,  Map<String, dynamic> inventory)  loaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Map<String, dynamic> profitLoss,  Map<String, dynamic> cashFlow,  Map<String, dynamic> inventory,  Map<String, dynamic> debts,  DateTime start,  DateTime end,  bool includeOverheads)  loaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Loaded():
-return loaded(_that.revenue,_that.expenses,_that.customers,_that.suppliers,_that.inventory);case _Error():
+return loaded(_that.profitLoss,_that.cashFlow,_that.inventory,_that.debts,_that.start,_that.end,_that.includeOverheads);case _Error():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -175,12 +175,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Map<String, dynamic> revenue,  Map<String, dynamic> expenses,  List<Map<String, dynamic>> customers,  List<Map<String, dynamic>> suppliers,  Map<String, dynamic> inventory)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Map<String, dynamic> profitLoss,  Map<String, dynamic> cashFlow,  Map<String, dynamic> inventory,  Map<String, dynamic> debts,  DateTime start,  DateTime end,  bool includeOverheads)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.revenue,_that.expenses,_that.customers,_that.suppliers,_that.inventory);case _Error() when error != null:
+return loaded(_that.profitLoss,_that.cashFlow,_that.inventory,_that.debts,_that.start,_that.end,_that.includeOverheads);case _Error() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -257,35 +257,21 @@ String toString() {
 
 
 class _Loaded implements ReportsState {
-  const _Loaded({required final  Map<String, dynamic> revenue, required final  Map<String, dynamic> expenses, required final  List<Map<String, dynamic>> customers, required final  List<Map<String, dynamic>> suppliers, required final  Map<String, dynamic> inventory}): _revenue = revenue,_expenses = expenses,_customers = customers,_suppliers = suppliers,_inventory = inventory;
+  const _Loaded({required final  Map<String, dynamic> profitLoss, required final  Map<String, dynamic> cashFlow, required final  Map<String, dynamic> inventory, required final  Map<String, dynamic> debts, required this.start, required this.end, this.includeOverheads = true}): _profitLoss = profitLoss,_cashFlow = cashFlow,_inventory = inventory,_debts = debts;
 
 
- final  Map<String, dynamic> _revenue;
- Map<String, dynamic> get revenue {
-  if (_revenue is EqualUnmodifiableMapView) return _revenue;
+ final  Map<String, dynamic> _profitLoss;
+ Map<String, dynamic> get profitLoss {
+  if (_profitLoss is EqualUnmodifiableMapView) return _profitLoss;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_revenue);
+  return EqualUnmodifiableMapView(_profitLoss);
 }
 
- final  Map<String, dynamic> _expenses;
- Map<String, dynamic> get expenses {
-  if (_expenses is EqualUnmodifiableMapView) return _expenses;
+ final  Map<String, dynamic> _cashFlow;
+ Map<String, dynamic> get cashFlow {
+  if (_cashFlow is EqualUnmodifiableMapView) return _cashFlow;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_expenses);
-}
-
- final  List<Map<String, dynamic>> _customers;
- List<Map<String, dynamic>> get customers {
-  if (_customers is EqualUnmodifiableListView) return _customers;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_customers);
-}
-
- final  List<Map<String, dynamic>> _suppliers;
- List<Map<String, dynamic>> get suppliers {
-  if (_suppliers is EqualUnmodifiableListView) return _suppliers;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_suppliers);
+  return EqualUnmodifiableMapView(_cashFlow);
 }
 
  final  Map<String, dynamic> _inventory;
@@ -295,6 +281,16 @@ class _Loaded implements ReportsState {
   return EqualUnmodifiableMapView(_inventory);
 }
 
+ final  Map<String, dynamic> _debts;
+ Map<String, dynamic> get debts {
+  if (_debts is EqualUnmodifiableMapView) return _debts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_debts);
+}
+
+ final  DateTime start;
+ final  DateTime end;
+@JsonKey() final  bool includeOverheads;
 
 /// Create a copy of ReportsState
 /// with the given fields replaced by the non-null parameter values.
@@ -306,16 +302,16 @@ _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&const DeepCollectionEquality().equals(other._revenue, _revenue)&&const DeepCollectionEquality().equals(other._expenses, _expenses)&&const DeepCollectionEquality().equals(other._customers, _customers)&&const DeepCollectionEquality().equals(other._suppliers, _suppliers)&&const DeepCollectionEquality().equals(other._inventory, _inventory));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&const DeepCollectionEquality().equals(other._profitLoss, _profitLoss)&&const DeepCollectionEquality().equals(other._cashFlow, _cashFlow)&&const DeepCollectionEquality().equals(other._inventory, _inventory)&&const DeepCollectionEquality().equals(other._debts, _debts)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.includeOverheads, includeOverheads) || other.includeOverheads == includeOverheads));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_revenue),const DeepCollectionEquality().hash(_expenses),const DeepCollectionEquality().hash(_customers),const DeepCollectionEquality().hash(_suppliers),const DeepCollectionEquality().hash(_inventory));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_profitLoss),const DeepCollectionEquality().hash(_cashFlow),const DeepCollectionEquality().hash(_inventory),const DeepCollectionEquality().hash(_debts),start,end,includeOverheads);
 
 @override
 String toString() {
-  return 'ReportsState.loaded(revenue: $revenue, expenses: $expenses, customers: $customers, suppliers: $suppliers, inventory: $inventory)';
+  return 'ReportsState.loaded(profitLoss: $profitLoss, cashFlow: $cashFlow, inventory: $inventory, debts: $debts, start: $start, end: $end, includeOverheads: $includeOverheads)';
 }
 
 
@@ -326,7 +322,7 @@ abstract mixin class _$LoadedCopyWith<$Res> implements $ReportsStateCopyWith<$Re
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- Map<String, dynamic> revenue, Map<String, dynamic> expenses, List<Map<String, dynamic>> customers, List<Map<String, dynamic>> suppliers, Map<String, dynamic> inventory
+ Map<String, dynamic> profitLoss, Map<String, dynamic> cashFlow, Map<String, dynamic> inventory, Map<String, dynamic> debts, DateTime start, DateTime end, bool includeOverheads
 });
 
 
@@ -343,14 +339,16 @@ class __$LoadedCopyWithImpl<$Res>
 
 /// Create a copy of ReportsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? revenue = null,Object? expenses = null,Object? customers = null,Object? suppliers = null,Object? inventory = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? profitLoss = null,Object? cashFlow = null,Object? inventory = null,Object? debts = null,Object? start = null,Object? end = null,Object? includeOverheads = null,}) {
   return _then(_Loaded(
-revenue: null == revenue ? _self._revenue : revenue // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,expenses: null == expenses ? _self._expenses : expenses // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,customers: null == customers ? _self._customers : customers // ignore: cast_nullable_to_non_nullable
-as List<Map<String, dynamic>>,suppliers: null == suppliers ? _self._suppliers : suppliers // ignore: cast_nullable_to_non_nullable
-as List<Map<String, dynamic>>,inventory: null == inventory ? _self._inventory : inventory // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,
+profitLoss: null == profitLoss ? _self._profitLoss : profitLoss // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,cashFlow: null == cashFlow ? _self._cashFlow : cashFlow // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,inventory: null == inventory ? _self._inventory : inventory // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,debts: null == debts ? _self._debts : debts // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as DateTime,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as DateTime,includeOverheads: null == includeOverheads ? _self.includeOverheads : includeOverheads // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

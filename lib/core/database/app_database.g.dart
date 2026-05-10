@@ -11734,6 +11734,472 @@ class CustomerPaymentsTableCompanion
   }
 }
 
+class $ExpensesTableTable extends ExpensesTable
+    with TableInfo<$ExpensesTableTable, ExpenseDbModel> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ExpensesTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pharmacyIdMeta = const VerificationMeta(
+    'pharmacyId',
+  );
+  @override
+  late final GeneratedColumn<String> pharmacyId = GeneratedColumn<String>(
+    'pharmacy_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+    'amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    pharmacyId,
+    category,
+    amount,
+    description,
+    date,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'expenses_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ExpenseDbModel> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('pharmacy_id')) {
+      context.handle(
+        _pharmacyIdMeta,
+        pharmacyId.isAcceptableOrUnknown(data['pharmacy_id']!, _pharmacyIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pharmacyIdMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(
+        _amountMeta,
+        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('date')) {
+      context.handle(
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ExpenseDbModel map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ExpenseDbModel(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      pharmacyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pharmacy_id'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      amount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}amount'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}date'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ExpensesTableTable createAlias(String alias) {
+    return $ExpensesTableTable(attachedDatabase, alias);
+  }
+}
+
+class ExpenseDbModel extends DataClass implements Insertable<ExpenseDbModel> {
+  final String id;
+  final String pharmacyId;
+  final String category;
+  final double amount;
+  final String? description;
+  final DateTime date;
+  final DateTime createdAt;
+  const ExpenseDbModel({
+    required this.id,
+    required this.pharmacyId,
+    required this.category,
+    required this.amount,
+    this.description,
+    required this.date,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['pharmacy_id'] = Variable<String>(pharmacyId);
+    map['category'] = Variable<String>(category);
+    map['amount'] = Variable<double>(amount);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['date'] = Variable<DateTime>(date);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ExpensesTableCompanion toCompanion(bool nullToAbsent) {
+    return ExpensesTableCompanion(
+      id: Value(id),
+      pharmacyId: Value(pharmacyId),
+      category: Value(category),
+      amount: Value(amount),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      date: Value(date),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ExpenseDbModel.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ExpenseDbModel(
+      id: serializer.fromJson<String>(json['id']),
+      pharmacyId: serializer.fromJson<String>(json['pharmacyId']),
+      category: serializer.fromJson<String>(json['category']),
+      amount: serializer.fromJson<double>(json['amount']),
+      description: serializer.fromJson<String?>(json['description']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'pharmacyId': serializer.toJson<String>(pharmacyId),
+      'category': serializer.toJson<String>(category),
+      'amount': serializer.toJson<double>(amount),
+      'description': serializer.toJson<String?>(description),
+      'date': serializer.toJson<DateTime>(date),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ExpenseDbModel copyWith({
+    String? id,
+    String? pharmacyId,
+    String? category,
+    double? amount,
+    Value<String?> description = const Value.absent(),
+    DateTime? date,
+    DateTime? createdAt,
+  }) => ExpenseDbModel(
+    id: id ?? this.id,
+    pharmacyId: pharmacyId ?? this.pharmacyId,
+    category: category ?? this.category,
+    amount: amount ?? this.amount,
+    description: description.present ? description.value : this.description,
+    date: date ?? this.date,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ExpenseDbModel copyWithCompanion(ExpensesTableCompanion data) {
+    return ExpenseDbModel(
+      id: data.id.present ? data.id.value : this.id,
+      pharmacyId: data.pharmacyId.present
+          ? data.pharmacyId.value
+          : this.pharmacyId,
+      category: data.category.present ? data.category.value : this.category,
+      amount: data.amount.present ? data.amount.value : this.amount,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      date: data.date.present ? data.date.value : this.date,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExpenseDbModel(')
+          ..write('id: $id, ')
+          ..write('pharmacyId: $pharmacyId, ')
+          ..write('category: $category, ')
+          ..write('amount: $amount, ')
+          ..write('description: $description, ')
+          ..write('date: $date, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    pharmacyId,
+    category,
+    amount,
+    description,
+    date,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ExpenseDbModel &&
+          other.id == this.id &&
+          other.pharmacyId == this.pharmacyId &&
+          other.category == this.category &&
+          other.amount == this.amount &&
+          other.description == this.description &&
+          other.date == this.date &&
+          other.createdAt == this.createdAt);
+}
+
+class ExpensesTableCompanion extends UpdateCompanion<ExpenseDbModel> {
+  final Value<String> id;
+  final Value<String> pharmacyId;
+  final Value<String> category;
+  final Value<double> amount;
+  final Value<String?> description;
+  final Value<DateTime> date;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const ExpensesTableCompanion({
+    this.id = const Value.absent(),
+    this.pharmacyId = const Value.absent(),
+    this.category = const Value.absent(),
+    this.amount = const Value.absent(),
+    this.description = const Value.absent(),
+    this.date = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ExpensesTableCompanion.insert({
+    required String id,
+    required String pharmacyId,
+    required String category,
+    required double amount,
+    this.description = const Value.absent(),
+    required DateTime date,
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       pharmacyId = Value(pharmacyId),
+       category = Value(category),
+       amount = Value(amount),
+       date = Value(date);
+  static Insertable<ExpenseDbModel> custom({
+    Expression<String>? id,
+    Expression<String>? pharmacyId,
+    Expression<String>? category,
+    Expression<double>? amount,
+    Expression<String>? description,
+    Expression<DateTime>? date,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (pharmacyId != null) 'pharmacy_id': pharmacyId,
+      if (category != null) 'category': category,
+      if (amount != null) 'amount': amount,
+      if (description != null) 'description': description,
+      if (date != null) 'date': date,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ExpensesTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? pharmacyId,
+    Value<String>? category,
+    Value<double>? amount,
+    Value<String?>? description,
+    Value<DateTime>? date,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return ExpensesTableCompanion(
+      id: id ?? this.id,
+      pharmacyId: pharmacyId ?? this.pharmacyId,
+      category: category ?? this.category,
+      amount: amount ?? this.amount,
+      description: description ?? this.description,
+      date: date ?? this.date,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (pharmacyId.present) {
+      map['pharmacy_id'] = Variable<String>(pharmacyId.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<double>(amount.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExpensesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('pharmacyId: $pharmacyId, ')
+          ..write('category: $category, ')
+          ..write('amount: $amount, ')
+          ..write('description: $description, ')
+          ..write('date: $date, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -11779,6 +12245,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $WriteOffsTableTable writeOffsTable = $WriteOffsTableTable(this);
   late final $CustomerPaymentsTableTable customerPaymentsTable =
       $CustomerPaymentsTableTable(this);
+  late final $ExpensesTableTable expensesTable = $ExpensesTableTable(this);
   late final SyncDao syncDao = SyncDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -11808,6 +12275,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     purchaseInvoiceItemsTable,
     writeOffsTable,
     customerPaymentsTable,
+    expensesTable,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -19824,6 +20292,248 @@ typedef $$CustomerPaymentsTableTableProcessedTableManager =
       CustomerPaymentDbModel,
       PrefetchHooks Function({bool customerId})
     >;
+typedef $$ExpensesTableTableCreateCompanionBuilder =
+    ExpensesTableCompanion Function({
+      required String id,
+      required String pharmacyId,
+      required String category,
+      required double amount,
+      Value<String?> description,
+      required DateTime date,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+typedef $$ExpensesTableTableUpdateCompanionBuilder =
+    ExpensesTableCompanion Function({
+      Value<String> id,
+      Value<String> pharmacyId,
+      Value<String> category,
+      Value<double> amount,
+      Value<String?> description,
+      Value<DateTime> date,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+class $$ExpensesTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ExpensesTableTable> {
+  $$ExpensesTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pharmacyId => $composableBuilder(
+    column: $table.pharmacyId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ExpensesTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ExpensesTableTable> {
+  $$ExpensesTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pharmacyId => $composableBuilder(
+    column: $table.pharmacyId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ExpensesTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ExpensesTableTable> {
+  $$ExpensesTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get pharmacyId => $composableBuilder(
+    column: $table.pharmacyId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<double> get amount =>
+      $composableBuilder(column: $table.amount, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$ExpensesTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ExpensesTableTable,
+          ExpenseDbModel,
+          $$ExpensesTableTableFilterComposer,
+          $$ExpensesTableTableOrderingComposer,
+          $$ExpensesTableTableAnnotationComposer,
+          $$ExpensesTableTableCreateCompanionBuilder,
+          $$ExpensesTableTableUpdateCompanionBuilder,
+          (
+            ExpenseDbModel,
+            BaseReferences<_$AppDatabase, $ExpensesTableTable, ExpenseDbModel>,
+          ),
+          ExpenseDbModel,
+          PrefetchHooks Function()
+        > {
+  $$ExpensesTableTableTableManager(_$AppDatabase db, $ExpensesTableTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ExpensesTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ExpensesTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ExpensesTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> pharmacyId = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<double> amount = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<DateTime> date = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ExpensesTableCompanion(
+                id: id,
+                pharmacyId: pharmacyId,
+                category: category,
+                amount: amount,
+                description: description,
+                date: date,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String pharmacyId,
+                required String category,
+                required double amount,
+                Value<String?> description = const Value.absent(),
+                required DateTime date,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ExpensesTableCompanion.insert(
+                id: id,
+                pharmacyId: pharmacyId,
+                category: category,
+                amount: amount,
+                description: description,
+                date: date,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ExpensesTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ExpensesTableTable,
+      ExpenseDbModel,
+      $$ExpensesTableTableFilterComposer,
+      $$ExpensesTableTableOrderingComposer,
+      $$ExpensesTableTableAnnotationComposer,
+      $$ExpensesTableTableCreateCompanionBuilder,
+      $$ExpensesTableTableUpdateCompanionBuilder,
+      (
+        ExpenseDbModel,
+        BaseReferences<_$AppDatabase, $ExpensesTableTable, ExpenseDbModel>,
+      ),
+      ExpenseDbModel,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -19877,4 +20587,6 @@ class $AppDatabaseManager {
       $$WriteOffsTableTableTableManager(_db, _db.writeOffsTable);
   $$CustomerPaymentsTableTableTableManager get customerPaymentsTable =>
       $$CustomerPaymentsTableTableTableManager(_db, _db.customerPaymentsTable);
+  $$ExpensesTableTableTableManager get expensesTable =>
+      $$ExpensesTableTableTableManager(_db, _db.expensesTable);
 }
