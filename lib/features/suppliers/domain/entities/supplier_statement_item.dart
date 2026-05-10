@@ -15,6 +15,8 @@ abstract class SupplierStatementItem with _$SupplierStatementItem {
     required DateTime date,
     String? referenceNumber, // Invoice number or payment reference
     String? notes,
+    @Default(0.0) double paidAmount,
+    @Default('') String pharmacyId,
   }) = _SupplierStatementItem;
 
   factory SupplierStatementItem.fromJson(Map<String, dynamic> json) =>

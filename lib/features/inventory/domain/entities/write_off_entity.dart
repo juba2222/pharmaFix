@@ -18,6 +18,7 @@ abstract class WriteOffEntity with _$WriteOffEntity {
     required String batchId,
     required String unitId,
     required double quantity,
+    @Default(0.0) double costPriceAtTime,
     required String reason,
     required DateTime createdAt,
   }) = _WriteOffEntity;

@@ -2,18 +2,22 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 
 abstract class IReportsRepository {
-  /// Revenue Report: total sales, returns, and net revenue.
-  Future<Either<Failure, Map<String, dynamic>>> getRevenueReport({DateTime? start, DateTime? end});
+  /// Financial P&L: Net Profit, Revenue, COGS, and Expenses.
+  Future<Either<Failure, Map<String, dynamic>>> getProfitLossReport({
+    required DateTime start,
+    required DateTime end,
+    bool includeOverheads = true,
+  });
 
-  /// Expense Report: write-offs, supplier payments, and overheads.
-  Future<Either<Failure, Map<String, dynamic>>> getExpenseReport({DateTime? start, DateTime? end});
+  /// Cash Flow: Cash IN vs Cash OUT.
+  Future<Either<Failure, Map<String, dynamic>>> getCashFlowReport({
+    required DateTime start,
+    required DateTime end,
+  });
 
-  /// Customer Debt Report: list of customers with their debt and purchase power.
-  Future<Either<Failure, List<Map<String, dynamic>>>> getCustomersReport();
+  /// Inventory Insights: Value, Movement, and Expiry.
+  Future<Either<Failure, Map<String, dynamic>>> getInventoryInsights();
 
-  /// Supplier Debt Report: list of suppliers with total purchases and remaining debt.
-  Future<Either<Failure, List<Map<String, dynamic>>>> getSuppliersReport();
-
-  /// Inventory Health Report: expired batches, low stock items, and stock value.
-  Future<Either<Failure, Map<String, dynamic>>> getInventoryReport();
+  /// Debts: Accounts Receivable and Payable.
+  Future<Either<Failure, Map<String, dynamic>>> getDebtsReport();
 }

@@ -29,8 +29,8 @@ class ProductBatchesTable extends Table {
   @override
   Set<Column> get primaryKey => {id};
 
-  @override
-  List<Index> get indexes => [
-        Index(productId, 'idx_product_batch_product'),
-      ];
+  // @override
+  // List<Index> get indexes => [
+  //       Index(productId, 'idx_product_batch_product'),
+  //     ];
 }

@@ -40,12 +40,26 @@ class PosScreen extends StatelessWidget {
             iconTheme: const IconThemeData(color: Colors.white),
           ),
           drawer: const CustomDrawer(),
-          body: const Column(
-            children: [
-              PosSearchBar(),
-              Expanded(child: PosCartList()),
-              PosBottomBar(),
-            ],
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFFF8F9FA), Colors.white],
+              ),
+            ),
+            child: Column(
+              children: [
+                const PosSearchBar(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: const PosCartList(),
+                  ),
+                ),
+                const PosBottomBar(),
+              ],
+            ),
           ),
         ),
       ),

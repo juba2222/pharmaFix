@@ -9,26 +9,51 @@ class ReportsCubit extends Cubit<ReportsState> {
       : _repository = repository,
         super(const ReportsState.initial());
 
-  Future<void> loadAllReports() async {
+  Future<void> loadReports({
+    DateTime? start,
+    DateTime? end,
+    bool includeOverheads = true,
+  }) async {
+    final now = DateTime.now();
+    final startDate = start ?? DateTime(now.year, now.month, 1);
+    final endDate = end ?? now;
+
     emit(const ReportsState.loading());
 
-    final revRes = await _repository.getRevenueReport();
-    final expRes = await _repository.getExpenseReport();
-    final custRes = await _repository.getCustomersReport();
-    final suppRes = await _repository.getSuppliersReport();
-    final invRes = await _repository.getInventoryReport();
+    final plRes = await _repository.getProfitLossReport(
+      start: startDate,
+      end: endDate,
+      includeOverheads: includeOverheads,
+    );
+    final cfRes = await _repository.getCashFlowReport(start: startDate, end: endDate);
+    final invRes = await _repository.getInventoryInsights();
+    final debtRes = await _repository.getDebtsReport();
 
-    // Use a simple combine logic
-    if (revRes.isRight() && expRes.isRight() && custRes.isRight() && suppRes.isRight() && invRes.isRight()) {
+    if (plRes.isRight() && cfRes.isRight() && invRes.isRight() && debtRes.isRight()) {
       emit(ReportsState.loaded(
-        revenue: revRes.getOrElse(() => {}),
-        expenses: expRes.getOrElse(() => {}),
-        customers: custRes.getOrElse(() => []),
-        suppliers: suppRes.getOrElse(() => []),
+        profitLoss: plRes.getOrElse(() => {}),
+        cashFlow: cfRes.getOrElse(() => {}),
         inventory: invRes.getOrElse(() => {}),
+        debts: debtRes.getOrElse(() => {}),
+        start: startDate,
+        end: endDate,
+        includeOverheads: includeOverheads,
       ));
     } else {
-      emit(const ReportsState.error('خطأ في تحميل أحد التقارير'));
+      emit(const ReportsState.error('فشل تحميل التقارير المالية'));
     }
+  }
+
+  void updateFilter({DateTime? start, DateTime? end, bool? includeOverheads}) {
+    state.maybeWhen(
+      loaded: (pl, cf, inv, debts, s, e, inc) {
+        loadReports(
+          start: start ?? s,
+          end: end ?? e,
+          includeOverheads: includeOverheads ?? inc,
+        );
+      },
+      orElse: () {},
+    );
   }
 }

@@ -5,6 +5,8 @@
 // =============================================================
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/supplier_profile_cubit.dart';
 
 class ProfileHeader extends StatelessWidget {
   final double debt;

@@ -15,6 +15,8 @@ _SupplierStatementItem _$SupplierStatementItemFromJson(
   date: DateTime.parse(json['date'] as String),
   referenceNumber: json['referenceNumber'] as String?,
   notes: json['notes'] as String?,
+  paidAmount: (json['paidAmount'] as num?)?.toDouble() ?? 0.0,
+  pharmacyId: json['pharmacyId'] as String? ?? '',
 );
 
 Map<String, dynamic> _$SupplierStatementItemToJson(
@@ -26,6 +28,8 @@ Map<String, dynamic> _$SupplierStatementItemToJson(
   'date': instance.date.toIso8601String(),
   'referenceNumber': instance.referenceNumber,
   'notes': instance.notes,
+  'paidAmount': instance.paidAmount,
+  'pharmacyId': instance.pharmacyId,
 };
 
 const _$StatementItemTypeEnumMap = {

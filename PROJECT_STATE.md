@@ -53,19 +53,25 @@
   - [x] Auto-fill historical cost price, batch number, and expiry date.
   - [x] Dynamic categories auto-fill from suggestions.
 - [x] **Supplier Management (Full Module - V6.2 Enhanced)**
-  - [x] Data Layer: `SuppliersTable`, `SupplierPaymentsTable`, `PurchaseInvoicesTable`, `PurchaseInvoiceItemsTable`.
-  - [x] Domain: `SupplierEntity`, `SupplierStatementItem`, `ISupplierRepository`.
-  - [x] Presentation: `SuppliersScreen`, `SupplierProfileScreen`, `NewPurchaseInvoiceScreen`.
-  - [x] Smart Search: Product search with auto-fill from local/master DB during purchase.
-  - [x] Atomic Transactions: Full FIFO-ready inventory replenishment transaction.
-  - [x] **New: Global Discount** support in purchase invoices.
-  - [x] **New: Smart Sorting** by Oldest Debt (based on unpaid invoices).
-  - [x] **New: Payment Waterfall** (FIFO) & Targeted Invoice Payment.
-  - [x] **New: Immutable Invoices** with reversal (Cancellation) and Draft mode.
+  - [x] **FIFO Payment Waterfall:** Automatic debt coverage for oldest invoices.
+  - [x] **Invoice Lifecycle:** Draft mode for preparation, Immutable state after commitment.
+  - [x] **Smart Reversals:** Full cancellation logic that restores inventory and balances.
+  - [x] **Global Discounts:** Support for header-level discounts in purchase invoices.
+  - [x] **Statement Tracking:** Full debit/credit ledger for each supplier.
+- [x] **Financial Accounting & Reports (Hub V2.0)**
+  - [x] **Advanced P&L:** Net Profit tracking with COGS (Cost of Goods Sold) and Operational Expenses.
+  - [x] **Cash Flow Management:** Real-time tracking of Cash In (Sales) vs Cash Out (Purchases + Expenses).
+  - [x] **Operational Expenses:** New module to record Rent, Salaries, and Utilities.
+  - [x] **Smart Debt Balance:** Net financial position (Receivables vs Payables).
+  - [x] **Inventory Insights:** Stock valuation and automated expiry risk analysis.
+  - [x] **Custom Time Ranges:** Support for Daily, Weekly, Monthly, and precise Date Range filtering.
+- [x] **UI/UX & Atomic Design**
+  - [x] **Atomic UI Kit:** Migration to modular components (`ModernCard`, `ModernButton`).
+  - [x] **Google Stitch Aesthetic:** Modern gradients and shadows implemented in POS.
+  - [x] **Performance:** SQL-based aggregations for zero-latency dashboards.
 - [x] **Architectural Compliance (V6.1 Clean Architect)**
-  - [x] Refactored all Suppliers & POS screens into Atomic Widgets.
-  - [x] Strict adherence to 60-line file limit across the module.
-  - [x] Modularized Repository logic into Services/Transactions.
+  - [x] Strict adherence to 60-line file limit.
+  - [x] Decoupled business logic into Services and Transactions.
 
 ---
 
@@ -74,20 +80,11 @@
 - [ ] **FIFO Multi-Batch Deduction** — Currently deducts from single oldest batch (TODO in pos_repository_impl.dart)
 - [ ] **SyncUp Implementation** — pushes `isSynced=false` invoices & items to Supabase, marks synced in Drift
 - [ ] **`last_synced_at` tracking** — `SyncPreferences` persists timestamp via SharedPreferences for incremental pulls
-- [ ] **Customers Feature (lightweight)** — Domain entities, repo contract, Drift impl, injected into PosCubit
 
 ---
 
 ## ❌ Not Started
 
-- [x] **Customers Feature (Full Dashboard V1.0)**
-  - [x] Data: `CustomersTable`, `CustomerPaymentsTable`, `InvoicesTable` linking.
-  - [x] Logic: `CustomersCubit`, `CustomerProfileCubit`, FIFO Payment Waterfall.
-  - [x] UI: `CustomersScreen`, `CustomerProfileScreen`, Finance Cards, Sales History.
-- [x] **Reports Feature (Analytics Center V1.0)**
-  - [x] Data Layer: Aggregate queries for Revenue, Expenses, Debt, and Inventory.
-  - [x] Logic: `ReportsCubit` managing centralized dashboard data.
-  - [x] UI: `ReportsScreen` with overview cards for all key business metrics.
 - [ ] Settings feature
 
 ---

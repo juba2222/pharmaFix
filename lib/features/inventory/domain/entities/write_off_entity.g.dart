@@ -14,6 +14,7 @@ _WriteOffEntity _$WriteOffEntityFromJson(Map<String, dynamic> json) =>
       batchId: json['batchId'] as String,
       unitId: json['unitId'] as String,
       quantity: (json['quantity'] as num).toDouble(),
+      costPriceAtTime: (json['costPriceAtTime'] as num?)?.toDouble() ?? 0.0,
       reason: json['reason'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
@@ -26,6 +27,7 @@ Map<String, dynamic> _$WriteOffEntityToJson(_WriteOffEntity instance) =>
       'batchId': instance.batchId,
       'unitId': instance.unitId,
       'quantity': instance.quantity,
+      'costPriceAtTime': instance.costPriceAtTime,
       'reason': instance.reason,
       'createdAt': instance.createdAt.toIso8601String(),
     };

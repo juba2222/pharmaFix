@@ -59,11 +59,11 @@ class PurchaseItemProcessor {
       // If unit exists, update its selling price immediately (Auto-Pricing)
       // This fulfills: "يتحدث السعر على الرف وفي شاشة الـ POS فوراً"
       final unit = await (db.select(db.productUnitsTable)
-            ..where((t) => t.productId.equals(productId) & t.id.equals(unitId)))
+            ..where((t) => t.productId.equals(productId) & t.id.equals(unitId!)))
           .getSingleOrNull();
       if (unit != null) {
         await (db.update(db.productUnitsTable)
-              ..where((t) => t.id.equals(unitId)))
+              ..where((t) => t.id.equals(unitId!)))
             .write(ProductUnitsTableCompanion(
           sellingPrice: Value(sell),
           costPrice: Value(effectiveCost),

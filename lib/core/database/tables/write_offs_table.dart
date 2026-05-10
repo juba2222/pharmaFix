@@ -24,9 +24,9 @@ class WriteOffsTable extends Table {
   @override
   Set<Column> get primaryKey => {id};
 
-  @override
-  List<Index> get indexes => [
-        Index(productId, 'idx_write_off_product'),
-        Index(batchId, 'idx_write_off_batch'),
-      ];
+  // @override
+  // List<Index> get indexes => [
+  //       Index(productId, 'idx_write_off_product'),
+  //       Index(batchId, 'idx_write_off_batch'),
+  //     ];
 }

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PurchaseInvoiceState {
 
- List<Map<String, dynamic>> get cartItems; double get totalAmount; double get paidAmount; bool get isSaving; String? get error; bool get success;
+ List<Map<String, dynamic>> get cartItems; double get totalAmount; double get paidAmount; double get discountAmount; bool get isSaving; String? get error; bool get success;
 /// Create a copy of PurchaseInvoiceState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PurchaseInvoiceStateCopyWith<PurchaseInvoiceState> get copyWith => _$PurchaseIn
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PurchaseInvoiceState&&const DeepCollectionEquality().equals(other.cartItems, cartItems)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.success, success) || other.success == success));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PurchaseInvoiceState&&const DeepCollectionEquality().equals(other.cartItems, cartItems)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.discountAmount, discountAmount) || other.discountAmount == discountAmount)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.success, success) || other.success == success));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(cartItems),totalAmount,paidAmount,isSaving,error,success);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(cartItems),totalAmount,paidAmount,discountAmount,isSaving,error,success);
 
 @override
 String toString() {
-  return 'PurchaseInvoiceState(cartItems: $cartItems, totalAmount: $totalAmount, paidAmount: $paidAmount, isSaving: $isSaving, error: $error, success: $success)';
+  return 'PurchaseInvoiceState(cartItems: $cartItems, totalAmount: $totalAmount, paidAmount: $paidAmount, discountAmount: $discountAmount, isSaving: $isSaving, error: $error, success: $success)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PurchaseInvoiceStateCopyWith<$Res>  {
   factory $PurchaseInvoiceStateCopyWith(PurchaseInvoiceState value, $Res Function(PurchaseInvoiceState) _then) = _$PurchaseInvoiceStateCopyWithImpl;
 @useResult
 $Res call({
- List<Map<String, dynamic>> cartItems, double totalAmount, double paidAmount, bool isSaving, String? error, bool success
+ List<Map<String, dynamic>> cartItems, double totalAmount, double paidAmount, double discountAmount, bool isSaving, String? error, bool success
 });
 
 
@@ -62,11 +62,12 @@ class _$PurchaseInvoiceStateCopyWithImpl<$Res>
 
 /// Create a copy of PurchaseInvoiceState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cartItems = null,Object? totalAmount = null,Object? paidAmount = null,Object? isSaving = null,Object? error = freezed,Object? success = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? cartItems = null,Object? totalAmount = null,Object? paidAmount = null,Object? discountAmount = null,Object? isSaving = null,Object? error = freezed,Object? success = null,}) {
   return _then(_self.copyWith(
 cartItems: null == cartItems ? _self.cartItems : cartItems // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as double,paidAmount: null == paidAmount ? _self.paidAmount : paidAmount // ignore: cast_nullable_to_non_nullable
+as double,discountAmount: null == discountAmount ? _self.discountAmount : discountAmount // ignore: cast_nullable_to_non_nullable
 as double,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Map<String, dynamic>> cartItems,  double totalAmount,  double paidAmount,  bool isSaving,  String? error,  bool success)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Map<String, dynamic>> cartItems,  double totalAmount,  double paidAmount,  double discountAmount,  bool isSaving,  String? error,  bool success)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PurchaseInvoiceState() when $default != null:
-return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.isSaving,_that.error,_that.success);case _:
+return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.discountAmount,_that.isSaving,_that.error,_that.success);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.isSavin
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Map<String, dynamic>> cartItems,  double totalAmount,  double paidAmount,  bool isSaving,  String? error,  bool success)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Map<String, dynamic>> cartItems,  double totalAmount,  double paidAmount,  double discountAmount,  bool isSaving,  String? error,  bool success)  $default,) {final _that = this;
 switch (_that) {
 case _PurchaseInvoiceState():
-return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.isSaving,_that.error,_that.success);case _:
+return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.discountAmount,_that.isSaving,_that.error,_that.success);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.isSavin
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Map<String, dynamic>> cartItems,  double totalAmount,  double paidAmount,  bool isSaving,  String? error,  bool success)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Map<String, dynamic>> cartItems,  double totalAmount,  double paidAmount,  double discountAmount,  bool isSaving,  String? error,  bool success)?  $default,) {final _that = this;
 switch (_that) {
 case _PurchaseInvoiceState() when $default != null:
-return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.isSaving,_that.error,_that.success);case _:
+return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.discountAmount,_that.isSaving,_that.error,_that.success);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.cartItems,_that.totalAmount,_that.paidAmount,_that.isSavin
 
 
 class _PurchaseInvoiceState implements PurchaseInvoiceState {
-  const _PurchaseInvoiceState({final  List<Map<String, dynamic>> cartItems = const [], this.totalAmount = 0.0, this.paidAmount = 0.0, this.isSaving = false, this.error, this.success = false}): _cartItems = cartItems;
+  const _PurchaseInvoiceState({final  List<Map<String, dynamic>> cartItems = const [], this.totalAmount = 0.0, this.paidAmount = 0.0, this.discountAmount = 0.0, this.isSaving = false, this.error, this.success = false}): _cartItems = cartItems;
   
 
  final  List<Map<String, dynamic>> _cartItems;
@@ -223,6 +224,7 @@ class _PurchaseInvoiceState implements PurchaseInvoiceState {
 
 @override@JsonKey() final  double totalAmount;
 @override@JsonKey() final  double paidAmount;
+@override@JsonKey() final  double discountAmount;
 @override@JsonKey() final  bool isSaving;
 @override final  String? error;
 @override@JsonKey() final  bool success;
@@ -237,16 +239,16 @@ _$PurchaseInvoiceStateCopyWith<_PurchaseInvoiceState> get copyWith => __$Purchas
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PurchaseInvoiceState&&const DeepCollectionEquality().equals(other._cartItems, _cartItems)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.success, success) || other.success == success));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PurchaseInvoiceState&&const DeepCollectionEquality().equals(other._cartItems, _cartItems)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.discountAmount, discountAmount) || other.discountAmount == discountAmount)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.error, error) || other.error == error)&&(identical(other.success, success) || other.success == success));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_cartItems),totalAmount,paidAmount,isSaving,error,success);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_cartItems),totalAmount,paidAmount,discountAmount,isSaving,error,success);
 
 @override
 String toString() {
-  return 'PurchaseInvoiceState(cartItems: $cartItems, totalAmount: $totalAmount, paidAmount: $paidAmount, isSaving: $isSaving, error: $error, success: $success)';
+  return 'PurchaseInvoiceState(cartItems: $cartItems, totalAmount: $totalAmount, paidAmount: $paidAmount, discountAmount: $discountAmount, isSaving: $isSaving, error: $error, success: $success)';
 }
 
 
@@ -257,7 +259,7 @@ abstract mixin class _$PurchaseInvoiceStateCopyWith<$Res> implements $PurchaseIn
   factory _$PurchaseInvoiceStateCopyWith(_PurchaseInvoiceState value, $Res Function(_PurchaseInvoiceState) _then) = __$PurchaseInvoiceStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Map<String, dynamic>> cartItems, double totalAmount, double paidAmount, bool isSaving, String? error, bool success
+ List<Map<String, dynamic>> cartItems, double totalAmount, double paidAmount, double discountAmount, bool isSaving, String? error, bool success
 });
 
 
@@ -274,11 +276,12 @@ class __$PurchaseInvoiceStateCopyWithImpl<$Res>
 
 /// Create a copy of PurchaseInvoiceState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? cartItems = null,Object? totalAmount = null,Object? paidAmount = null,Object? isSaving = null,Object? error = freezed,Object? success = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? cartItems = null,Object? totalAmount = null,Object? paidAmount = null,Object? discountAmount = null,Object? isSaving = null,Object? error = freezed,Object? success = null,}) {
   return _then(_PurchaseInvoiceState(
 cartItems: null == cartItems ? _self._cartItems : cartItems // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as double,paidAmount: null == paidAmount ? _self.paidAmount : paidAmount // ignore: cast_nullable_to_non_nullable
+as double,discountAmount: null == discountAmount ? _self.discountAmount : discountAmount // ignore: cast_nullable_to_non_nullable
 as double,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
