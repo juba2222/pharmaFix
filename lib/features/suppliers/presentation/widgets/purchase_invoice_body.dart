@@ -31,8 +31,46 @@ class _PurchaseInvoiceBodyState extends State<PurchaseInvoiceBody> {
       builder: (context, state) => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextFormField(controller: _invController, decoration: const InputDecoration(labelText: 'رقم الفاتورة (اختياري)', border: OutlineInputBorder(), prefixIcon: Icon(Icons.receipt))),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: _invController,
+                    decoration: const InputDecoration(
+                      labelText: 'رقم الفاتورة (اختياري)',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.receipt),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    ),
+                    icon: const Icon(Icons.calendar_today, size: 18),
+                    label: Text(state.invoiceDate?.toString().substring(0, 10) ?? 'التاريخ'),
+                    onPressed: () async {
+                      final date = await showDatePicker(
+                        context: context,
+                        initialDate: state.invoiceDate ?? DateTime.now(),
+                        firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
+                      );
+                      if (date != null) {
+                        if (context.mounted) {
+                          context.read<PurchaseInvoiceCubit>().updateInvoiceDate(date);
+                        }
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
           const PurchaseProductSearch(),
           Expanded(child: PurchaseCartList(items: state.cartItems)),

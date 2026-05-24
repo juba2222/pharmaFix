@@ -18,8 +18,11 @@ abstract class PurchaseInvoiceState with _$PurchaseInvoiceState {
     @Default(false) bool isSaving,
     String? error,
     @Default(false) bool success,
+    DateTime? invoiceDate, // G4: Custom invoice date picker support
   }) = _PurchaseInvoiceState;
 
   /// Convenience factory — returns a state with all defaults.
-  factory PurchaseInvoiceState.initial() => const PurchaseInvoiceState();
+  factory PurchaseInvoiceState.initial() => PurchaseInvoiceState(
+        invoiceDate: DateTime.now(),
+      );
 }

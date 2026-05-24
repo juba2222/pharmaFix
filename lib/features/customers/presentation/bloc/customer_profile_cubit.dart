@@ -1,3 +1,9 @@
+// =============================================================
+// File: lib/features/customers/presentation/bloc/customer_profile_cubit.dart
+// Purpose: Cubit for managing individual customer profile state.
+// Layer: Presentation (BLoC)
+// =============================================================
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/repositories/i_customer_repository.dart';
 import 'customer_profile_state.dart';
@@ -17,20 +23,17 @@ class CustomerProfileCubit extends Cubit<CustomerProfileState> {
 
   Future<void> loadProfile() async {
     emit(const CustomerProfileState.loading());
-    final statsRes = await _repository.getCustomerStats(_customerId);
-    final historyRes = await _repository.getCustomerSalesHistory(_customerId);
-
-    statsRes.fold(
+    final stats = await _repository.getCustomerStats(_customerId);
+    final hist = await _repository.getCustomerSalesHistory(_customerId);
+    
+    stats.fold(
       (f) => emit(CustomerProfileState.error(f.message)),
-      (stats) => historyRes.fold(
+      (s) => hist.fold(
         (f) => emit(CustomerProfileState.error(f.message)),
-        (history) => emit(CustomerProfileState.loaded(
-          currentBalance: stats['currentBalance'],
-          creditLimit: stats['creditLimit'],
-          totalPurchases: stats['totalPurchases'],
-          lastSale: stats['lastSale'],
-          invoiceCount: stats['invoiceCount'],
-          salesHistory: history,
+        (h) => emit(CustomerProfileState.loaded(
+          currentBalance: s['currentBalance'], creditLimit: s['creditLimit'],
+          totalPurchases: s['totalPurchases'], lastSale: s['lastSale'],
+          invoiceCount: s['invoiceCount'], salesHistory: h,
         )),
       ),
     );
@@ -38,15 +41,9 @@ class CustomerProfileCubit extends Cubit<CustomerProfileState> {
 
   Future<void> collectPayment(double amount, String? notes) async {
     final res = await _repository.collectDebtPayment(
-      customerId: _customerId,
-      pharmacyId: pharmacyId,
-      amount: amount,
-      date: DateTime.now(),
-      notes: notes,
+      customerId: _customerId, pharmacyId: pharmacyId,
+      amount: amount, date: DateTime.now(), notes: notes,
     );
-    res.fold(
-      (f) => emit(CustomerProfileState.error(f.message)),
-      (_) => loadProfile(),
-    );
+    res.fold((f) => emit(CustomerProfileState.error(f.message)), (_) => loadProfile());
   }
 }

@@ -73,7 +73,7 @@ class AppDatabase extends _$AppDatabase {
 
   // Following the ERD carefully.
   @override
-  int get schemaVersion => 10; // Added costPriceAtTime to WriteOffs
+  int get schemaVersion => 11; // G1: Added bonus_quantity to purchase_invoice_items
 
 
   @override
@@ -83,18 +83,20 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (Migrator m, int from, int to) async {
           if (from < 8) {
-
             // Drop existing tables and recreate for this major refactor
-            // In a production app, we would use proper migrations, but for this refactor phase, 
-            // we ensure the schema is in sync with the ERD.
             for (final table in allTables) {
-              try {
-                await m.deleteTable(table.actualTableName);
-              } catch (_) {}
-              try {
-                await m.createTable(table);
-              } catch (_) {}
+              try { await m.deleteTable(table.actualTableName); } catch (_) {}
+              try { await m.createTable(table); } catch (_) {}
             }
+          }
+          if (from < 11) {
+            // G1: Add bonus_quantity to purchase_invoice_items (non-destructive)
+            try {
+              await m.addColumn(
+                purchaseInvoiceItemsTable,
+                purchaseInvoiceItemsTable.bonusQuantity,
+              );
+            } catch (_) {} // Column may already exist in fresh installs
           }
         },
       );

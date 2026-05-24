@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SupplierStatementItem {
 
- String get id; StatementItemType get type; double get amount; DateTime get date; String? get referenceNumber; String? get notes; double? get paidAmount; String? get pharmacyId;
+ String get id; StatementItemType get type; double get amount; DateTime get date; String? get referenceNumber; String? get notes; double? get paidAmount; double? get remainingAmount;// G6: explicit remaining for UI
+ String? get pharmacyId; String? get status;
 /// Create a copy of SupplierStatementItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $SupplierStatementItemCopyWith<SupplierStatementItem> get copyWith => _$Supplier
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierStatementItem&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date)&&(identical(other.referenceNumber, referenceNumber) || other.referenceNumber == referenceNumber)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierStatementItem&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date)&&(identical(other.referenceNumber, referenceNumber) || other.referenceNumber == referenceNumber)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.remainingAmount, remainingAmount) || other.remainingAmount == remainingAmount)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,amount,date,referenceNumber,notes,paidAmount,pharmacyId);
+int get hashCode => Object.hash(runtimeType,id,type,amount,date,referenceNumber,notes,paidAmount,remainingAmount,pharmacyId,status);
 
 @override
 String toString() {
-  return 'SupplierStatementItem(id: $id, type: $type, amount: $amount, date: $date, referenceNumber: $referenceNumber, notes: $notes, paidAmount: $paidAmount, pharmacyId: $pharmacyId)';
+  return 'SupplierStatementItem(id: $id, type: $type, amount: $amount, date: $date, referenceNumber: $referenceNumber, notes: $notes, paidAmount: $paidAmount, remainingAmount: $remainingAmount, pharmacyId: $pharmacyId, status: $status)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $SupplierStatementItemCopyWith<$Res>  {
   factory $SupplierStatementItemCopyWith(SupplierStatementItem value, $Res Function(SupplierStatementItem) _then) = _$SupplierStatementItemCopyWithImpl;
 @useResult
 $Res call({
- String id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes, double? paidAmount, String? pharmacyId
+ String id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes, double? paidAmount, double? remainingAmount, String? pharmacyId, String? status
 });
 
 
@@ -65,7 +66,7 @@ class _$SupplierStatementItemCopyWithImpl<$Res>
 
 /// Create a copy of SupplierStatementItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? amount = null,Object? date = null,Object? referenceNumber = freezed,Object? notes = freezed,Object? paidAmount = freezed,Object? pharmacyId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? amount = null,Object? date = null,Object? referenceNumber = freezed,Object? notes = freezed,Object? paidAmount = freezed,Object? remainingAmount = freezed,Object? pharmacyId = freezed,Object? status = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -74,7 +75,9 @@ as double,date: null == date ? _self.date : date // ignore: cast_nullable_to_non
 as DateTime,referenceNumber: freezed == referenceNumber ? _self.referenceNumber : referenceNumber // ignore: cast_nullable_to_non_nullable
 as String?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String?,paidAmount: freezed == paidAmount ? _self.paidAmount : paidAmount // ignore: cast_nullable_to_non_nullable
+as double?,remainingAmount: freezed == remainingAmount ? _self.remainingAmount : remainingAmount // ignore: cast_nullable_to_non_nullable
 as double?,pharmacyId: freezed == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
+as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -160,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes,  double? paidAmount,  String? pharmacyId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes,  double? paidAmount,  double? remainingAmount,  String? pharmacyId,  String? status)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SupplierStatementItem() when $default != null:
-return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes,_that.paidAmount,_that.pharmacyId);case _:
+return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes,_that.paidAmount,_that.remainingAmount,_that.pharmacyId,_that.status);case _:
   return orElse();
 
 }
@@ -181,10 +184,10 @@ return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumbe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes,  double? paidAmount,  String? pharmacyId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes,  double? paidAmount,  double? remainingAmount,  String? pharmacyId,  String? status)  $default,) {final _that = this;
 switch (_that) {
 case _SupplierStatementItem():
-return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes,_that.paidAmount,_that.pharmacyId);case _:
+return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes,_that.paidAmount,_that.remainingAmount,_that.pharmacyId,_that.status);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +204,10 @@ return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumbe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes,  double? paidAmount,  String? pharmacyId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  StatementItemType type,  double amount,  DateTime date,  String? referenceNumber,  String? notes,  double? paidAmount,  double? remainingAmount,  String? pharmacyId,  String? status)?  $default,) {final _that = this;
 switch (_that) {
 case _SupplierStatementItem() when $default != null:
-return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes,_that.paidAmount,_that.pharmacyId);case _:
+return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumber,_that.notes,_that.paidAmount,_that.remainingAmount,_that.pharmacyId,_that.status);case _:
   return null;
 
 }
@@ -216,7 +219,7 @@ return $default(_that.id,_that.type,_that.amount,_that.date,_that.referenceNumbe
 @JsonSerializable()
 
 class _SupplierStatementItem implements SupplierStatementItem {
-  const _SupplierStatementItem({required this.id, required this.type, required this.amount, required this.date, this.referenceNumber, this.notes, this.paidAmount, this.pharmacyId});
+  const _SupplierStatementItem({required this.id, required this.type, required this.amount, required this.date, this.referenceNumber, this.notes, this.paidAmount, this.remainingAmount, this.pharmacyId, this.status});
   factory _SupplierStatementItem.fromJson(Map<String, dynamic> json) => _$SupplierStatementItemFromJson(json);
 
 @override final  String id;
@@ -226,7 +229,10 @@ class _SupplierStatementItem implements SupplierStatementItem {
 @override final  String? referenceNumber;
 @override final  String? notes;
 @override final  double? paidAmount;
+@override final  double? remainingAmount;
+// G6: explicit remaining for UI
 @override final  String? pharmacyId;
+@override final  String? status;
 
 /// Create a copy of SupplierStatementItem
 /// with the given fields replaced by the non-null parameter values.
@@ -241,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierStatementItem&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date)&&(identical(other.referenceNumber, referenceNumber) || other.referenceNumber == referenceNumber)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierStatementItem&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date)&&(identical(other.referenceNumber, referenceNumber) || other.referenceNumber == referenceNumber)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.paidAmount, paidAmount) || other.paidAmount == paidAmount)&&(identical(other.remainingAmount, remainingAmount) || other.remainingAmount == remainingAmount)&&(identical(other.pharmacyId, pharmacyId) || other.pharmacyId == pharmacyId)&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,amount,date,referenceNumber,notes,paidAmount,pharmacyId);
+int get hashCode => Object.hash(runtimeType,id,type,amount,date,referenceNumber,notes,paidAmount,remainingAmount,pharmacyId,status);
 
 @override
 String toString() {
-  return 'SupplierStatementItem(id: $id, type: $type, amount: $amount, date: $date, referenceNumber: $referenceNumber, notes: $notes, paidAmount: $paidAmount, pharmacyId: $pharmacyId)';
+  return 'SupplierStatementItem(id: $id, type: $type, amount: $amount, date: $date, referenceNumber: $referenceNumber, notes: $notes, paidAmount: $paidAmount, remainingAmount: $remainingAmount, pharmacyId: $pharmacyId, status: $status)';
 }
 
 
@@ -261,7 +267,7 @@ abstract mixin class _$SupplierStatementItemCopyWith<$Res> implements $SupplierS
   factory _$SupplierStatementItemCopyWith(_SupplierStatementItem value, $Res Function(_SupplierStatementItem) _then) = __$SupplierStatementItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes, double? paidAmount, String? pharmacyId
+ String id, StatementItemType type, double amount, DateTime date, String? referenceNumber, String? notes, double? paidAmount, double? remainingAmount, String? pharmacyId, String? status
 });
 
 
@@ -278,7 +284,7 @@ class __$SupplierStatementItemCopyWithImpl<$Res>
 
 /// Create a copy of SupplierStatementItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? amount = null,Object? date = null,Object? referenceNumber = freezed,Object? notes = freezed,Object? paidAmount = freezed,Object? pharmacyId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? amount = null,Object? date = null,Object? referenceNumber = freezed,Object? notes = freezed,Object? paidAmount = freezed,Object? remainingAmount = freezed,Object? pharmacyId = freezed,Object? status = freezed,}) {
   return _then(_SupplierStatementItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -287,7 +293,9 @@ as double,date: null == date ? _self.date : date // ignore: cast_nullable_to_non
 as DateTime,referenceNumber: freezed == referenceNumber ? _self.referenceNumber : referenceNumber // ignore: cast_nullable_to_non_nullable
 as String?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String?,paidAmount: freezed == paidAmount ? _self.paidAmount : paidAmount // ignore: cast_nullable_to_non_nullable
+as double?,remainingAmount: freezed == remainingAmount ? _self.remainingAmount : remainingAmount // ignore: cast_nullable_to_non_nullable
 as double?,pharmacyId: freezed == pharmacyId ? _self.pharmacyId : pharmacyId // ignore: cast_nullable_to_non_nullable
+as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

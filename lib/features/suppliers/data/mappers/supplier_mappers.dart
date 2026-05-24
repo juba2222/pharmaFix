@@ -31,6 +31,10 @@ class SupplierMappers {
       amount: r.totalAmount,
       date: r.invoiceDate,
       referenceNumber: r.invoiceNumber,
+      pharmacyId: r.pharmacyId,
+      paidAmount: r.paidAmount,
+      remainingAmount: r.remainingAmount, // G6: explicit remaining
+      status: r.status,                   // G6: explicit status (no longer via notes)
     );
   }
 }

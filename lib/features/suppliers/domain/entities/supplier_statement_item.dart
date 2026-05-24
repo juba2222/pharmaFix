@@ -15,7 +15,9 @@ abstract class SupplierStatementItem with _$SupplierStatementItem {
     String? referenceNumber,
     String? notes,
     double? paidAmount,
+    double? remainingAmount, // G6: explicit remaining for UI
     String? pharmacyId,
+    String? status,          // G6: explicit status — no longer carried in notes
   }) = _SupplierStatementItem;
 
   factory SupplierStatementItem.fromJson(Map<String, dynamic> json) =>

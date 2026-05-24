@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/customer_entity.dart';
+import '../../domain/entities/sale_invoice_entity.dart';
 import '../../domain/repositories/i_customer_repository.dart';
 import '../models/customer_model.dart';
 
@@ -183,6 +184,48 @@ class CustomerRepositoryImpl implements ICustomerRepository {
     // This requires complex logic involving Inventory and Invoices.
     // Placeholder for now as per "Step-by-Step" instructions.
     return const Right(unit);
+  }
+
+  @override
+  Future<Either<Failure, SaleInvoiceEntity>> getSaleInvoiceDetails(String invoiceId) async {
+    try {
+      final invoice = await (_db.select(_db.invoicesTable)..where((t) => t.id.equals(invoiceId))).getSingle();
+      
+      final itemsQuery = _db.select(_db.invoiceItemsTable).join([
+        drift.innerJoin(_db.productsTable, _db.productsTable.id.equalsExp(_db.invoiceItemsTable.productId)),
+        drift.innerJoin(_db.productUnitsTable, _db.productUnitsTable.id.equalsExp(_db.invoiceItemsTable.unitId)),
+      ])..where(_db.invoiceItemsTable.invoiceId.equals(invoiceId));
+
+      final itemRows = await itemsQuery.get();
+      
+      final items = itemRows.map((row) {
+        final item = row.readTable(_db.invoiceItemsTable);
+        final prod = row.readTable(_db.productsTable);
+        final unit = row.readTable(_db.productUnitsTable);
+        
+        return SaleInvoiceItemEntity(
+          productName: prod.localName,
+          unitName: unit.unitName,
+          quantity: item.quantity,
+          price: item.finalUnitPrice ?? 0.0,
+          total: item.subtotal,
+        );
+      }).toList();
+
+      return Right(SaleInvoiceEntity(
+        id: invoice.id,
+        status: invoice.status,
+        date: invoice.createdAt ?? DateTime.now(),
+        subtotal: invoice.totalAmount + invoice.discountTotal,
+        discount: invoice.discountTotal,
+        total: invoice.totalAmount,
+        paidAmount: invoice.paidAmount,
+        paymentMethod: invoice.paymentMethod,
+        items: items,
+      ));
+    } catch (e) {
+      return Left(DatabaseFailure(e.toString()));
+    }
   }
 
   @override

@@ -30,6 +30,9 @@ import '../../features/customers/presentation/bloc/customers_cubit.dart';
 import '../../features/reports/data/repositories/reports_repository_impl.dart';
 import '../../features/reports/domain/repositories/i_reports_repository.dart';
 import '../../features/reports/presentation/bloc/reports_cubit.dart';
+import '../../features/customers/presentation/bloc/customer_profile_cubit.dart';
+import '../../features/customers/presentation/bloc/collection_cubit.dart';
+import '../../features/customers/presentation/bloc/sale_invoice_details_cubit.dart';
 
 
 // 'sl' stands for Service Locator
@@ -96,5 +99,24 @@ Future<void> init() async {
   sl.registerFactory(() => ReportsCubit(
         repository: sl<IReportsRepository>(),
       ));
+  
+  // New Customer Module Cubits
+  sl.registerFactoryParam<CustomerProfileCubit, int, int>((customerId, pharmacyId) => CustomerProfileCubit(
+    repository: sl(),
+    customerId: customerId,
+    pharmacyId: pharmacyId,
+  ));
+
+  sl.registerFactoryParam<CollectionCubit, Map<String, dynamic>, void>((params, _) => CollectionCubit(
+    repository: sl(),
+    customerId: params['customerId'],
+    pharmacyId: params['pharmacyId'],
+    currentBalance: params['currentBalance'],
+  ));
+
+  sl.registerFactoryParam<SaleInvoiceDetailsCubit, String, void>((invoiceId, _) => SaleInvoiceDetailsCubit(
+    repository: sl(),
+    invoiceId: invoiceId,
+  ));
 
 }

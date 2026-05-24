@@ -28,6 +28,12 @@ class PurchaseInvoiceItemsTable extends Table {
       .nullable()();
       
   RealColumn get quantity => real().named(TableConstants.colQuantity)();
+
+  // G1: Explicit bonus quantity — needed for correct cancellation logic.
+  // Total received = quantity + bonusQuantity.
+  RealColumn get bonusQuantity =>
+      real().named('bonus_quantity').withDefault(const Constant(0.0))();
+
   RealColumn get purchasePrice => real().named(TableConstants.colPurchasePrice)();
   
   DateTimeColumn get expiryDate => dateTime().named(TableConstants.colExpiryDate).nullable()();

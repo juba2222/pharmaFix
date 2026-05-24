@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
+import '../../../../core/base/current_session.dart';
 import '../../domain/entities/supplier_entity.dart';
 import '../cubit/supplier_profile_cubit.dart';
 import '../widgets/profile_body.dart';
@@ -19,7 +20,12 @@ class SupplierProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SupplierProfileCubit(repository: sl(), supplierId: supplier.id)..loadProfile(),
+      // G3: Pass CurrentSession so cubit resolves pharmacyId correctly
+      create: (_) => SupplierProfileCubit(
+        repository: sl(),
+        supplierId: supplier.id,
+        session: sl<CurrentSession>(),
+      )..loadProfile(),
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -35,7 +41,7 @@ class SupplierProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: const ProfileBody(),
+          body: ProfileBody(supplier: supplier),
         ),
       ),
     );

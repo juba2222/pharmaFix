@@ -13,8 +13,10 @@ import '../pages/new_purchase_invoice_screen.dart';
 
 class InvoicesTab extends StatelessWidget {
   final List<SupplierStatementItem> invoices;
+  // G2: Pass supplier so we can open Draft screen after cancellation
+  final SupplierEntity supplier;
 
-  const InvoicesTab({super.key, required this.invoices});
+  const InvoicesTab({super.key, required this.invoices, required this.supplier});
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +37,15 @@ class InvoicesTab extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('${inv.amount} ر.س', style: const TextStyle(fontWeight: FontWeight.bold)),
-                    _StatusBadge(inv.notes ?? ''),
+                    Text('${inv.amount.toStringAsFixed(2)} ر.س',
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    // G6: Use explicit status field, not notes
+                    _StatusBadge(inv.status ?? 'unknown'),
                   ],
                 ),
-                if (inv.notes != 'cancelled') ...[
-                  if (inv.amount - (inv.paidAmount ?? 0) > 0)
+                // G6: Guard using explicit status
+                if (inv.status != 'cancelled') ...[
+                  if ((inv.remainingAmount ?? 0) > 0)
                     IconButton(
                       icon: const Icon(Icons.payment, color: Colors.green, size: 20),
                       onPressed: () => _showPayInvoiceDialog(context, inv),
@@ -59,7 +64,8 @@ class InvoicesTab extends StatelessWidget {
   }
 
   void _showPayInvoiceDialog(BuildContext context, SupplierStatementItem inv) {
-    final controller = TextEditingController(text: (inv.amount - (inv.paidAmount ?? 0)).toString());
+    final remaining = inv.remainingAmount ?? 0;
+    final controller = TextEditingController(text: remaining.toStringAsFixed(2));
     showDialog(
       context: context,
       builder: (dContext) => AlertDialog(
@@ -67,9 +73,15 @@ class InvoicesTab extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('المبلغ المتبقي: ${inv.amount - (inv.paidAmount ?? 0)} ر.س'),
+            // G6: Use explicit remainingAmount
+            Text('المبلغ المتبقي: ${remaining.toStringAsFixed(2)} ر.س'),
             const SizedBox(height: 16),
-            TextField(controller: controller, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'المبلغ المدفوع', border: OutlineInputBorder())),
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  labelText: 'المبلغ المدفوع', border: OutlineInputBorder()),
+            ),
           ],
         ),
         actions: [
@@ -79,10 +91,10 @@ class InvoicesTab extends StatelessWidget {
               final amount = double.tryParse(controller.text) ?? 0;
               if (amount > 0) {
                 context.read<SupplierProfileCubit>().addPayment(
-                  amount,
-                  invoiceId: inv.id,
-                  pharmacyId: inv.pharmacyId,
-                );
+                      amount,
+                      invoiceId: inv.id,
+                      pharmacyId: inv.pharmacyId,
+                    );
               }
               Navigator.pop(dContext);
             },
@@ -99,7 +111,8 @@ class InvoicesTab extends StatelessWidget {
       context: context,
       builder: (dContext) => AlertDialog(
         title: const Text('إلغاء الفاتورة؟'),
-        content: const Text('سيتم حذف الأدوية من المخزن وإرجاع الدين للمورد. لا يمكن الإلغاء إذا تم بيع أي علبة.'),
+        content: const Text(
+            'سيتم حذف الأدوية من المخزن وإرجاع الدين للمورد. لا يمكن الإلغاء إذا تم بيع أي علبة.'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(dContext), child: const Text('رجوع')),
           ElevatedButton(
@@ -108,14 +121,16 @@ class InvoicesTab extends StatelessWidget {
               Navigator.pop(dContext);
               cubit.cancelInvoice(
                 invoiceId,
-                onDraft: (items) {
-                  // Re-open as draft
-                  // Note: In a real app, we'd pass the supplier entity properly.
-                  // For now, we use a simple approach to show the flow.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تم إلغاء الفاتورة وفتحها كمسودة للتصحيح')),
-                  );
-                },
+                // G2: Open Draft screen with the cancelled invoice items
+                onDraft: (items) => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => NewPurchaseInvoiceScreen(
+                      supplier: supplier,
+                      initialItems: items,
+                    ),
+                  ),
+                ),
               );
             },
             child: const Text('تأكيد الإلغاء', style: TextStyle(color: Colors.white)),

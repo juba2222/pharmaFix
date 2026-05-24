@@ -7,6 +7,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/customer_entity.dart';
+import '../entities/sale_invoice_entity.dart';
 
 enum CustomerSortOption { highestDebt, oldestDebt }
 
@@ -47,6 +48,9 @@ abstract class ICustomerRepository {
     required double quantity,
     required double refundAmount,
   });
+
+  /// Get full details of a specific sale invoice.
+  Future<Either<Failure, SaleInvoiceEntity>> getSaleInvoiceDetails(String invoiceId);
 
   /// Delete a customer (restricted if they have debt).
   Future<Either<Failure, Unit>> deleteCustomer(int customerId);

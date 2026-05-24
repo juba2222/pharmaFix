@@ -5,6 +5,7 @@
 // =============================================================
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/base/current_session.dart';
 import '../../domain/entities/supplier_statement_item.dart';
 import '../../domain/repositories/i_supplier_repository.dart';
 import 'supplier_profile_state.dart';
@@ -12,12 +13,16 @@ import 'supplier_profile_state.dart';
 class SupplierProfileCubit extends Cubit<SupplierProfileState> {
   final ISupplierRepository _repository;
   final String _supplierId;
+  // G3: Inject CurrentSession to get pharmacyId reliably
+  final CurrentSession _session;
 
   SupplierProfileCubit({
     required ISupplierRepository repository,
     required String supplierId,
+    required CurrentSession session,
   })  : _repository = repository,
         _supplierId = supplierId,
+        _session = session,
         super(const SupplierProfileState.initial());
 
   Future<void> loadProfile() async {
@@ -47,12 +52,11 @@ class SupplierProfileCubit extends Cubit<SupplierProfileState> {
     );
   }
 
-  Future<void> cancelInvoice(String invoiceId, {Function(List<Map<String, dynamic>>)? onDraft}) async {
+  Future<void> cancelInvoice(String invoiceId,
+      {Function(List<Map<String, dynamic>>)? onDraft}) async {
     final result = await _repository.cancelPurchaseInvoice(invoiceId);
     result.fold(
-      (f) {
-        loadProfile();
-      },
+      (f) => loadProfile(),
       (items) {
         if (onDraft != null) onDraft(items);
         loadProfile();
@@ -60,17 +64,17 @@ class SupplierProfileCubit extends Cubit<SupplierProfileState> {
     );
   }
 
-  Future<void> addPayment(double amount, {String? invoiceId, String? pharmacyId}) async {
+  Future<void> addPayment(double amount,
+      {String? invoiceId, String? pharmacyId}) async {
+    // G3: Use session pharmacyId, fall back to passed value
+    final pid = _session.pharmacyId ?? pharmacyId ?? '';
     final res = await _repository.addSupplierPayment(
       supplierId: _supplierId,
-      pharmacyId: pharmacyId ?? '', // Handle via session or pass from UI
+      pharmacyId: pid,
       amount: amount,
       date: DateTime.now(),
       invoiceId: invoiceId,
     );
-    res.fold(
-      (f) => null, // Handle error
-      (_) => loadProfile(),
-    );
+    res.fold((f) => null, (_) => loadProfile());
   }
 }

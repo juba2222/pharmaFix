@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/supplier_entity.dart';
 import '../cubit/supplier_profile_cubit.dart';
 import '../cubit/supplier_profile_state.dart';
 import 'profile_header.dart';
@@ -13,7 +14,9 @@ import 'invoices_tab.dart';
 import 'catalog_tab.dart';
 
 class ProfileBody extends StatelessWidget {
-  const ProfileBody({super.key});
+  // G2: Receive supplier to pass down to InvoicesTab for Draft re-entry
+  final SupplierEntity supplier;
+  const ProfileBody({super.key, required this.supplier});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,8 @@ class ProfileBody extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  InvoicesTab(invoices: invoices),
+                  // G2: Pass supplier so InvoicesTab can open Draft screen
+                  InvoicesTab(invoices: invoices, supplier: supplier),
                   CatalogTab(catalog: catalog),
                 ],
               ),

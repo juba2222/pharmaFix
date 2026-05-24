@@ -10167,6 +10167,18 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _bonusQuantityMeta = const VerificationMeta(
+    'bonusQuantity',
+  );
+  @override
+  late final GeneratedColumn<double> bonusQuantity = GeneratedColumn<double>(
+    'bonus_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
   static const VerificationMeta _purchasePriceMeta = const VerificationMeta(
     'purchasePrice',
   );
@@ -10220,6 +10232,7 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
     unitId,
     batchId,
     quantity,
+    bonusQuantity,
     purchasePrice,
     expiryDate,
     batchNumber,
@@ -10280,6 +10293,15 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
       );
     } else if (isInserting) {
       context.missing(_quantityMeta);
+    }
+    if (data.containsKey('bonus_quantity')) {
+      context.handle(
+        _bonusQuantityMeta,
+        bonusQuantity.isAcceptableOrUnknown(
+          data['bonus_quantity']!,
+          _bonusQuantityMeta,
+        ),
+      );
     }
     if (data.containsKey('purchase_price')) {
       context.handle(
@@ -10349,6 +10371,10 @@ class $PurchaseInvoiceItemsTableTable extends PurchaseInvoiceItemsTable
         DriftSqlType.double,
         data['${effectivePrefix}quantity'],
       )!,
+      bonusQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bonus_quantity'],
+      )!,
       purchasePrice: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}purchase_price'],
@@ -10382,6 +10408,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
   final String? unitId;
   final String? batchId;
   final double quantity;
+  final double bonusQuantity;
   final double purchasePrice;
   final DateTime? expiryDate;
   final String? batchNumber;
@@ -10393,6 +10420,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
     this.unitId,
     this.batchId,
     required this.quantity,
+    required this.bonusQuantity,
     required this.purchasePrice,
     this.expiryDate,
     this.batchNumber,
@@ -10411,6 +10439,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
       map['batch_id'] = Variable<String>(batchId);
     }
     map['quantity'] = Variable<double>(quantity);
+    map['bonus_quantity'] = Variable<double>(bonusQuantity);
     map['purchase_price'] = Variable<double>(purchasePrice);
     if (!nullToAbsent || expiryDate != null) {
       map['expiry_date'] = Variable<DateTime>(expiryDate);
@@ -10434,6 +10463,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
           ? const Value.absent()
           : Value(batchId),
       quantity: Value(quantity),
+      bonusQuantity: Value(bonusQuantity),
       purchasePrice: Value(purchasePrice),
       expiryDate: expiryDate == null && nullToAbsent
           ? const Value.absent()
@@ -10457,6 +10487,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
       unitId: serializer.fromJson<String?>(json['unitId']),
       batchId: serializer.fromJson<String?>(json['batchId']),
       quantity: serializer.fromJson<double>(json['quantity']),
+      bonusQuantity: serializer.fromJson<double>(json['bonusQuantity']),
       purchasePrice: serializer.fromJson<double>(json['purchasePrice']),
       expiryDate: serializer.fromJson<DateTime?>(json['expiryDate']),
       batchNumber: serializer.fromJson<String?>(json['batchNumber']),
@@ -10473,6 +10504,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
       'unitId': serializer.toJson<String?>(unitId),
       'batchId': serializer.toJson<String?>(batchId),
       'quantity': serializer.toJson<double>(quantity),
+      'bonusQuantity': serializer.toJson<double>(bonusQuantity),
       'purchasePrice': serializer.toJson<double>(purchasePrice),
       'expiryDate': serializer.toJson<DateTime?>(expiryDate),
       'batchNumber': serializer.toJson<String?>(batchNumber),
@@ -10487,6 +10519,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
     Value<String?> unitId = const Value.absent(),
     Value<String?> batchId = const Value.absent(),
     double? quantity,
+    double? bonusQuantity,
     double? purchasePrice,
     Value<DateTime?> expiryDate = const Value.absent(),
     Value<String?> batchNumber = const Value.absent(),
@@ -10498,6 +10531,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
     unitId: unitId.present ? unitId.value : this.unitId,
     batchId: batchId.present ? batchId.value : this.batchId,
     quantity: quantity ?? this.quantity,
+    bonusQuantity: bonusQuantity ?? this.bonusQuantity,
     purchasePrice: purchasePrice ?? this.purchasePrice,
     expiryDate: expiryDate.present ? expiryDate.value : this.expiryDate,
     batchNumber: batchNumber.present ? batchNumber.value : this.batchNumber,
@@ -10515,6 +10549,9 @@ class PurchaseInvoiceItemDbModel extends DataClass
       unitId: data.unitId.present ? data.unitId.value : this.unitId,
       batchId: data.batchId.present ? data.batchId.value : this.batchId,
       quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      bonusQuantity: data.bonusQuantity.present
+          ? data.bonusQuantity.value
+          : this.bonusQuantity,
       purchasePrice: data.purchasePrice.present
           ? data.purchasePrice.value
           : this.purchasePrice,
@@ -10537,6 +10574,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
           ..write('unitId: $unitId, ')
           ..write('batchId: $batchId, ')
           ..write('quantity: $quantity, ')
+          ..write('bonusQuantity: $bonusQuantity, ')
           ..write('purchasePrice: $purchasePrice, ')
           ..write('expiryDate: $expiryDate, ')
           ..write('batchNumber: $batchNumber, ')
@@ -10553,6 +10591,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
     unitId,
     batchId,
     quantity,
+    bonusQuantity,
     purchasePrice,
     expiryDate,
     batchNumber,
@@ -10568,6 +10607,7 @@ class PurchaseInvoiceItemDbModel extends DataClass
           other.unitId == this.unitId &&
           other.batchId == this.batchId &&
           other.quantity == this.quantity &&
+          other.bonusQuantity == this.bonusQuantity &&
           other.purchasePrice == this.purchasePrice &&
           other.expiryDate == this.expiryDate &&
           other.batchNumber == this.batchNumber &&
@@ -10582,6 +10622,7 @@ class PurchaseInvoiceItemsTableCompanion
   final Value<String?> unitId;
   final Value<String?> batchId;
   final Value<double> quantity;
+  final Value<double> bonusQuantity;
   final Value<double> purchasePrice;
   final Value<DateTime?> expiryDate;
   final Value<String?> batchNumber;
@@ -10594,6 +10635,7 @@ class PurchaseInvoiceItemsTableCompanion
     this.unitId = const Value.absent(),
     this.batchId = const Value.absent(),
     this.quantity = const Value.absent(),
+    this.bonusQuantity = const Value.absent(),
     this.purchasePrice = const Value.absent(),
     this.expiryDate = const Value.absent(),
     this.batchNumber = const Value.absent(),
@@ -10607,6 +10649,7 @@ class PurchaseInvoiceItemsTableCompanion
     this.unitId = const Value.absent(),
     this.batchId = const Value.absent(),
     required double quantity,
+    this.bonusQuantity = const Value.absent(),
     required double purchasePrice,
     this.expiryDate = const Value.absent(),
     this.batchNumber = const Value.absent(),
@@ -10624,6 +10667,7 @@ class PurchaseInvoiceItemsTableCompanion
     Expression<String>? unitId,
     Expression<String>? batchId,
     Expression<double>? quantity,
+    Expression<double>? bonusQuantity,
     Expression<double>? purchasePrice,
     Expression<DateTime>? expiryDate,
     Expression<String>? batchNumber,
@@ -10637,6 +10681,7 @@ class PurchaseInvoiceItemsTableCompanion
       if (unitId != null) 'unit_id': unitId,
       if (batchId != null) 'batch_id': batchId,
       if (quantity != null) 'quantity': quantity,
+      if (bonusQuantity != null) 'bonus_quantity': bonusQuantity,
       if (purchasePrice != null) 'purchase_price': purchasePrice,
       if (expiryDate != null) 'expiry_date': expiryDate,
       if (batchNumber != null) 'batch_number': batchNumber,
@@ -10652,6 +10697,7 @@ class PurchaseInvoiceItemsTableCompanion
     Value<String?>? unitId,
     Value<String?>? batchId,
     Value<double>? quantity,
+    Value<double>? bonusQuantity,
     Value<double>? purchasePrice,
     Value<DateTime?>? expiryDate,
     Value<String?>? batchNumber,
@@ -10665,6 +10711,7 @@ class PurchaseInvoiceItemsTableCompanion
       unitId: unitId ?? this.unitId,
       batchId: batchId ?? this.batchId,
       quantity: quantity ?? this.quantity,
+      bonusQuantity: bonusQuantity ?? this.bonusQuantity,
       purchasePrice: purchasePrice ?? this.purchasePrice,
       expiryDate: expiryDate ?? this.expiryDate,
       batchNumber: batchNumber ?? this.batchNumber,
@@ -10694,6 +10741,9 @@ class PurchaseInvoiceItemsTableCompanion
     if (quantity.present) {
       map['quantity'] = Variable<double>(quantity.value);
     }
+    if (bonusQuantity.present) {
+      map['bonus_quantity'] = Variable<double>(bonusQuantity.value);
+    }
     if (purchasePrice.present) {
       map['purchase_price'] = Variable<double>(purchasePrice.value);
     }
@@ -10721,6 +10771,7 @@ class PurchaseInvoiceItemsTableCompanion
           ..write('unitId: $unitId, ')
           ..write('batchId: $batchId, ')
           ..write('quantity: $quantity, ')
+          ..write('bonusQuantity: $bonusQuantity, ')
           ..write('purchasePrice: $purchasePrice, ')
           ..write('expiryDate: $expiryDate, ')
           ..write('batchNumber: $batchNumber, ')
@@ -18634,6 +18685,7 @@ typedef $$PurchaseInvoiceItemsTableTableCreateCompanionBuilder =
       Value<String?> unitId,
       Value<String?> batchId,
       required double quantity,
+      Value<double> bonusQuantity,
       required double purchasePrice,
       Value<DateTime?> expiryDate,
       Value<String?> batchNumber,
@@ -18648,6 +18700,7 @@ typedef $$PurchaseInvoiceItemsTableTableUpdateCompanionBuilder =
       Value<String?> unitId,
       Value<String?> batchId,
       Value<double> quantity,
+      Value<double> bonusQuantity,
       Value<double> purchasePrice,
       Value<DateTime?> expiryDate,
       Value<String?> batchNumber,
@@ -18740,6 +18793,11 @@ class $$PurchaseInvoiceItemsTableTableFilterComposer
 
   ColumnFilters<double> get quantity => $composableBuilder(
     column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bonusQuantity => $composableBuilder(
+    column: $table.bonusQuantity,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -18840,6 +18898,11 @@ class $$PurchaseInvoiceItemsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<double> get bonusQuantity => $composableBuilder(
+    column: $table.bonusQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<double> get purchasePrice => $composableBuilder(
     column: $table.purchasePrice,
     builder: (column) => ColumnOrderings(column),
@@ -18928,6 +18991,11 @@ class $$PurchaseInvoiceItemsTableTableAnnotationComposer
 
   GeneratedColumn<double> get quantity =>
       $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<double> get bonusQuantity => $composableBuilder(
+    column: $table.bonusQuantity,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get purchasePrice => $composableBuilder(
     column: $table.purchasePrice,
@@ -19043,6 +19111,7 @@ class $$PurchaseInvoiceItemsTableTableTableManager
                 Value<String?> unitId = const Value.absent(),
                 Value<String?> batchId = const Value.absent(),
                 Value<double> quantity = const Value.absent(),
+                Value<double> bonusQuantity = const Value.absent(),
                 Value<double> purchasePrice = const Value.absent(),
                 Value<DateTime?> expiryDate = const Value.absent(),
                 Value<String?> batchNumber = const Value.absent(),
@@ -19055,6 +19124,7 @@ class $$PurchaseInvoiceItemsTableTableTableManager
                 unitId: unitId,
                 batchId: batchId,
                 quantity: quantity,
+                bonusQuantity: bonusQuantity,
                 purchasePrice: purchasePrice,
                 expiryDate: expiryDate,
                 batchNumber: batchNumber,
@@ -19069,6 +19139,7 @@ class $$PurchaseInvoiceItemsTableTableTableManager
                 Value<String?> unitId = const Value.absent(),
                 Value<String?> batchId = const Value.absent(),
                 required double quantity,
+                Value<double> bonusQuantity = const Value.absent(),
                 required double purchasePrice,
                 Value<DateTime?> expiryDate = const Value.absent(),
                 Value<String?> batchNumber = const Value.absent(),
@@ -19081,6 +19152,7 @@ class $$PurchaseInvoiceItemsTableTableTableManager
                 unitId: unitId,
                 batchId: batchId,
                 quantity: quantity,
+                bonusQuantity: bonusQuantity,
                 purchasePrice: purchasePrice,
                 expiryDate: expiryDate,
                 batchNumber: batchNumber,

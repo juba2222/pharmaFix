@@ -1,3 +1,9 @@
+// =============================================================
+// File: lib/features/customers/presentation/bloc/customer_profile_state.dart
+// Purpose: States for the Customer Profile feature.
+// Layer: Presentation (BLoC)
+// =============================================================
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'customer_profile_state.freezed.dart';

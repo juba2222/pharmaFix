@@ -31,14 +31,11 @@ class CancelPurchaseInvoiceTransaction {
               ..where((t) => t.purchaseInvoiceItemId.equals(item.id)))
             .getSingleOrNull();
         
-        if (batch == null) continue; // Batch might have been manually deleted?
+        if (batch == null) continue;
         
-        // Check if quantity matches (assuming no sales yet)
-        // Note: totalQty in processor was qty + bonus
-        // In item entry we don't store bonus in items table yet? 
-        // Wait, I should check the items table schema.
-        
-        if (batch.quantityInBaseUnit < item.quantity) {
+        // G1: Total received = purchased + bonus. If any was sold, quantity drops below this.
+        final double totalReceived = item.quantity + item.bonusQuantity;
+        if (batch.quantityInBaseUnit < totalReceived) {
           throw Exception('لا يمكن إلغاء الفاتورة: تم بيع أجزاء من المنتج ${item.productId}');
         }
       }

@@ -16,7 +16,9 @@ _SupplierStatementItem _$SupplierStatementItemFromJson(
   referenceNumber: json['referenceNumber'] as String?,
   notes: json['notes'] as String?,
   paidAmount: (json['paidAmount'] as num?)?.toDouble(),
+  remainingAmount: (json['remainingAmount'] as num?)?.toDouble(),
   pharmacyId: json['pharmacyId'] as String?,
+  status: json['status'] as String?,
 );
 
 Map<String, dynamic> _$SupplierStatementItemToJson(
@@ -29,7 +31,9 @@ Map<String, dynamic> _$SupplierStatementItemToJson(
   'referenceNumber': instance.referenceNumber,
   'notes': instance.notes,
   'paidAmount': instance.paidAmount,
+  'remainingAmount': instance.remainingAmount,
   'pharmacyId': instance.pharmacyId,
+  'status': instance.status,
 };
 
 const _$StatementItemTypeEnumMap = {

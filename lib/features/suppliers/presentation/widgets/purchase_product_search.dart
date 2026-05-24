@@ -21,13 +21,26 @@ class PurchaseProductSearch extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: TypeAheadField<DrugSuggestionModel>(
-        suggestionsCallback: (pattern) => sl<IInventoryRepository>().searchDrugSuggestions(pattern),
+        suggestionsCallback: (pattern) async {
+          final results = await sl<IInventoryRepository>().searchDrugSuggestions(pattern);
+          if (pattern.isNotEmpty && !results.any((r) => r.name.toLowerCase() == pattern.toLowerCase())) {
+            results.add(DrugSuggestionModel(
+              id: 'new-${DateTime.now().millisecondsSinceEpoch}',
+              name: pattern,
+              source: DrugSource.newDrug,
+              units: const [SuggestionUnit(name: 'علبة', conversionFactor: 1.0)],
+            ));
+          }
+          return results;
+        },
         itemBuilder: (context, suggestion) => ListTile(
           title: Text(suggestion.name),
           subtitle: Text(suggestion.barcode ?? ''),
           trailing: suggestion.source == DrugSource.local 
               ? const Icon(Icons.check_circle, color: Colors.green, size: 16) 
-              : const Icon(Icons.cloud_outlined, color: Colors.blue, size: 16),
+              : (suggestion.source == DrugSource.master 
+                  ? const Icon(Icons.cloud_outlined, color: Colors.blue, size: 16)
+                  : const Icon(Icons.add_circle_outline, color: Colors.red, size: 16)),
         ),
         onSelected: (s) => showDialog(context: context, builder: (_) => ItemEntryDialog(suggestion: s, cubit: context.read<PurchaseInvoiceCubit>())),
         builder: (context, controller, focusNode) => TextField(

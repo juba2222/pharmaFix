@@ -81,6 +81,7 @@ class PurchaseItemProcessor {
             purchaseInvoiceId: invoiceId,
             productId: productId,
             quantity: qty,
+            bonusQuantity: Value(bonusQty), // G1: persist bonus for cancellation logic
             purchasePrice: cost,
             unitId: unitId == null ? const Value.absent() : Value(unitId),
             expiryDate: Value(expiryDate),

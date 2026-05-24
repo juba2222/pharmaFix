@@ -5,7 +5,7 @@
 
 import 'package:equatable/equatable.dart';
 
-enum DrugSource { local, master }
+enum DrugSource { local, master, newDrug }
 
 class DrugSuggestionModel extends Equatable {
   final String id;

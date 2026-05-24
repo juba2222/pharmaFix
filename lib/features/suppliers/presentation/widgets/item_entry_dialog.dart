@@ -124,7 +124,7 @@ class _ItemEntryDialogState extends State<ItemEntryDialog> {
     widget.cubit.addItem({
       'productId': widget.suggestion.id,
       'productName': widget.suggestion.name,
-      'isNew': widget.suggestion.source == DrugSource.master,
+      'isNew': widget.suggestion.source == DrugSource.master || widget.suggestion.source == DrugSource.newDrug,
       'barcode': widget.suggestion.barcode,
       'quantity': qty,
       'bonusQuantity': double.tryParse(_bonusController.text) ?? 0,

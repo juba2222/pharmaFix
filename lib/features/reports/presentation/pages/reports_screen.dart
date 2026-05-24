@@ -15,6 +15,7 @@ class ReportsScreen extends StatelessWidget {
       create: (_) => ReportsCubit(repository: sl())..loadAllReports(),
       child: Scaffold(
         appBar: AppBar(
+          leading: const BackButton(),
           title: const Text('مركز التقارير'),
           backgroundColor: const Color(0xFF01C653),
         ),

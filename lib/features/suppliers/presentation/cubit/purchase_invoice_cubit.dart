@@ -36,6 +36,9 @@ class PurchaseInvoiceCubit extends Cubit<PurchaseInvoiceState> {
   void updateDiscountAmount(double amount) =>
       emit(state.copyWith(discountAmount: amount, error: null));
 
+  void updateInvoiceDate(DateTime date) =>
+      emit(state.copyWith(invoiceDate: date, error: null));
+
   Future<void> saveInvoice(String supplierId, String? invoiceNumber) async {
     if (state.cartItems.isEmpty) {
       return emit(state.copyWith(error: 'السلة فارغة'));
@@ -46,7 +49,7 @@ class PurchaseInvoiceCubit extends Cubit<PurchaseInvoiceState> {
       supplierId: supplierId,
       pharmacyId: pharmacyId,
       invoiceNumber: invoiceNumber,
-      date: DateTime.now(),
+      date: state.invoiceDate ?? DateTime.now(), // G4: Use custom date
       totalAmount: state.totalAmount,
       paidAmount: state.paidAmount,
       discountAmount: state.discountAmount,
